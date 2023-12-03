@@ -1,26 +1,22 @@
 import numpy as np
 from random import randint
-from dataclasses import dataclass
 from scipy.optimize import linear_sum_assignment
 import matplotlib.pyplot as plt
-import time
-
-@dataclass
-class tc:   #класс точка с координатами time и count
-    x: float
-    y: float
+from hungarian_algorithm import hungarian_algorithm_max, hungarian_algorithm_min
 
 n = 5
 P = np.eye(n)
 
-def generator(n, q, r):    #генерирует матрицу размером n*n, значения от q до r
+def generator(n):    #генерирует матрицу размером n*n, значения от 0 до 1 (не включая границы)
     P = np.eye(n)
     for i in range (n):
-        for j in range (n):
-            P[i][j] = randint(q, r)
+        P[i][0] = randint(1, 9999) / 10000
+        for j in range (1, n):
+            b = randint(1, 99) / 100
+            P[i][j] = P[i][j - 1] * b
     return P
 
-def hungarian_algorithm(P, mode):   #mode: 1 - max, 0 - min
+def hungarian_algorithm_py(P, mode):   #mode: 1 - max, 0 - min
     s = 0
     rows, cols = P.shape
     if mode == 1:
@@ -46,64 +42,154 @@ def hungarian_algorithm(P, mode):   #mode: 1 - max, 0 - min
 def greedy_algorithm(P, mode):   #mode: 1 - max, 0 - min
     s = 0
     rows, cols = P.shape
-    used = [0] * cols
-    for i in range(rows):
+    used = [0] * rows
+    for i in range(cols):
         max_val = -1000000
         min_val = 1000000
         pos = -1
         if mode == 0:
-            for j in range (cols):
+            for j in range (rows):
                 if used[j] == 0:
-                    min_val = min(min_val, P[i][j])
-                    if min_val == P[i][j]:
+                    min_val = min(min_val, P[j][i])
+                    if min_val == P[j][i]:
                         pos = j
             used[pos] = 1
         if mode == 1:
-            for j in range (cols):
+            for j in range (rows):
                 if used[j] == 0:
-                    max_val = max(max_val, P[i][j])
-                    if max_val == P[i][j]:
+                    max_val = max(max_val, P[j][i])
+                    if max_val == P[j][i]:
                         pos = j
             used[pos] = 1
-        s = s + P[i][pos]
+        s = s + P[pos][i]
     return s
-        
-def tester(n, s, q, r, alg):    #замеряет время работы алгоритмов на матрице размера от 2 до n с шагом s. значения элементов от q до r
-    res = []
-    if alg == 1:
-        print('Hungarian algorithm MAX')
-    if alg == 2:
-        print('Hungarian algorithm MIN')
-    if alg == 3:
-        print('Greedy algorithm MAX')
-    if alg == 4:
-        print('Greedy algorithm MIN')
-    for i in range(2, n + 1, s):
-        P = generator(i, q, r)
-        if alg == 1:
-            start_time = time.time()
-            cnt = hungarian_algorithm(P, 1) #max
-            end_time = time.time()
-        if alg == 2:
-            start_time = time.time()
-            cnt = hungarian_algorithm(P, 0) #min
-            end_time = time.time()
-        if alg == 3:
-            start_time = time.time()
+
+def greedy_thrifty_algorithm(P, theta):
+    s = 0
+    rows, cols = P.shape
+    used = [0] * rows
+    for i in range(theta):
+        max_val = -1000000
+        pos = -1
+        for j in range (rows):
+            if used[j] == 0:
+                max_val = max(max_val, P[j][i])
+                if max_val == P[j][i]:
+                    pos = j
+        used[pos] = 1
+        s = s + P[pos][i]
+    for i in range(theta + 1, cols):
+        min_val = 1000000
+        pos = -1
+        for j in range (rows):
+            if used[j] == 0:
+                min_val = min(min_val, P[j][i])
+                if min_val == P[j][i]:
+                    pos = j
+        used[pos] = 1
+        s = s + P[pos][i]
+    return s
+
+def thrifty_greedy_algorithm(P, theta):
+    s = 0
+    rows, cols = P.shape
+    used = [0] * rows
+    for i in range(theta):
+        min_val = 1000000
+        pos = -1
+        for j in range (rows):
+            if used[j] == 0:
+                min_val = min(min_val, P[j][i])
+                if min_val == P[j][i]:
+                    pos = j
+        used[pos] = 1
+        s = s + P[pos][i]
+    for i in range(theta + 1, cols):
+        max_val = -1000000
+        pos = -1
+        for j in range (rows):
+            if used[j] == 0:
+                max_val = max(max_val, P[j][i])
+                if max_val == P[j][i]:
+                    pos = j
+        used[pos] = 1
+        s = s + P[pos][i]
+    return s
+
+def tester(n, rep):    #замеряет время работы алгоритмов на матрице размера от 2 до n с шагом s.
+    res_hap_min = []
+    res_hap_max = []
+    res_ha_min = []
+    res_ha_max = []
+    res_g_min = []
+    res_g_max = []
+    res_gt = []
+    res_tg = []
+    x = []
+    M = generator(n)
+    for i in range(2, n + 1):
+        P = M[0:i, 0:i]    #на каждом из n шагов считаем rep (50) раз на матрице размером i*i, полученной из исходной матрицы размером n*n
+        for j in range (rep):
+            hap_min = []
+            hap_max = []
+            ha_min = []
+            ha_max = []
+            g_min = []
+            g_max = []
+            gt = []
+            tg = []
+
+            cnt = hungarian_algorithm_py(P, 1) #max
+            hap_max.append(cnt)
+
+            cnt = hungarian_algorithm_py(P, 0) #min
+            hap_min.append(cnt)
+
             cnt = greedy_algorithm(P, 1) #max
-            end_time = time.time()
-        if alg == 4:
-            start_time = time.time()
+            g_max.append(cnt)
+
             cnt = greedy_algorithm(P, 0) #min
-            end_time = time.time()
-        
-        elapsed_time = round(end_time - start_time, 6)
-        print(i, end=' ')
-        print(elapsed_time)
-        res.append(tc(i, elapsed_time))
+            g_min.append(cnt)
+            
+            cnt = hungarian_algorithm_max(P, i, i) #max
+            ha_max.append(cnt)
+
+            cnt = hungarian_algorithm_min(P, i, i) #min
+            ha_min.append(cnt)
+            
+            cnt = greedy_thrifty_algorithm(P, int(i/2))
+            gt.append(cnt)
+
+            cnt = thrifty_greedy_algorithm(P, int(i/2))
+            tg.append(cnt)
+            
+        res_hap_min.append(sum(hap_min)/len(hap_min))
+        res_hap_max.append(sum(hap_max)/len(hap_max))
+        res_ha_min.append(sum(ha_min)/len(ha_min))
+        res_ha_max.append(sum(ha_max)/len(ha_max))
+        res_g_min.append(sum(g_min)/len(g_min))
+        res_g_max.append(sum(g_max)/len(g_max))
+        res_gt.append(sum(gt)/len(gt))
+        res_tg.append(sum(tg)/len(tg))
+        x.append(i)
     
-    print('\n')
-    return res
+    plt.plot(x, res_hap_min, color='b', alpha = 0.5, ls='-.')
+    plt.plot(x, res_hap_max, color='g', alpha = 0.5)
+    plt.plot(x, res_ha_min, color='r', alpha = 0.5, ls='-.')
+    plt.plot(x, res_ha_max, color='c', alpha = 0.5)
+    plt.plot(x, res_g_min, color='m', alpha = 0.5, ls='-.')
+    plt.plot(x, res_g_max, color='y', alpha = 0.5)
+    plt.plot(x, res_gt, color='k', alpha = 0.5, ls=':')
+    plt.plot(x, res_tg, color='maroon', alpha = 0.5, ls=':')
+    plt.legend(["венгерский мин python", "венгерский макс python", "венгерский мин",
+                "венгерский макс", "бережливый", "жадный", "жадно-бережливый",
+                "бережливо-жадный"], prop={'size': 9}, loc="center right")
+    
+    plt.grid(True)
+    plt.xlabel("Время")
+    plt.ylabel("S")
+        
+    
         
 def draw_tc_points(a, color):
     x2 = []
@@ -116,18 +202,19 @@ def draw_tc_points(a, color):
     plt.grid(True)
 
 
+tester(20, 50)
 
-draw_tc_points(tester(1000, 100, 0, 100, 1), 'r')
-draw_tc_points(tester(1000, 100, 0, 100, 2), 'g')
-draw_tc_points(tester(1000, 100, 0, 100, 3), 'b')
-draw_tc_points(tester(1000, 100, 0, 100, 4), 'y')
+#draw_tc_points(tester(1000, 100, 0, 100, 1), 'r')
+#draw_tc_points(tester(1000, 100, 0, 100, 2), 'g')
+#draw_tc_points(tester(1000, 100, 0, 100, 3), 'b')
+#draw_tc_points(tester(1000, 100, 0, 100, 4), 'y')
 
-plt.xlabel("Размер матрицы")
-plt.ylabel("Время работы, с")
-plt.text(0, 0.15, s = "Hungarian algorithm MAX", color = 'r')
-plt.text(0, 0.125, s = "Hungarian algorithm MIN", color = 'g')
-plt.text(0, 0.1, s = "Greedy algorithm MAX", color = 'b')
-plt.text(0, 0.075, s = "Greedy algorithm MIN", color = 'y')
+#plt.xlabel("Размер матрицы")
+#plt.ylabel("Время работы, с")
+#plt.text(0, 0.15, s = "Hungarian algorithm MAX", color = 'r')
+#plt.text(0, 0.125, s = "Hungarian algorithm MIN", color = 'g')
+#plt.text(0, 0.1, s = "Greedy algorithm MAX", color = 'b')
+#plt.text(0, 0.075, s = "Greedy algorithm MIN", color = 'y')
 
 
 
