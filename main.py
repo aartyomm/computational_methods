@@ -1,4 +1,5 @@
-from experiment import experiment
+from interface.app import App
+from interface.control_frame import ControlFrame
 import algorithms as alg
 
 
@@ -12,4 +13,7 @@ if __name__ == '__main__':
         alg.Algorithm('Бережливо-жадный', alg.thrifty_greedy)
     ]
 
-    experiment(20, 50, 0.1, 0.11, 0.95, 1, algorithms)
+    if __name__ == '__main__':
+        app = App()
+        ControlFrame(app)
+        app.mainloop()
