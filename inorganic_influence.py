@@ -5,7 +5,7 @@ def braunschweig(compos: np.matrix) -> float:
     K = compos[0, 0]
     Na = compos[0, 1]
     N = compos[0, 2]
-    return 0.12 * (K + Na) + 0.24 * N + 0.48
+    return (0.12 * (K + Na) + 0.24 * N + 0.48) / 100
 
 
 def get_inorganic(prod_val: np.matrix, compos_inorganic: np.matrix) -> np.matrix:
