@@ -1,11 +1,12 @@
 from random import uniform
+from numpy.random import normal
 import numpy as np
 from algorithms import Algorithm
 from graph import show_graph
 from inorganic_influence import get_inorganic
 
 
-def generate_matrix(n: int, min_a: float, max_a: float, min_b: float, max_b: float) -> np.matrix:
+def generate_uniform_matrix(n: int, min_a: float, max_a: float, min_b: float, max_b: float) -> np.matrix:
     matrix = [[0.0] * n for _ in range(n)]
     number_digits = 3  # Количество чисел после запятой
 
@@ -13,6 +14,21 @@ def generate_matrix(n: int, min_a: float, max_a: float, min_b: float, max_b: flo
         matrix[0][i] = round(uniform(min_a, max_a), number_digits)
         for j in range(1, n):
             matrix[j][i] = round(matrix[j - 1][i] * uniform(min_b, max_b), number_digits)
+
+    return np.matrix(np.array(matrix))
+
+
+def generate_normal_matrix(n: int, min_a: float, max_a: float, avg: float, deviation: float) -> np.matrix:
+    matrix = [[0.0] * n for _ in range(n)]
+    number_digits = 3  # Количество чисел после запятой
+
+    for i in range(n):
+        matrix[0][i] = round(uniform(min_a, max_a), number_digits)
+        normal_row = normal(avg, deviation, n)
+        normal_row = np.clip(normal_row, 0.001, 0.999)
+        print(normal_row)
+        for j in range(1, n):
+            matrix[j][i] = round(matrix[j-1][i] * float(normal_row[j]), number_digits)
 
     return np.matrix(np.array(matrix))
 
@@ -49,11 +65,15 @@ def run_algorithms(algorithms: list[Algorithm], matrix: np.matrix, n: int) -> No
 
 
 def experiment(n: int, t: int, min_a: float, max_a: float, min_b: float, max_b: float, algorithms: list[Algorithm],
-               consider_inorganic: bool):
+               consider_inorganic: bool, is_normal: bool):
     reset_ans(algorithms, n)
 
     for _ in range(t):
-        P = generate_matrix(n, min_a, max_a, min_b, max_b)
+        if is_normal:
+            P = generate_normal_matrix(n, min_a, max_a, min_b, max_b)
+        else:
+            P = generate_uniform_matrix(n, min_a, max_a, min_b, max_b)
+
         if consider_inorganic:
             inorganic_matrix = generate_inorganic_matrix(n)
             P = get_inorganic(P, inorganic_matrix)
