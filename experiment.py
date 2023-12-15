@@ -26,7 +26,6 @@ def generate_normal_matrix(n: int, min_a: float, max_a: float, avg: float, devia
         matrix[0][i] = round(uniform(min_a, max_a), number_digits)
         normal_row = normal(avg, deviation, n)
         normal_row = np.clip(normal_row, 0.001, 0.999)
-        print(normal_row)
         for j in range(1, n):
             matrix[j][i] = round(matrix[j-1][i] * float(normal_row[j]), number_digits)
 
