@@ -61,9 +61,9 @@ def experiment(n: int, t: int, min_a: float, max_a: float, min_b: float, max_b: 
         run_algorithms(algorithms, P, n)
 
     for algorithm in algorithms:
-        algorithm.ans[0] /= n
+        algorithm.ans[0] /= t
         for i in range(1, n):
-            algorithm.ans[i] /= n
+            algorithm.ans[i] /= t
             algorithm.ans[i] += algorithm.ans[i - 1]
 
     show_graph(algorithms)
