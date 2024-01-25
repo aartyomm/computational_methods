@@ -85,4 +85,4 @@ def experiment(n: int, t: int, min_a: float, max_a: float, min_b: float, max_b: 
             algorithm.ans[i] /= t
             algorithm.ans[i] += algorithm.ans[i - 1]
 
-    show_graph(algorithms)
+    return algorithms

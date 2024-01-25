@@ -10,6 +10,6 @@ class MainWindow(QtWidgets.QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
         self.resize(1200, 600)
-        self.input_pages_controller = InputPagesController(self)
-        self.setMenuBar(MenuBar(self.input_pages_controller))
         self.plot_page = PlotPage(self)
+        self.input_pages_controller = InputPagesController(self, self.plot_page)
+        self.setMenuBar(MenuBar(self.input_pages_controller))
