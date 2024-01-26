@@ -1,3 +1,5 @@
+from typing import Tuple
+
 import numpy as np
 from scipy.optimize import linear_sum_assignment
 
@@ -43,6 +45,30 @@ class Algorithms:
             for i in range(1, self.num_days):
                 algorithm.ans[i] /= t
                 algorithm.ans[i] += algorithm.ans[i - 1]
+
+    def calculate_error(self):
+        """Возвращает кортеж относительных погрешностей в %:
+        1 - Жадный относительно максимума
+        2 - Бережливый относительно минимума
+        3 - Жадно-бережливый относительно максимума
+        4 - Жадно бережливый относительно минимума
+        5 - Бережливо-жадный относительно максимума
+        6 - Бережливо-жадный относительно минимума"""
+
+        opt_max = self[1].ans[-1]
+        opt_min = self[0].ans[-1]
+
+        if opt_max == 0 or opt_min == 0:
+            return 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
+
+        greedy = (opt_max - self[2].ans[-1]) / opt_max * 100
+        thrifty = (self[3].ans[-1] - opt_min) / opt_min * 100
+        greedy_thrifty_max = abs(opt_max - self[4].ans[-1]) / opt_max * 100
+        greedy_thrifty_min = abs(opt_min - self[4].ans[-1]) / opt_min * 100
+        thrifty_greedy_max = abs(opt_max - self[5].ans[-1]) / opt_max * 100
+        thrifty_greedy_min = abs(opt_min - self[5].ans[-1]) / opt_min * 100
+
+        return greedy, thrifty, greedy_thrifty_max, greedy_thrifty_min, thrifty_greedy_max, thrifty_greedy_min
 
     @staticmethod
     def __hungarian_max(P: np.matrix):
