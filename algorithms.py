@@ -1,5 +1,3 @@
-from typing import Tuple
-
 import numpy as np
 from scipy.optimize import linear_sum_assignment
 
@@ -61,12 +59,12 @@ class Algorithms:
         if opt_max == 0 or opt_min == 0:
             return 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
 
-        greedy = (opt_max - self[2].ans[-1]) / opt_max * 100
-        thrifty = (self[3].ans[-1] - opt_min) / opt_min * 100
-        greedy_thrifty_max = abs(opt_max - self[4].ans[-1]) / opt_max * 100
-        greedy_thrifty_min = abs(opt_min - self[4].ans[-1]) / opt_min * 100
-        thrifty_greedy_max = abs(opt_max - self[5].ans[-1]) / opt_max * 100
-        thrifty_greedy_min = abs(opt_min - self[5].ans[-1]) / opt_min * 100
+        greedy = round((opt_max - self[2].ans[-1]) / opt_max * 100, 2)
+        thrifty = round((self[3].ans[-1] - opt_min) / opt_min * 100, 2)
+        greedy_thrifty_max = round(abs(opt_max - self[4].ans[-1]) / opt_max * 100, 2)
+        greedy_thrifty_min = round(abs(opt_min - self[4].ans[-1]) / opt_min * 100, 2)
+        thrifty_greedy_max = round(abs(opt_max - self[5].ans[-1]) / opt_max * 100, 2)
+        thrifty_greedy_min = round(abs(opt_min - self[5].ans[-1]) / opt_min * 100, 2)
 
         return greedy, thrifty, greedy_thrifty_max, greedy_thrifty_min, thrifty_greedy_max, thrifty_greedy_min
 
