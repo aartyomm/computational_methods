@@ -2,7 +2,6 @@ from random import uniform
 from numpy.random import normal
 import numpy as np
 from algorithms import Algorithm
-from graph import show_graph
 from inorganic_influence import get_inorganic
 
 
