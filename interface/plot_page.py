@@ -1,7 +1,8 @@
 from PyQt6 import QtWidgets
 from PyQt6 import QtCore
 import pyqtgraph as pg
-import algorithms as alg
+from algorithms import Algorithms
+from experiment import experiment
 
 
 class PlotPage(QtWidgets.QWidget):
@@ -45,10 +46,10 @@ class PlotPage(QtWidgets.QWidget):
 
         self.lines = []
         self.line_checkboxes: list[QtWidgets.QCheckBox] = []
-        self.algorithms = []
+        self.algorithms: Algorithms | None = None
         self.x = []
 
-    def print_plots(self, algorithms: list[alg.Algorithm]):
+    def print_plots(self, algorithms: Algorithms):
         self.graph.clear()
         self.lines.clear()
         if len(self.line_checkboxes) == 0:

@@ -1,7 +1,7 @@
 from random import uniform
 from numpy.random import normal
 import numpy as np
-from algorithms import Algorithm
+from algorithms import Algorithms
 from inorganic_influence import get_inorganic
 
 
@@ -50,22 +50,10 @@ def generate_inorganic_matrix(n: int) -> np.matrix:
     return np.matrix(np.array(matrix))
 
 
-def reset_ans(algorithms: list[Algorithm], n: int) -> None:
-    for algorithm in algorithms:
-        algorithm.ans = [0.0] * n
+def experiment(n: int, t: int, min_a: float, max_a: float, min_b: float, max_b: float,
+               consider_inorganic: bool, is_normal: bool) -> Algorithms:
 
-
-def run_algorithms(algorithms: list[Algorithm], matrix: np.matrix, n: int) -> None:
-    for algorithm in algorithms:
-        row_ind, col_ind = algorithm(matrix)
-        for i in range(n):
-            algorithm.ans[i] += matrix[row_ind[i], col_ind[i]]
-
-
-def experiment(n: int, t: int, min_a: float, max_a: float, min_b: float, max_b: float, algorithms: list[Algorithm],
-               consider_inorganic: bool, is_normal: bool):
-    reset_ans(algorithms, n)
-
+    algorithms = Algorithms(n)
     for _ in range(t):
         if is_normal:
             P = generate_normal_matrix(n, min_a, max_a, min_b, max_b)
@@ -76,12 +64,7 @@ def experiment(n: int, t: int, min_a: float, max_a: float, min_b: float, max_b: 
             inorganic_matrix = generate_inorganic_matrix(n)
             P = get_inorganic(P, inorganic_matrix)
 
-        run_algorithms(algorithms, P, n)
+        algorithms.run_algorithms(P)
 
-    for algorithm in algorithms:
-        algorithm.ans[0] /= t
-        for i in range(1, n):
-            algorithm.ans[i] /= t
-            algorithm.ans[i] += algorithm.ans[i - 1]
-
+    algorithms.calculate_average(t)
     return algorithms
