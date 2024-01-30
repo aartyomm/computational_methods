@@ -16,8 +16,8 @@ class Algorithm:
 class Algorithms:
     def __init__(self, num_days: int):
         self.__algorithms = [
-            Algorithm('Венгерский мин', self.__hungarian_min, num_days),
             Algorithm('Венгерский макс', self.__hungarian_max, num_days),
+            Algorithm('Венгерский мин', self.__hungarian_min, num_days),
             Algorithm('Жадный', self.__greedy_max, num_days),
             Algorithm('Бережливый', self.__greedy_min, num_days),
             Algorithm('Жадно-бережливый', self.__greedy_thrifty, num_days),
@@ -53,8 +53,8 @@ class Algorithms:
         5 - Бережливо-жадный относительно максимума
         6 - Бережливо-жадный относительно минимума"""
 
-        opt_max = self[1].ans[-1]
-        opt_min = self[0].ans[-1]
+        opt_max = self[0].ans[-1]
+        opt_min = self[1].ans[-1]
 
         if opt_max == 0 or opt_min == 0:
             return 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
