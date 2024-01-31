@@ -22,18 +22,21 @@ class PlotPage(QtWidgets.QWidget):
         self.setMinimumSize(700, 600)
         self.graph = pg.PlotWidget()
         self.graph.setBackground('w')
-        self.graph.setTitle('Эффективность алгоритмов', color='black', size='15pt')
-        self.graph.setLabel('left', 'S', color='black')
-        self.graph.setLabel('bottom', 'Время', color='black')
+        self.graph.setTitle(
+            '<span style="font-family:Tahoma; font-size: 15pt; color: black">Эффективность алгоритмов</span>'
+        )
+        style_for_graph_labels = {'color': 'black', 'font-size': '15pt'}
+        self.graph.setLabel('left', 'S', **style_for_graph_labels)
+        self.graph.setLabel('bottom', 'Время', **style_for_graph_labels)
 
-        self.legend = self.graph.addLegend(offset=(-1, -1))
+        self.legend = self.graph.addLegend(offset=(-1, -1), labelTextColor='black')
         self.legend.mouseDragEvent = lambda *args, **kwargs: None
         self.legend.hoverEvent = lambda *args, **kwargs: None
 
         self.vertical_for_checkboxes = QtWidgets.QVBoxLayout()
         self.vertical_for_checkboxes.setSpacing(11)
         self.vertical_for_checkboxes.addStretch()
-        self.vertical_for_checkboxes.setContentsMargins(0, 0, 155, 48)
+        self.vertical_for_checkboxes.setContentsMargins(0, 0, 155, 57)
 
         self.horizontal_for_checkboxes = QtWidgets.QHBoxLayout(self.graph)
         self.horizontal_for_checkboxes.addStretch()
