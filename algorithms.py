@@ -8,6 +8,7 @@ class Algorithm:
         self.name = name
         self.func = func
         self.ans: list[float] = [0.0] * num_days
+        self.column_indexes: list[int] = []
 
     def __call__(self, matrix: np.matrix):
         return self.func(matrix)
@@ -36,6 +37,7 @@ class Algorithms:
             row_ind, col_ind = algorithm(matrix)
             for i in range(self.num_days):
                 algorithm.ans[i] += matrix[row_ind[i], col_ind[i]]
+            algorithm.column_indexes = col_ind
 
     def calculate_average(self, t: int):
         for algorithm in self.__algorithms:
