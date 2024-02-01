@@ -1,5 +1,6 @@
 from PyQt6 import QtWidgets
 from PyQt6 import QtCore
+from PyQt6 import QtGui
 import pyqtgraph as pg
 from algorithms import Algorithms
 
@@ -8,11 +9,11 @@ class PlotPage(QtWidgets.QWidget):
     """Страница отображения графика"""
     pens = [
         pg.mkPen(color='blue', width=2, style=QtCore.Qt.PenStyle.SolidLine),
-        pg.mkPen(color='red', width=1, style=QtCore.Qt.PenStyle.DashLine),
-        pg.mkPen(color='cyan', width=2, style=QtCore.Qt.PenStyle.DotLine),
+        pg.mkPen(color='red', width=2, style=QtCore.Qt.PenStyle.DashLine),
+        pg.mkPen(color=QtGui.QColor(13, 253, 17), width=2, style=QtCore.Qt.PenStyle.DotLine),
         pg.mkPen(color='green', width=2, style=QtCore.Qt.PenStyle.DashDotLine),
         pg.mkPen(color='magenta', width=2, style=QtCore.Qt.PenStyle.DashDotDotLine),
-        pg.mkPen(color='darkGreen', width=2, style=QtCore.Qt.PenStyle.DashDotLine),
+        pg.mkPen(color=QtGui.QColor(0,235,211), width=2, style=QtCore.Qt.PenStyle.DashDotLine),
     ]
 
     def __init__(self, parent: QtWidgets.QMainWindow | None = None):

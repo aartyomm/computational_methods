@@ -4,7 +4,7 @@ import os
 import shutil
 
 
-class SaveController:
+class FileController:
     tmp_path: str | None = None
 
     @staticmethod
@@ -40,15 +40,40 @@ class SaveController:
     @staticmethod
     def tmp_save(n: int, t: int, min_a: float, max_a: float, min_b: float, max_b: float,
                  consider_inorganic: bool, is_normal: bool, algorithms: Algorithms, errors: tuple):
-        if SaveController.tmp_path is None:
+        if FileController.tmp_path is None:
             path_to_dir = os.getcwd() + '/tmp'
             if not os.path.exists(path_to_dir):
                 os.mkdir(path_to_dir)
-            SaveController.tmp_path = path_to_dir + '/tmp.csv'
+            FileController.tmp_path = path_to_dir + '/tmp.csv'
 
-        SaveController.save_experiment_result(SaveController.tmp_path, n, t, min_a, max_a, min_b, max_b,
+        FileController.save_experiment_result(FileController.tmp_path, n, t, min_a, max_a, min_b, max_b,
                                               consider_inorganic, is_normal, algorithms, errors)
 
     @staticmethod
     def user_save(user_path: str):
-        return shutil.copy(SaveController.tmp_path, user_path)
+        return shutil.copy(FileController.tmp_path, user_path)
+
+    @staticmethod
+    def read_experiment_params(path: str) -> tuple:
+        with open(path) as file:
+            n = int(file.readline())
+            min_a, max_a = map(float, file.readline())
+            is_normal = bool(file.readline())
+            min_b, max_b = map(float, file.readline())
+            consider_inorganic = bool(file.readline())
+            t = int(file.readline())
+
+        return n, min_a, max_a, is_normal, min_b, max_b, consider_inorganic, t
+
+    @staticmethod
+    def read_matrix(path: str) -> tuple[int, list[list[float]]]:
+        with open(path) as file:
+            n = int(file.readline())
+            matrix = [[] for _ in range(n)]
+            for i in range(n):
+                matrix[i] = list(map(float, file.readline()))
+        return n, matrix
+
+
+
+

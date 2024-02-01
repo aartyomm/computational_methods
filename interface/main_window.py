@@ -8,7 +8,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def __init__(self):
         super(MainWindow, self).__init__()
-        self.resize(1200, 600)
+        self.resize(1600, 800)
         self.central_widget = QtWidgets.QWidget(self)
         self.setCentralWidget(self.central_widget)
         self.grid = QtWidgets.QGridLayout(self.central_widget)

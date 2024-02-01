@@ -5,7 +5,7 @@ from PyQt6 import QtGui
 from interface.plot_page import PlotPage
 from algorithms import Algorithms
 from experiment import experiment
-from save_controller import SaveController
+from file_controller import FileController
 
 
 class InputExperimentPage(QtWidgets.QWidget):
@@ -46,6 +46,7 @@ class InputExperimentPage(QtWidgets.QWidget):
         self.pushButton.setObjectName("pushButton")
         self.gridLayout.addWidget(self.pushButton, 22, 0, 1, 1)
         self.lineEdit_4 = QtWidgets.QLineEdit(parent=self)
+        self.lineEdit_4.textEdited.connect(self.clear_answers_tab)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Maximum, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -70,6 +71,7 @@ class InputExperimentPage(QtWidgets.QWidget):
         self.label_2.setObjectName("label_2")
         self.gridLayout.addWidget(self.label_2, 3, 0, 1, 1)
         self.lineEdit_3 = QtWidgets.QLineEdit(parent=self)
+        self.lineEdit_3.textEdited.connect(self.clear_answers_tab)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Maximum, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -78,6 +80,7 @@ class InputExperimentPage(QtWidgets.QWidget):
         self.lineEdit_3.setObjectName("lineEdit_3")
         self.gridLayout.addWidget(self.lineEdit_3, 5, 1, 1, 1)
         self.lineEdit_1 = QtWidgets.QLineEdit(parent=self)
+        self.lineEdit_1.textEdited.connect(self.clear_answers_tab)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Maximum, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -96,6 +99,7 @@ class InputExperimentPage(QtWidgets.QWidget):
         self.label_5.setObjectName("label_5")
         self.gridLayout.addWidget(self.label_5, 8, 0, 1, 1)
         self.lineEdit_2 = QtWidgets.QLineEdit(parent=self)
+        self.lineEdit_2.textEdited.connect(self.clear_answers_tab)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Maximum, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -124,12 +128,14 @@ class InputExperimentPage(QtWidgets.QWidget):
         self.gridLayout.addWidget(self.label_3, 4, 0, 1, 1)
         self.radioButton_1 = QtWidgets.QRadioButton(parent=self)
         self.radioButton_1.setObjectName("radioButton_1")
+        self.radioButton_1.toggled.connect(self.clear_answers_tab)
         self.gridLayout.addWidget(self.radioButton_1, 10, 0, 1, 1)
         spacerItem2 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum,
                                             QtWidgets.QSizePolicy.Policy.Maximum)
         self.gridLayout.addItem(spacerItem2, 2, 0, 1, 1)
         self.checkBox = QtWidgets.QCheckBox(parent=self)
         self.checkBox.setObjectName("checkBox")
+        self.checkBox.stateChanged.connect(self.clear_answers_tab)
         self.gridLayout.addWidget(self.checkBox, 16, 0, 1, 1)
         spacerItem3 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum,
                                             QtWidgets.QSizePolicy.Policy.Maximum)
@@ -149,6 +155,7 @@ class InputExperimentPage(QtWidgets.QWidget):
         self.radioButton_2 = QtWidgets.QRadioButton(parent=self)
         self.radioButton_2.setChecked(True)
         self.radioButton_2.setObjectName("radioButton_2")
+        self.radioButton_2.toggled.connect(self.clear_answers_tab)
         self.gridLayout.addWidget(self.radioButton_2, 9, 0, 1, 1)
         self.label_11 = QtWidgets.QLabel(parent=self)
         self.label_11.setAlignment(
@@ -161,9 +168,11 @@ class InputExperimentPage(QtWidgets.QWidget):
         self.label_12.setObjectName("label_12")
         self.gridLayout.addWidget(self.label_12, 12, 0, 1, 1)
         self.lineEdit_7 = QtWidgets.QLineEdit(parent=self)
+        self.lineEdit_7.textEdited.connect(self.clear_answers_tab)
         self.lineEdit_7.setObjectName("lineEdit_7")
         self.gridLayout.addWidget(self.lineEdit_7, 11, 1, 1, 1)
         self.lineEdit_8 = QtWidgets.QLineEdit(parent=self)
+        self.lineEdit_8.textEdited.connect(self.clear_answers_tab)
         self.lineEdit_8.setObjectName("lineEdit_8")
         self.gridLayout.addWidget(self.lineEdit_8, 12, 1, 1, 1)
         self.line_2 = QtWidgets.QFrame(parent=self)
@@ -338,12 +347,13 @@ class InputExperimentPage(QtWidgets.QWidget):
         value_labels = [self.ans_label_2, self.ans_label_4, self.ans_label_6,
                         self.ans_label_8, self.ans_label_10, self.ans_label_12]
 
-        for i in range(6):
+        for i in range(len(name_labels)):
             name_labels[i].setText(algorithms[i].name + ':')
             value_labels[i].setText(str(round(algorithms[i].ans[-1], 2)))
 
-    def clear_answers(self):
+    def clear_answers_tab(self):
         self.pushButton_4.setVisible(False)
+        self.plot_page.clear_graph()
         labels = [self.ans_label_1, self.ans_label_2, self.ans_label_3, self.ans_label_4,
                   self.ans_label_5, self.ans_label_6, self.ans_label_7, self.ans_label_8,
                   self.ans_label_9, self.ans_label_10, self.ans_label_11, self.ans_label_12]
@@ -401,10 +411,27 @@ class InputExperimentPage(QtWidgets.QWidget):
             self.write_answers(algorithms)
             self.plot_page.print_plots(algorithms)
             errors = algorithms.calculate_error()
-            SaveController.tmp_save(n, t, min_a, max_a, min_b, max_b, organic, is_normal, algorithms, errors)
+            FileController.tmp_save(n, t, min_a, max_a, min_b, max_b, organic, is_normal, algorithms, errors)
         if fl == 1:
-            self.clear_answers()
-            self.plot_page.clear_graph()
+            self.clear_answers_tab()
+
+    def fill_params_from_file(self):
+        path = QtWidgets.QFileDialog.getOpenFileName(self)[0]
+        try:
+            if path:
+                params = FileController.read_experiment_params(path)
+                self.lineEdit_1.setText(str(params[0]))
+                self.lineEdit_2.setText(str(params[1]))
+                self.lineEdit_3.setText(str(params[2]))
+                if params[3]:
+                    self.radioButton_2.setChecked(True)
+                else:
+                    self.radioButton_1.setChecked(True)
+                self.lineEdit_7.setText(params[4])
+                self.lineEdit_8.setText(params[5])
+                self.lineEdit_4.setText(params[6])
+        except Exception as error:
+            print(error)
 
     def save_to_file(self):
         path = QtWidgets.QFileDialog.getSaveFileName(self, 'Сохранить данные', '/параметры эксперимента.csv',
@@ -413,7 +440,7 @@ class InputExperimentPage(QtWidgets.QWidget):
             info_msg = QtWidgets.QMessageBox()
             info_msg.setWindowTitle('Сохранение')
             try:
-                SaveController.user_save(path)
+                FileController.user_save(path)
                 info_msg.setText('Файл успешно сохранен!')
                 info_msg.setIcon(QtWidgets.QMessageBox.Icon.Information)
             except Exception as error:
