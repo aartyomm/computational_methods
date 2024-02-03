@@ -35,7 +35,7 @@ class PlotPage(QtWidgets.QWidget):
         self.legend.hoverEvent = lambda *args, **kwargs: None
 
         self.vertical_for_checkboxes = QtWidgets.QVBoxLayout()
-        self.vertical_for_checkboxes.setSpacing(11)
+        self.vertical_for_checkboxes.setSpacing(8)
         self.vertical_for_checkboxes.addStretch()
         self.vertical_for_checkboxes.setContentsMargins(0, 0, 155, 57)
 

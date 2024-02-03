@@ -1,6 +1,7 @@
 from PyQt6 import QtWidgets
 from interface.input_pages_controller import InputPagesController
 from interface.plot_page import PlotPage
+import interface.resource
 
 
 class MainWindow(QtWidgets.QMainWindow):

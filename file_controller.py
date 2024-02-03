@@ -57,10 +57,10 @@ class FileController:
     def read_experiment_params(path: str) -> tuple:
         with open(path) as file:
             n = int(file.readline())
-            min_a, max_a = map(float, file.readline())
-            is_normal = bool(file.readline())
-            min_b, max_b = map(float, file.readline())
-            consider_inorganic = bool(file.readline())
+            min_a, max_a = map(float, file.readline().split())
+            is_normal = int(file.readline())
+            min_b, max_b = map(float, file.readline().split())
+            consider_inorganic = int(file.readline())
             t = int(file.readline())
 
         return n, min_a, max_a, is_normal, min_b, max_b, consider_inorganic, t
@@ -71,7 +71,7 @@ class FileController:
             n = int(file.readline())
             matrix = [[] for _ in range(n)]
             for i in range(n):
-                matrix[i] = list(map(float, file.readline()))
+                matrix[i] = list(map(float, file.readline().split()))
         return n, matrix
 
 

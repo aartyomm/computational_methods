@@ -4,6 +4,7 @@ from PyQt6 import QtCore
 from PyQt6 import QtGui
 from interface.plot_page import PlotPage
 from algorithms import Algorithms
+from file_controller import FileController
 
 
 class InputMatrixPage (QtWidgets.QWidget):
@@ -27,6 +28,7 @@ class InputMatrixPage (QtWidgets.QWidget):
         self.label_8.setObjectName("label_8")
         self.formLayout.setWidget(0, QtWidgets.QFormLayout.ItemRole.LabelRole, self.label_8)
         self.lineEdit_5 = QtWidgets.QLineEdit(parent=self)
+        self.lineEdit_5.textChanged.connect(self.change_display_create_matrix_btn)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -43,15 +45,15 @@ class InputMatrixPage (QtWidgets.QWidget):
         self.pushButton_2.setLayoutDirection(QtCore.Qt.LayoutDirection.LeftToRight)
         self.pushButton_2.setDefault(True)
         self.pushButton_2.setObjectName("pushButton_2")
-        self.formLayout.setWidget(1, QtWidgets.QFormLayout.ItemRole.SpanningRole, self.pushButton_2)
+        self.formLayout.setWidget(2, QtWidgets.QFormLayout.ItemRole.SpanningRole, self.pushButton_2)
         self.label_9 = QtWidgets.QLabel(parent=self)
         self.label_9.setText("")
+        self.label_9.setWordWrap(True)
         self.label_9.setObjectName("label_9")
-        self.formLayout.setWidget(2, QtWidgets.QFormLayout.ItemRole.LabelRole, self.label_9)
+        self.formLayout.setWidget(3, QtWidgets.QFormLayout.ItemRole.LabelRole, self.label_9)
         spacerItem7 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum,
                                             QtWidgets.QSizePolicy.Policy.Maximum)
-        self.formLayout.setItem(3, QtWidgets.QFormLayout.ItemRole.LabelRole, spacerItem7)
-
+        self.formLayout.setItem(5, QtWidgets.QFormLayout.ItemRole.LabelRole, spacerItem7)
         self.label_13 = QtWidgets.QLabel(parent=self)
         self.label_13.setObjectName("label_13")
         self.formLayout.setWidget(4, QtWidgets.QFormLayout.ItemRole.SpanningRole, self.label_13)
@@ -61,7 +63,7 @@ class InputMatrixPage (QtWidgets.QWidget):
         for i, radiobutton in enumerate(self.algorithm_radiobuttons):
             role = QtWidgets.QFormLayout.ItemRole.FieldRole if i % 2 else QtWidgets.QFormLayout.ItemRole.LabelRole
             radiobutton.setObjectName(f'radioButton_{i + 3}')
-            self.formLayout.setWidget(i // 2 + 5, role, radiobutton)
+            self.formLayout.setWidget(i // 2 + 7, role, radiobutton)
         self.algorithm_radiobuttons[0].setChecked(True)
 
         self.algorithm_radiobuttons[0].clicked.connect(lambda: self.color_selected_cells(0))
@@ -78,7 +80,14 @@ class InputMatrixPage (QtWidgets.QWidget):
         self.pushButton_3.setObjectName("pushButton_3")
         self.pushButton_3.setVisible(False)
 
-        self.formLayout.setWidget(8, QtWidgets.QFormLayout.ItemRole.SpanningRole, self.pushButton_3)
+        self.formLayout.setWidget(10, QtWidgets.QFormLayout.ItemRole.SpanningRole, self.pushButton_3)
+        self.label_10 = QtWidgets.QLabel(parent=self)
+        self.label_10.setText("")
+        self.label_10.setObjectName("label_10")
+        self.formLayout.setWidget(11, QtWidgets.QFormLayout.ItemRole.LabelRole, self.label_10)
+        spacerItem8 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum,
+                                            QtWidgets.QSizePolicy.Policy.Maximum)
+        self.formLayout.setItem(12, QtWidgets.QFormLayout.ItemRole.LabelRole, spacerItem8)
         self.gridLayout_6 = QtWidgets.QGridLayout()
         self.gridLayout_6.setContentsMargins(-1, 0, -1, -1)
         self.gridLayout_6.setObjectName("gridLayout_6")
@@ -155,9 +164,9 @@ class InputMatrixPage (QtWidgets.QWidget):
         self.pushButton_5.setDefault(True)
         self.pushButton_5.setObjectName("pushButton_5")
         self.gridLayout_6.addWidget(self.pushButton_5, 3, 0, 1, 2)
-        spacerItem8 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Maximum,
+        spacerItem10 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Maximum,
                                             QtWidgets.QSizePolicy.Policy.Minimum)
-        self.gridLayout_6.addItem(spacerItem8, 0, 2, 1, 1)
+        self.gridLayout_6.addItem(spacerItem10, 0, 2, 1, 1)
         self.ans_label_22 = QtWidgets.QLabel(parent=self)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Maximum, QtWidgets.QSizePolicy.Policy.Preferred)
         sizePolicy.setHorizontalStretch(0)
@@ -167,15 +176,22 @@ class InputMatrixPage (QtWidgets.QWidget):
         self.ans_label_22.setText("")
         self.ans_label_22.setObjectName("ans_label_22")
         self.gridLayout_6.addWidget(self.ans_label_22, 2, 1, 1, 1)
-        self.formLayout.setLayout(11, QtWidgets.QFormLayout.ItemRole.SpanningRole, self.gridLayout_6)
-        spacerItem9 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum,
-                                            QtWidgets.QSizePolicy.Policy.Maximum)
-        self.formLayout.setItem(10, QtWidgets.QFormLayout.ItemRole.LabelRole, spacerItem9)
-
-        self.label_10 = QtWidgets.QLabel(parent=self)
-        self.label_10.setText("")
-        self.label_10.setObjectName("label_10")
-        self.formLayout.setWidget(9, QtWidgets.QFormLayout.ItemRole.LabelRole, self.label_10)
+        self.formLayout.setLayout(13, QtWidgets.QFormLayout.ItemRole.SpanningRole, self.gridLayout_6)
+        self.label_13 = QtWidgets.QLabel(parent=self)
+        self.label_13.setObjectName("label_13")
+        self.formLayout.setWidget(6, QtWidgets.QFormLayout.ItemRole.SpanningRole, self.label_13)
+        self.label_15 = QtWidgets.QLabel(parent=self)
+        self.label_15.setFocusPolicy(QtCore.Qt.FocusPolicy.NoFocus)
+        self.label_15.setText("")
+        self.label_15.setWordWrap(True)
+        self.label_15.setAlignment(
+            QtCore.Qt.AlignmentFlag.AlignLeading | QtCore.Qt.AlignmentFlag.AlignLeft | QtCore.Qt.AlignmentFlag.AlignVCenter)
+        self.label_15.setObjectName("label_15")
+        self.formLayout.setWidget(4, QtWidgets.QFormLayout.ItemRole.LabelRole, self.label_15)
+        self.pushButton_7 = QtWidgets.QPushButton(parent=self)
+        self.pushButton_7.clicked.connect(self.read_matrix_from_file)
+        self.pushButton_7.setObjectName("pushButton_7")
+        self.formLayout.setWidget(1, QtWidgets.QFormLayout.ItemRole.SpanningRole, self.pushButton_7)
         self.setVisible_radiobuttons_tab_2(False)
         self.pushButton_5.setVisible(False)
         self.retranslateUi()
@@ -188,9 +204,15 @@ class InputMatrixPage (QtWidgets.QWidget):
         self.setTabOrder(self.algorithm_radiobuttons[-1], self.pushButton_3)
         self.setTabOrder(self.pushButton_3, self.pushButton_5)
 
+        self.position_of_matrix = 7
+        self.elements_in_form_layout = 14
+
+        self.num_varieties: int = 0
+        self.matrix_from_file: list[list[float]] = []
+
         self.algorithms: Algorithms | None = None
 
-        self.pushButton_2.clicked.connect(self.create_matrix_tab_2)
+        self.pushButton_2.clicked.connect(lambda: self.create_matrix_tab_2())
 
         self.pushButton_3.clicked.connect(self.read_matrix_tab_2)
 
@@ -198,13 +220,15 @@ class InputMatrixPage (QtWidgets.QWidget):
         _translate = QtCore.QCoreApplication.translate
         self.label_8.setText(_translate("InputMatrixPage", "Количество сортов свёклы"))
         self.label_8.setProperty("heading", _translate("InputMatrixPage", "true"))
-        self.pushButton_2.setText(_translate("InputMatrixPage", "Ввод"))
+        self.pushButton_2.setText(_translate("InputMatrixPage", "Создать матрицу"))
         self.label_9.setProperty("error", _translate("InputMatrixPage", "true"))
         self.pushButton_3.setText(_translate("InputMatrixPage", "Рассчитать"))
         self.label_10.setProperty("error", _translate("InputMatrixPage", "true"))
         self.label_13.setText(_translate("MainWindow", "Алгоритм, отображаемый на матрице"))
         self.label_13.setProperty("heading", _translate("InputMatrixPage", "true"))
         self.pushButton_5.setText(_translate("MainWindow", "Сохранить"))
+        self.pushButton_7.setText(_translate("MainWindow", "Загрузить данные из файла"))
+        self.label_15.setProperty("heading", _translate("MainWindow", "true"))
         algorithm_names = ["Венгерский макс", "Венгерский мин", "Жадный",
                            "Бережливый", "Жадно-бережливый", "Бережливо-жадный"]
         for i in range(len(self.algorithm_radiobuttons)):
@@ -247,7 +271,18 @@ class InputMatrixPage (QtWidgets.QWidget):
         for radiobutton in self.algorithm_radiobuttons:
             radiobutton.setVisible(bool_variable)
 
-    def create_matrix_tab_2(self):
+    def delete_old_matrix(self):
+        if self.formLayout.rowCount() > self.elements_in_form_layout:
+            self.formLayout.removeRow(self.position_of_matrix - 1)
+            self.formLayout.removeRow(self.position_of_matrix - 1)
+
+    def delete_errors(self):
+        self.write_err_tab_2('')
+        self.write_err_2_tab_2('')
+
+    def create_matrix_tab_2(self, matrix: list[list[float]] | None = None):
+        self.matrix_from_file = []
+        self.change_display_create_matrix_btn()
         self.algorithms = None
         self.clear_answers_tab_2()
         fl = 0
@@ -260,48 +295,54 @@ class InputMatrixPage (QtWidgets.QWidget):
             self.pushButton_3.setVisible(False)
             self.setVisible_radiobuttons_tab_2(False)
             self.write_err_tab_2("Введите число")
-        if self.formLayout.rowCount() > 12:
-            self.formLayout.removeRow(4)
-            self.formLayout.removeRow(4)
+
+        self.num_varieties = n
+        self.delete_old_matrix()
         if fl == 0:
             lbl_1 = QtWidgets.QLabel()
             lbl_1.setText("Введите матрицу. В столбцах - сорта, в строках - дни.")
-            self.formLayout.insertRow(4, lbl_1)
+            self.formLayout.insertRow(self.position_of_matrix - 1, lbl_1)
 
             layout_grid_input = QtWidgets.QGridLayout()
             for i in range(n):
                 for j in range(n):
                     fld = QtWidgets.QLineEdit("fld_" + str(j + i * n))
-                    fld.setText("")
+                    fld.setText("" if matrix is None else str(matrix[i][j]))
                     fld.textEdited.connect(self.clear_answers_tab_2)
-                    fld.setFixedSize(60, 40)
+                    fld.setCursorPosition(0)
+                    fld.setFixedSize(71, 30)
                     layout_grid_input.addWidget(fld, i, j)
             # ui.formLayout.addRow(layout_grid_input)
 
-            self.formLayout.insertRow(5, layout_grid_input)
+            self.formLayout.insertRow(self.position_of_matrix, layout_grid_input)
 
             spanning_role = QtWidgets.QFormLayout.ItemRole.SpanningRole
-            self.setTabOrder(self.pushButton_2, self.formLayout.itemAt(5, spanning_role).itemAtPosition(0, 0).widget())
+            self.setTabOrder(self.pushButton_2, self.formLayout.itemAt(self.position_of_matrix,
+                                                                       spanning_role).itemAtPosition(0, 0).widget())
             for i in range(n):
                 for j in range(n):
                     if i == n - 1 and j == n - 1:
                         break
                     next_i = i + (j + 1) // n
                     next_j = (j + 1) % n
-                    self.setTabOrder(self.formLayout.itemAt(5, spanning_role).itemAtPosition(i, j).widget(),
-                                     self.formLayout.itemAt(5, spanning_role).itemAtPosition(next_i, next_j).widget())
-            self.setTabOrder(self.formLayout.itemAt(5, spanning_role).itemAtPosition(n - 1, n - 1).widget(),
+                    self.setTabOrder(self.formLayout.itemAt(self.position_of_matrix,
+                                                            spanning_role).itemAtPosition(i, j).widget(),
+                                     self.formLayout.itemAt(self.position_of_matrix,
+                                                            spanning_role).itemAtPosition(next_i, next_j).widget())
+            self.setTabOrder(self.formLayout.itemAt(self.position_of_matrix,
+                                                    spanning_role).itemAtPosition(n - 1, n - 1).widget(),
                              self.pushButton_3)
 
             self.pushButton_3.setVisible(True)
 
     def clear_selected_cells(self):
-        if self.algorithms:
+        if self.algorithms and self.formLayout.rowCount() > self.elements_in_form_layout:
             n = self.algorithms.num_days
             spanning_role = QtWidgets.QFormLayout.ItemRole.SpanningRole
             for i in range(n):
                 for j in range(n):
-                    self.formLayout.itemAt(5, spanning_role).itemAtPosition(j, i).widget().setStyleSheet(
+                    self.formLayout.itemAt(self.position_of_matrix,
+                                           spanning_role).itemAtPosition(j, i).widget().setStyleSheet(
                         "background-color: #FFFFFF;")
 
     def color_selected_cells(self, algorithm_ind: int):
@@ -312,43 +353,91 @@ class InputMatrixPage (QtWidgets.QWidget):
             self.clear_selected_cells()
             if algorithm_ind is not None:
                 for i in range(n):
-                    self.formLayout.itemAt(5, spanning_role).itemAtPosition(
+                    self.formLayout.itemAt(self.position_of_matrix, spanning_role).itemAtPosition(
                         self.algorithms[algorithm_ind].column_indexes[i], i).widget().setStyleSheet(
                         f"background-color: {self.algorithm_colors[algorithm_ind]};")
+
+    def calculate_answer(self, matrix: list[list[float]]):
+        self.algorithms = Algorithms(self.num_varieties)
+        self.algorithms.run_algorithms(np.matrix(matrix))
+        self.algorithms.calculate_average(1)
+
+    def show_answer(self):
+        self.plot_page.print_plots(self.algorithms)
+        self.write_answers_tab_2(self.algorithms)
+
+    def change_display_create_matrix_btn(self):
+        label_value = self.lineEdit_5.text()
+        if label_value.isdigit() and int(label_value) > 15:
+            self.pushButton_2.setDisabled(True)
+            if len(self.matrix_from_file) == 0:
+                self.label_15.setText('Чтобы создать матрицу,\nвведите размер меньше 15\nили воспользуйтесь\n'
+                                      'вводом из файла')
+        else:
+            self.pushButton_2.setDisabled(False)
+            if len(self.matrix_from_file) == 0:
+                self.label_15.setText('')
 
     def read_matrix_tab_2(self):
         try:
             n = int(self.lineEdit_5.text())
+            if self.num_varieties != n:
+                self.write_err_tab_2("Количество сортов должно совпадать с размерами матрицы")
+                return
             self.write_err_tab_2("")
         except:
             self.write_err_tab_2("Введите число")
             return
         arr = [[-1.0] * n for i in range(n)]
-
         f = 0
         spanning_role = QtWidgets.QFormLayout.ItemRole.SpanningRole
-        for i in range(n):
-            for j in range(n):
-                try:
-                    ln = float(self.formLayout.itemAt(5,  spanning_role).itemAtPosition(i, j).widget().text())
-                    arr[i][j] = ln
-                    self.write_err_2_tab_2("")
-                except:
-                    self.write_err_2_tab_2("Заполните все поля числами")
+        if n < 16:
+            for i in range(n):
+                for j in range(n):
+                    try:
+                        ln = float(self.formLayout.itemAt(self.position_of_matrix,
+                                                          spanning_role).itemAtPosition(i, j).widget().text())
+                        arr[i][j] = ln
+                        self.write_err_2_tab_2("")
+                    except:
+                        self.write_err_2_tab_2("Заполните все поля числами")
+                        self.clear_answers_tab_2()
+                        self.plot_page.clear_graph()
+                        return
+        elif len(self.matrix_from_file) > 0:
+            arr = self.matrix_from_file
+        else:
+            return
+
+        self.calculate_answer(arr)
+        self.show_answer()
+        if n < 16:
+            self.setVisible_radiobuttons_tab_2(True)
+
+            for i in range(len(self.algorithm_radiobuttons)):
+                if self.algorithm_radiobuttons[i].isChecked():
+                    self.color_selected_cells(i)
+                    break
+
+    def read_matrix_from_file(self):
+        path = QtWidgets.QFileDialog.getOpenFileName(self, 'Выбор файла', '/', '*.txt')[0]
+
+        try:
+            if path:
+                n, matrix = FileController.read_matrix(path)
+                if n < 16:
+                    self.lineEdit_5.setText(str(n))
+                    self.create_matrix_tab_2(matrix)
+                else:
+                    self.num_varieties = n
+                    self.matrix_from_file = matrix
+                    self.lineEdit_5.setText(str(n))
+                    self.pushButton_3.setVisible(True)
+                    self.delete_old_matrix()
                     self.clear_answers_tab_2()
-                    self.plot_page.clear_graph()
-                    return
+                    self.label_15.setText('Матрица успешна введена!\nМожно приступать к расчету')
+                self.delete_errors()
 
-        self.setVisible_radiobuttons_tab_2(True)
-        self.algorithms = Algorithms(n)
-        self.algorithms.run_algorithms(np.matrix(arr))
-        self.algorithms.calculate_average(1)
-        self.plot_page.print_plots(self.algorithms)
-
-        for i in range(len(self.algorithm_radiobuttons)):
-            if self.algorithm_radiobuttons[i].isChecked():
-                self.color_selected_cells(i)
-                break
-
-        self.write_answers_tab_2(self.algorithms)
+        except Exception as error:
+            print(error)
 

@@ -1,6 +1,5 @@
 QWidget {
   background-color: #fff;
-
   font-size: 14px;
   font-weight: normal;
   font-family: Tahoma;
@@ -37,16 +36,14 @@ QLineEdit:focus {
 QLineEdit::placeholder {
   color: #767e89;
 }
-
-
 QPushButton {
   background-color: #0d6efd;
   color: #fff;
   font-weight: 600;
   border-radius: 8px;
-  border: 1px solid #0d6efd;
+  border: 3px solid #0d6efd;
   padding: 5px 15px;
-  margin-top: 10px;
+  margin-top: 0px;
   outline: 0px;
 }
 QPushButton:hover,
@@ -62,10 +59,38 @@ QFrame[frameShape="5"]
   background: #0d6efd;
 }
 
-QCheckBox::indicator:unchecked:hover{
-  border: 3px solid rgb(255, 205, 0);
+QRadioButton::indicator {
+    border-radius: 2px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: gray;
+}
+QRadioButton::indicator:checked {
+    background-color: qradialgradient(spread:pad,
+                            cx:0.35,
+                            cy:0.35,
+                            radius:0.3,
+                            fx:0.35,
+                            fy:0.35,
+                            stop:0 #ffffff,
+                            stop:1 #0d6efd);
+}
+QRadioButton::indicator:checked {
+    border-width: 0px;
+    border-color: #0d6efd;
+}
+
+QCheckBox::indicator:unchecked{
+  image: url(:/icons/pngs/checkbox_unchecked.png);
+}
+QCheckBox::indicator:unchecked:hover,
+QCheckBox::indicator:unchecked:focus{
+  image: url(:/icons/pngs/checkbox_unchecked_hover.png);
 }
 QCheckBox::indicator:checked{
-  border: 3px solid rgb(255, 205, 0);
-  background-color: #FFFFE0;
+  image: url(:/icons/pngs/checkbox_checked.png);
+}
+QCheckBox::indicator:checked:hover,
+QCheckBox::indicator:checked:focus{
+  image: url(:/icons/pngs/checkbox_checked_hover.png);
 }
