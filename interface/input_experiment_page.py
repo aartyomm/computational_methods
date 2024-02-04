@@ -430,7 +430,7 @@ class InputExperimentPage(QtWidgets.QWidget):
             self.write_answers(algorithms)
             self.plot_page.print_plots(algorithms)
             errors = algorithms.calculate_error()
-            FileController.tmp_save(n, t, min_a, max_a, min_b, max_b, organic, is_normal, algorithms, errors)
+            FileController.tmp_save_experiment(n, t, min_a, max_a, min_b, max_b, organic, is_normal, algorithms, errors)
         if fl == 1:
             self.clear_answers_tab()
 
@@ -463,7 +463,7 @@ class InputExperimentPage(QtWidgets.QWidget):
             info_msg = QtWidgets.QMessageBox()
             info_msg.setWindowTitle('Сохранение')
             try:
-                FileController.user_save(path)
+                FileController.user_save_experiment(path)
                 info_msg.setText('Файл успешно сохранен!')
                 info_msg.setIcon(QtWidgets.QMessageBox.Icon.Information)
             except Exception as error:

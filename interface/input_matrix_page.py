@@ -163,6 +163,7 @@ class InputMatrixPage (QtWidgets.QWidget):
         self.pushButton_5 = QtWidgets.QPushButton(parent=self)
         self.pushButton_5.setDefault(True)
         self.pushButton_5.setObjectName("pushButton_5")
+        self.pushButton_5.clicked.connect(self.save_to_file)
         self.gridLayout_6.addWidget(self.pushButton_5, 3, 0, 1, 2)
         spacerItem10 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Maximum,
                                             QtWidgets.QSizePolicy.Policy.Minimum)
@@ -411,6 +412,8 @@ class InputMatrixPage (QtWidgets.QWidget):
 
         self.calculate_answer(arr)
         self.show_answer()
+        errors = self.algorithms.calculate_error()
+        FileController.tmp_save_matrix(arr, self.algorithms, errors)
         if n < 16:
             self.setVisible_radiobuttons_tab_2(True)
 
@@ -440,4 +443,21 @@ class InputMatrixPage (QtWidgets.QWidget):
 
         except Exception as error:
             print(error)
+
+    def save_to_file(self):
+        path = QtWidgets.QFileDialog.getSaveFileName(self, 'Сохранить данные', '/матрица сортов.csv',
+                                                     '*.csv')[0]
+        if path:
+            info_msg = QtWidgets.QMessageBox()
+            info_msg.setWindowTitle('Сохранение')
+            try:
+                FileController.user_save_matrix(path)
+                info_msg.setText('Файл успешно сохранен!')
+                info_msg.setIcon(QtWidgets.QMessageBox.Icon.Information)
+            except Exception as error:
+                info_msg.setText('Произошла ошибка при сохранении файла!')
+                info_msg.setIcon(QtWidgets.QMessageBox.Icon.Critical)
+                print(error)
+            finally:
+                info_msg.exec()
 

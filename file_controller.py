@@ -1,57 +1,96 @@
 import csv
+from typing import Any
 from algorithms import Algorithms
 import os
 import shutil
 
 
 class FileController:
-    tmp_path: str | None = None
+    tmp_path_for_experiment: str | None = None
+    tmp_path_for_matrix: str | None = None
 
     @staticmethod
     def save_experiment_result(path: str, n: int, t: int, min_a: float, max_a: float, min_b: float, max_b: float,
                                consider_inorganic: bool, is_normal: bool, algorithms: Algorithms, errors: tuple):
+
+        parameters = [['n', n, ''], ['t', t, ''], ['a', f'[{min_a}; {max_a}]', ''],
+                      ['Распределение b', 'Нормальное' if is_normal else 'Равномерное', '']]
+        answer = FileController.__generate_answer(algorithms, errors)
+        if is_normal:
+            parameters.append(['b', f'a={min_b}; b={max_b}', ''])
+        else:
+            parameters.append(['b', f'[{min_b}; {max_b}]', ''])
+        parameters.append(['Влияние неорганики', 'Да' if consider_inorganic else 'Нет', ''])
+
         with open(path, mode='w') as file:
             writer = csv.writer(file, delimiter=';', lineterminator='\r')
             writer.writerow(['Параметры', 'Значение', '', 'Алгоритм', 'Результат', '',
                              'Относительная погрешность', 'Значение'])
-
-            writer.writerow(['n', n, '', 'Венгерский мин', round(algorithms[1].ans[-1], 2), '',
-                             'Жадный к максимуму', f'{errors[0]}%'])
-
-            writer.writerow(['t', t, '', 'Венгерский макс', round(algorithms[0].ans[-1], 2), '',
-                             'Бережливый к минимуму', f'{errors[1]}%'])
-
-            writer.writerow(['a', f'[{min_a}; {max_a}]', '', 'Жадный', round(algorithms[2].ans[-1], 2), '',
-                             'Жадно-бережливый к максимуму', f'{errors[2]}%'])
-
-            writer.writerow(['Распределение b', 'Нормальное' if is_normal else 'Равномерное', '', 'Бережливый',
-                             round(algorithms[3].ans[-1], 2), '', ' Жадно-бережливый к минимуму', f'{errors[3]}%'])
-
-            if is_normal:
-                writer.writerow(['b', f'a={min_b}; b={max_b}', '', 'Жадно-бережливый',
-                                 round(algorithms[4].ans[-1], 2), '', 'Бережливо-Жадный к максимуму', f'{errors[4]}%'])
-            else:
-                writer.writerow(['b', f'[{min_b}; {max_b}]', '', 'Жадно-бережливый', round(algorithms[4].ans[-1], 2),
-                                 '', 'Бережливо-Жадный к максимуму', f'{errors[4]}%'])
-
-            writer.writerow(['Влияние неорганики', 'Да' if consider_inorganic else 'Нет', '', 'Бережливо-Жадный',
-                             round(algorithms[5].ans[-1], 2), '', 'Бережливо-Жадный к минимуму', f'{errors[5]}%'])
+            for i in range(len(answer)):
+                writer.writerow(parameters[i] + answer[i])
 
     @staticmethod
-    def tmp_save(n: int, t: int, min_a: float, max_a: float, min_b: float, max_b: float,
-                 consider_inorganic: bool, is_normal: bool, algorithms: Algorithms, errors: tuple):
-        if FileController.tmp_path is None:
-            path_to_dir = os.getcwd() + '/tmp'
-            if not os.path.exists(path_to_dir):
-                os.mkdir(path_to_dir)
-            FileController.tmp_path = path_to_dir + '/tmp.csv'
+    def __generate_answer(algorithms: Algorithms, errors: tuple) -> tuple[list[str | Any]]:
+        answer = []
+        error_names = ['Жадный к максимуму', 'Бережливый к минимуму', 'Жадно-бережливый к максимуму',
+                       'Жадно-бережливый к минимуму', 'Бережливо-Жадный к максимуму', 'Бережливо-Жадный к минимуму']
+        for i in range(len(algorithms)):
+            cur = [algorithms[i].name, round(algorithms[i].ans[-1], 2), '', error_names[i], f'{errors[i]}%']
+            answer.append(cur)
+        return tuple(answer)
 
-        FileController.save_experiment_result(FileController.tmp_path, n, t, min_a, max_a, min_b, max_b,
+    @staticmethod
+    def save_matrix_result(path: str, matrix: list[list[float]], algorithms: Algorithms, errors: tuple):
+        with open(path, mode='w') as file:
+            answer = FileController.__generate_answer(algorithms, errors)
+            writer = csv.writer(file, delimiter=';', lineterminator='\r')
+            row = [''] * (len(matrix) + 2) + [algorithm.name for algorithm in algorithms] + [
+                '', 'Алгоритм', 'Результат', '', 'Относительная погрешность', 'Значение']
+            writer.writerow(row)
+            row = [''] * (len(matrix) + 1) + ['День'] + ['Выбранный сорт'] * len(algorithms) + [''] + answer[0]
+            writer.writerow(row)
+            for i in range(len(matrix)):
+                row = matrix[i]
+                row.extend(['', i + 1])
+                row.extend([algorithm.column_indexes[i] + 1 for algorithm in algorithms])
+                if i + 1 < len(answer):
+                    row.extend([''] + answer[i + 1])
+                writer.writerow(row)
+            for i in range(i + 2, len(answer)):
+                row = [''] * (len(matrix) + 3 + len(algorithms)) + answer[i]
+                writer.writerow(row)
+
+    @staticmethod
+    def __make_tmp_dir() -> str:
+        path_to_dir = os.getcwd() + '/tmp'
+        if not os.path.exists(path_to_dir):
+            os.mkdir(path_to_dir)
+        return path_to_dir
+
+    @staticmethod
+    def tmp_save_experiment(n: int, t: int, min_a: float, max_a: float, min_b: float, max_b: float,
+                            consider_inorganic: bool, is_normal: bool, algorithms: Algorithms, errors: tuple):
+        path_to_dir = FileController.__make_tmp_dir()
+        if FileController.tmp_path_for_experiment is None:
+            FileController.tmp_path_for_experiment = path_to_dir + '/tmp_experiment.csv'
+
+        FileController.save_experiment_result(FileController.tmp_path_for_experiment, n, t, min_a, max_a, min_b, max_b,
                                               consider_inorganic, is_normal, algorithms, errors)
 
     @staticmethod
-    def user_save(user_path: str):
-        return shutil.copy(FileController.tmp_path, user_path)
+    def tmp_save_matrix(matrix: list[list[float]], algorithms: Algorithms, errors: tuple):
+        path_to_dir = FileController.__make_tmp_dir()
+        if FileController.tmp_path_for_matrix is None:
+            FileController.tmp_path_for_matrix = path_to_dir + '/tmp_matrix.csv'
+        FileController.save_matrix_result(FileController.tmp_path_for_matrix, matrix, algorithms, errors)
+
+    @staticmethod
+    def user_save_experiment(user_path: str):
+        return shutil.copy(FileController.tmp_path_for_experiment, user_path)
+
+    @staticmethod
+    def user_save_matrix(user_path: str):
+        return shutil.copy(FileController.tmp_path_for_matrix, user_path)
 
     @staticmethod
     def read_experiment_params(path: str) -> tuple:
