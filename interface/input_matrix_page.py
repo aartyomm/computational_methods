@@ -197,7 +197,8 @@ class InputMatrixPage (QtWidgets.QWidget):
         self.pushButton_5.setVisible(False)
         self.retranslateUi()
 
-        self.setTabOrder(self.lineEdit_5, self.pushButton_2)
+        self.setTabOrder(self.lineEdit_5, self.pushButton_7)
+        self.setTabOrder(self.pushButton_7, self.pushButton_2)
         self.setTabOrder(self.pushButton_2, self.algorithm_radiobuttons[0])
         for i in range(len(self.algorithm_radiobuttons) - 1):
             self.setTabOrder(self.algorithm_radiobuttons[i], self.algorithm_radiobuttons[i + 1])

@@ -325,7 +325,8 @@ class InputExperimentPage(QtWidgets.QWidget):
         self.setTabOrder(self.lineEdit_7, self.lineEdit_8)
         self.setTabOrder(self.lineEdit_8, self.checkBox)
         self.setTabOrder(self.checkBox, self.lineEdit_4)
-        self.setTabOrder(self.lineEdit_4, self.pushButton)
+        self.setTabOrder(self.lineEdit_4, self.pushButton_6)
+        self.setTabOrder(self.pushButton_6, self.pushButton)
         self.setTabOrder(self.pushButton, self.pushButton_4)
 
         self.radioButton_2.clicked.connect(self.show_normal_params)
