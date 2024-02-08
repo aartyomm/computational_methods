@@ -13,6 +13,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.central_widget = QtWidgets.QWidget(self)
         self.setCentralWidget(self.central_widget)
         self.grid = QtWidgets.QGridLayout(self.central_widget)
+        self.grid.setContentsMargins(0, 0, 0, 0)
         self.grid.setColumnStretch(0, 6)
         self.grid.setColumnStretch(1, 9)
 

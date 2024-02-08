@@ -8,21 +8,22 @@ from algorithms import Algorithms
 class PlotPage(QtWidgets.QWidget):
     """Страница отображения графика"""
     pens = [
-        pg.mkPen(color='blue', width=2, style=QtCore.Qt.PenStyle.SolidLine),
-        pg.mkPen(color='red', width=2, style=QtCore.Qt.PenStyle.DashLine),
-        pg.mkPen(color=QtGui.QColor(13, 253, 17), width=2, style=QtCore.Qt.PenStyle.DotLine),
-        pg.mkPen(color='green', width=2, style=QtCore.Qt.PenStyle.DashDotLine),
-        pg.mkPen(color='magenta', width=2, style=QtCore.Qt.PenStyle.DashDotDotLine),
-        pg.mkPen(color=QtGui.QColor(0,235,211), width=2, style=QtCore.Qt.PenStyle.DashDotLine),
+        pg.mkPen(color=QtGui.QColor('#A04D73'), width=2, style=QtCore.Qt.PenStyle.SolidLine),
+        pg.mkPen(color=QtGui.QColor('#1C4570'), width=2, style=QtCore.Qt.PenStyle.DashLine),
+        pg.mkPen(color=QtGui.QColor('#267A8B'), width=2, style=QtCore.Qt.PenStyle.DotLine),
+        pg.mkPen(color=QtGui.QColor('#A3D4AF'), width=2, style=QtCore.Qt.PenStyle.DashDotLine),
+        pg.mkPen(color=QtGui.QColor('#B086A8'), width=2, style=QtCore.Qt.PenStyle.DashDotDotLine),
+        pg.mkPen(color=QtGui.QColor('#CDAFA5'), width=2, style=QtCore.Qt.PenStyle.DashDotLine),
     ]
 
     def __init__(self, parent: QtWidgets.QMainWindow | None = None):
         super(PlotPage, self).__init__(parent)
 
+        self.setObjectName('PlotPage')
         self.grid = QtWidgets.QGridLayout(self)
         self.setMinimumSize(700, 600)
         self.graph = pg.PlotWidget()
-        self.graph.setBackground('w')
+        self.graph.setBackground(None)
         self.graph.setTitle(
             '<span style="font-family:Tahoma; font-size: 15pt; color: black">Эффективность алгоритмов</span>'
         )

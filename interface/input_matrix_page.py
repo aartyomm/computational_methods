@@ -16,7 +16,6 @@ class InputMatrixPage (QtWidgets.QWidget):
         self.setObjectName("InputMatrixPage")
 
         self.setLayoutDirection(QtCore.Qt.LayoutDirection.LeftToRight)
-        self.setObjectName("tab_2")
         self.formLayout = QtWidgets.QFormLayout(self)
         self.formLayout.setHorizontalSpacing(30)
         self.formLayout.setObjectName("formLayout")
@@ -370,7 +369,14 @@ class InputMatrixPage (QtWidgets.QWidget):
 
     def change_display_create_matrix_btn(self):
         label_value = self.lineEdit_5.text()
-        if label_value.isdigit() and int(label_value) > 15:
+        if not label_value.isdigit() or int(label_value) == 0:
+            self.pushButton_2.setDisabled(True)
+            self.write_err_tab_2("Введите натуральное число")
+            return
+        else:
+            self.write_err_tab_2("")
+
+        if int(label_value) > 15:
             self.pushButton_2.setDisabled(True)
             if len(self.matrix_from_file) == 0:
                 self.label_15.setText('Чтобы создать матрицу,\nвведите размер меньше 15\nили воспользуйтесь\n'
@@ -388,7 +394,7 @@ class InputMatrixPage (QtWidgets.QWidget):
                 return
             self.write_err_tab_2("")
         except:
-            self.write_err_tab_2("Введите число")
+            self.write_err_tab_2("Введите натуральное число")
             return
         arr = [[-1.0] * n for i in range(n)]
         f = 0
@@ -439,7 +445,7 @@ class InputMatrixPage (QtWidgets.QWidget):
                     self.pushButton_3.setVisible(True)
                     self.delete_old_matrix()
                     self.clear_answers_tab_2()
-                    self.label_15.setText('Матрица успешна введена!\nМожно приступать к расчету')
+                    self.label_15.setText('Матрица успешно введена!\nМожно приступать к расчёту')
                 self.delete_errors()
 
         except Exception as error:
