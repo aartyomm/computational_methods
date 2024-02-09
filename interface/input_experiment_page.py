@@ -6,6 +6,7 @@ from interface.plot_page import PlotPage
 from algorithms import Algorithms
 from experiment import experiment
 from file_controller import FileController
+from paths import Paths
 
 
 class InputExperimentPage(QtWidgets.QWidget):
@@ -154,27 +155,27 @@ class InputExperimentPage(QtWidgets.QWidget):
 
         spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum,
                                             QtWidgets.QSizePolicy.Policy.Maximum)
-        self.gridLayout.addItem(spacerItem1, 12, 0, 1, 1)
+        self.gridLayout.addItem(spacerItem1, 5, 0, 1, 1)
         spacerItem2 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum,
                                             QtWidgets.QSizePolicy.Policy.Maximum)
-        self.gridLayout.addItem(spacerItem2, 14, 0, 1, 1)
+        self.gridLayout.addItem(spacerItem2, 15, 0, 1, 1)
         spacerItem3 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum,
                                             QtWidgets.QSizePolicy.Policy.Maximum)
-        self.gridLayout.addItem(spacerItem3, 5, 0, 1, 1)
+        self.gridLayout.addItem(spacerItem3, 13, 0, 1, 1)
         spacerItem4 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum,
                                             QtWidgets.QSizePolicy.Policy.Maximum)
-        self.gridLayout.addItem(spacerItem4, 16, 0, 1, 1)
+        self.gridLayout.addItem(spacerItem4, 1, 0, 1, 1)
 
         self.label_6 = QtWidgets.QLabel(parent=self)
         self.label_6.setAlignment(
             QtCore.Qt.AlignmentFlag.AlignLeading | QtCore.Qt.AlignmentFlag.AlignLeft | QtCore.Qt.AlignmentFlag.AlignTop)
         self.label_6.setObjectName("label_6")
-        self.gridLayout.addWidget(self.label_6, 15, 0, 1, 1)
+        self.gridLayout.addWidget(self.label_6, 14, 0, 1, 1)
 
         self.pushButton_6 = QtWidgets.QPushButton(parent=self)
         self.pushButton_6.clicked.connect(self.fill_params_from_file)
         self.pushButton_6.setObjectName("pushButton_6")
-        self.gridLayout.addWidget(self.pushButton_6, 17, 0, 1, 1)
+        self.gridLayout.addWidget(self.pushButton_6, 16, 0, 1, 1)
 
         self.lineEdit_4 = QtWidgets.QLineEdit(parent=self)
         self.lineEdit_4.textChanged.connect(self.clear_answers_tab)
@@ -185,7 +186,7 @@ class InputExperimentPage(QtWidgets.QWidget):
         self.lineEdit_4.setSizePolicy(sizePolicy)
         self.lineEdit_4.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.lineEdit_4.setObjectName("lineEdit_4")
-        self.gridLayout.addWidget(self.lineEdit_4, 15, 1, 1, 1)
+        self.gridLayout.addWidget(self.lineEdit_4, 14, 1, 1, 1)
 
         self.pushButton = QtWidgets.QPushButton(parent=self)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Fixed)
@@ -196,16 +197,16 @@ class InputExperimentPage(QtWidgets.QWidget):
         self.pushButton.setLayoutDirection(QtCore.Qt.LayoutDirection.LeftToRight)
         self.pushButton.setDefault(True)
         self.pushButton.setObjectName("pushButton")
-        self.gridLayout.addWidget(self.pushButton, 18, 0, 1, 1)
+        self.gridLayout.addWidget(self.pushButton, 17, 0, 1, 1)
 
         spacerItem5 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum,
                                             QtWidgets.QSizePolicy.Policy.Maximum)
-        self.gridLayout.addItem(spacerItem5, 1, 0, 1, 1)
+        self.gridLayout.addItem(spacerItem5, 11, 0, 1, 1)
 
         self.checkBox = QtWidgets.QCheckBox(parent=self)
         self.checkBox.setObjectName("checkBox")
         self.checkBox.stateChanged.connect(self.clear_answers_tab)
-        self.gridLayout.addWidget(self.checkBox, 13, 0, 1, 2)
+        self.gridLayout.addWidget(self.checkBox, 12, 0, 1, 2)
 
         self.radioButton_1 = QtWidgets.QRadioButton(parent=self)
         self.radioButton_1.setObjectName("radioButton_1")
@@ -224,7 +225,7 @@ class InputExperimentPage(QtWidgets.QWidget):
         self.label_7.setAlignment(
             QtCore.Qt.AlignmentFlag.AlignLeading | QtCore.Qt.AlignmentFlag.AlignLeft |
             QtCore.Qt.AlignmentFlag.AlignVCenter)
-        self.gridLayout.addWidget(self.label_7, 18, 1, 1, 1)
+        self.gridLayout.addWidget(self.label_7, 17, 1, 1, 1)
 
         self.gridLayout_8.addLayout(self.gridLayout, 0, 0, 1, 1)
         spacerItem6 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum,
@@ -352,17 +353,17 @@ class InputExperimentPage(QtWidgets.QWidget):
 
         self.label_back_3 = QtWidgets.QLabel()
         self.label_back_3.setObjectName('label_back_3')
-        self.gridLayout.addWidget(self.label_back_3, 6, 0, 7, 2)
+        self.gridLayout.addWidget(self.label_back_3, 6, 0, 6, 2)
         self.label_back_3.lower()
 
         self.label_back_4 = QtWidgets.QLabel()
         self.label_back_4.setObjectName('label_back_4')
-        self.gridLayout.addWidget(self.label_back_4, 13, 0, 2, 2)
+        self.gridLayout.addWidget(self.label_back_4, 12, 0, 2, 2)
         self.label_back_4.lower()
 
         self.label_back_5 = QtWidgets.QLabel()
         self.label_back_5.setObjectName('label_back_5')
-        self.gridLayout.addWidget(self.label_back_5, 15, 0, 2, 2)
+        self.gridLayout.addWidget(self.label_back_5, 14, 0, 2, 2)
         self.label_back_5.lower()
 
         self.retranslateUi()
@@ -384,7 +385,6 @@ class InputExperimentPage(QtWidgets.QWidget):
         self.radioButton_1.clicked.connect(self.show_uniform_params)
         self.pushButton.clicked.connect(self.run_experiment)
         self.pushButton_4.clicked.connect(self.save_to_file)
-        print(self.property('exp_style'))
 
     def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
@@ -417,10 +417,12 @@ class InputExperimentPage(QtWidgets.QWidget):
         self.radioButton_1.setText(_translate("InputExperimentPage", "Равномерное распределение"))
         self.radioButton_1.setProperty("exp_style", _translate("InputExperimentPage", "true"))
         self.radioButton_1.setProperty("subheading", _translate("InputExperimentPage", "true"))
+        self.radioButton_1.setProperty("color_of_back_label", _translate("MainWindow", "white"))
 
         self.checkBox.setText(_translate("InputExperimentPage", "Учитывать влияние неорганики"))
         self.checkBox.setProperty("exp_style", _translate("InputExperimentPage", "true"))
         self.checkBox.setProperty("subheading", _translate("InputExperimentPage", "true"))
+        self.checkBox.setProperty("color_of_back_label", _translate("MainWindow", "red"))
 
         self.label_6.setText(_translate("InputExperimentPage", "Количество экспериментов"))
         self.label_6.setProperty("heading", _translate("InputExperimentPage", "true"))
@@ -433,6 +435,7 @@ class InputExperimentPage(QtWidgets.QWidget):
         self.radioButton_2.setText(_translate("InputExperimentPage", "Нормальное распределение"))
         self.radioButton_2.setProperty("exp_style", _translate("InputExperimentPage", "true"))
         self.radioButton_2.setProperty("subheading", _translate("InputExperimentPage", "true"))
+        self.radioButton_2.setProperty("color_of_back_label", _translate("MainWindow", "white"))
 
         self.label_11.setText(_translate("InputExperimentPage", "Среднее значение:"))
         self.label_11.setProperty("exp_style", _translate("InputExperimentPage", "true"))
@@ -600,6 +603,7 @@ class InputExperimentPage(QtWidgets.QWidget):
         if path:
             info_msg = QtWidgets.QMessageBox()
             info_msg.setWindowTitle('Сохранение')
+            info_msg.setWindowIcon(QtGui.QIcon(Paths.path_to_logo))
             try:
                 FileController.user_save_experiment(path)
                 info_msg.setText('Файл успешно сохранен!')

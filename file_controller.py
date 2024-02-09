@@ -1,8 +1,9 @@
 import csv
 from typing import Any
 from algorithms import Algorithms
-import os
+from paths import Paths
 import shutil
+import os
 
 
 class FileController:
@@ -62,10 +63,9 @@ class FileController:
 
     @staticmethod
     def __make_tmp_dir() -> str:
-        path_to_dir = os.getcwd() + '/tmp'
-        if not os.path.exists(path_to_dir):
-            os.mkdir(path_to_dir)
-        return path_to_dir
+        if not os.path.exists(Paths.path_to_tmp):
+            os.mkdir(Paths.path_to_tmp)
+        return Paths.path_to_tmp
 
     @staticmethod
     def tmp_save_experiment(n: int, t: int, min_a: float, max_a: float, min_b: float, max_b: float,
