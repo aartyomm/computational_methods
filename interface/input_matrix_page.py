@@ -6,6 +6,7 @@ from interface.plot_page import PlotPage
 from algorithms import Algorithms
 from file_controller import FileController
 from paths import Paths
+from interface import validators
 
 
 class InputMatrixPage (QtWidgets.QWidget):
@@ -41,6 +42,7 @@ class InputMatrixPage (QtWidgets.QWidget):
 
         self.lineEdit_5 = QtWidgets.QLineEdit(parent=self)
         self.lineEdit_5.textChanged.connect(self.change_display_create_matrix_btn)
+        self.lineEdit_5.setValidator(validators.Int_1_1000_Validator())
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -467,6 +469,7 @@ class InputMatrixPage (QtWidgets.QWidget):
             for i in range(n):
                 for j in range(n):
                     fld = QtWidgets.QLineEdit("fld_" + str(j + i * n))
+                    fld.setValidator(validators.Double_0_1000_Validator())
                     fld.setText("" if matrix is None else str(matrix[i][j]))
                     fld.textEdited.connect(self.clear_answers_tab_2)
                     fld.setCursorPosition(0)
