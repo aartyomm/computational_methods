@@ -2,7 +2,7 @@
 
 Приложение для сравнения алгоритмов решения задачи о назначениях на примере переработки нескольких сортов сахарной свёклы
 
-Работу выполнили: [aartyomm](https://github.com/aartyomm), 
+Работу выполнили: [aartyomm](https://github.com/aartyomm), [un1i](https://github.com/un1i), [JKurdina](https://github.com/JKurdina)
 
 ### Основные возможности программы
 
