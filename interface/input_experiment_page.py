@@ -7,6 +7,7 @@ from algorithms import Algorithms
 from experiment import experiment
 from file_controller import FileController
 from paths import Paths
+from interface import validators
 
 
 class InputExperimentPage(QtWidgets.QWidget):
@@ -38,6 +39,7 @@ class InputExperimentPage(QtWidgets.QWidget):
                                            QtWidgets.QSizePolicy.Policy.Maximum)
         self.gridLayout.addItem(spacerItem, 15, 0, 1, 1)
         self.lineEdit_3 = QtWidgets.QLineEdit(parent=self)
+        self.lineEdit_3.setValidator(validators.Double_0_1_Validator())
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Maximum, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -76,6 +78,7 @@ class InputExperimentPage(QtWidgets.QWidget):
         self.gridLayout.addWidget(self.label_2, 2, 0, 1, 1)
 
         self.lineEdit_1 = QtWidgets.QLineEdit(parent=self)
+        self.lineEdit_1.setValidator(validators.Int_1_1000_Validator())
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Maximum, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -111,6 +114,7 @@ class InputExperimentPage(QtWidgets.QWidget):
         self.gridLayout.addWidget(self.label_4, 4, 0, 1, 1)
 
         self.lineEdit_2 = QtWidgets.QLineEdit(parent=self)
+        self.lineEdit_2.setValidator(validators.Double_0_1_Validator())
         self.lineEdit_2.textChanged.connect(self.clear_answers_tab)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Maximum, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -136,11 +140,13 @@ class InputExperimentPage(QtWidgets.QWidget):
         self.gridLayout.addWidget(self.label_11, 9, 0, 1, 1)
 
         self.lineEdit_8 = QtWidgets.QLineEdit(parent=self)
+        self.lineEdit_8.setValidator(validators.Double_0_1_Validator())
         self.lineEdit_8.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.lineEdit_8.setObjectName("lineEdit_8")
         self.gridLayout.addWidget(self.lineEdit_8, 10, 1, 1, 1)
 
         self.lineEdit_7 = QtWidgets.QLineEdit(parent=self)
+        self.lineEdit_7.setValidator(validators.Double_0_1_Validator())
         self.lineEdit_7.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.lineEdit_7.textChanged.connect(self.clear_answers_tab)
         self.lineEdit_7.setObjectName("lineEdit_7")
@@ -178,6 +184,7 @@ class InputExperimentPage(QtWidgets.QWidget):
         self.gridLayout.addWidget(self.pushButton_6, 16, 0, 1, 1)
 
         self.lineEdit_4 = QtWidgets.QLineEdit(parent=self)
+        self.lineEdit_4.setValidator(validators.Int_1_1000_Validator())
         self.lineEdit_4.textChanged.connect(self.clear_answers_tab)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Maximum, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -565,7 +572,7 @@ class InputExperimentPage(QtWidgets.QWidget):
             organic = True
         else:
             organic = False
-        # line4 = int(ui.lineEdit_4.text())
+
         if fl == 0:
             algorithms: Algorithms = experiment(n, t, min_a, max_a, min_b, max_b, organic, is_normal)
             self.write_answers(algorithms)
