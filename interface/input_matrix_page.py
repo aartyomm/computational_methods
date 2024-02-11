@@ -449,16 +449,16 @@ class InputMatrixPage (QtWidgets.QWidget):
         self.delete_old_matrix()
         if fl == 0:
             lbl_1 = QtWidgets.QLabel()
+            lbl_1.setObjectName('lbl_1')
             lbl_1.setText("Введите матрицу")
-            lbl_1.setStyleSheet("background-color: rgba(0, 0, 0, 0); color: #1C4570; margin-bottom: 10px;")
             lbl_1.setProperty("exp_style", "true")
             lbl_1.setProperty("heading", "true")
 
             lbl_2 = QtWidgets.QLabel()
+            lbl_2.setObjectName('lbl_2')
             lbl_2.setText("Сорта")
             lbl_2.setAlignment(QtCore.Qt.AlignmentFlag.AlignHCenter)
             lbl_2.setProperty("exp_style", "true")
-            lbl_2.setStyleSheet("background-color: rgba(0, 0, 0, 0); color: #1C4570; margin-left: 36px;")
 
             self.formLayout.insertRow(self.position_of_matrix - 2, lbl_1)
             self.formLayout.insertRow(self.position_of_matrix - 1, lbl_2)
@@ -520,7 +520,7 @@ class InputMatrixPage (QtWidgets.QWidget):
             if algorithm_ind is not None:
                 for i in range(n):
                     self.formLayout.itemAt(self.position_of_matrix, spanning_role).itemAtPosition(
-                        self.algorithms[algorithm_ind].column_indexes[i], i).widget().setStyleSheet(
+                        i, self.algorithms[algorithm_ind].column_indexes[i]).widget().setStyleSheet(
                         f"background-color: {self.algorithm_colors[algorithm_ind]};")
 
     def calculate_answer(self, matrix: list[list[float]]):
@@ -584,8 +584,6 @@ class InputMatrixPage (QtWidgets.QWidget):
 
         self.calculate_answer(arr)
         self.show_answer()
-        errors = self.algorithms.calculate_error()
-        FileController.tmp_save_matrix(arr, self.algorithms, errors)
         if n < 16:
             self.setVisible_radiobuttons_tab_2(True)
 
@@ -593,6 +591,9 @@ class InputMatrixPage (QtWidgets.QWidget):
                 if self.algorithm_radiobuttons[i].isChecked():
                     self.color_selected_cells(i)
                     break
+
+        errors = self.algorithms.calculate_error()
+        FileController.tmp_save_matrix(arr, self.algorithms, errors)
 
     def read_matrix_from_file(self):
         path = QtWidgets.QFileDialog.getOpenFileName(self, 'Выбор файла', '/', '*.txt')[0]

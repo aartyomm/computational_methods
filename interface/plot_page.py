@@ -9,12 +9,12 @@ from paths import Paths
 class PlotPage(QtWidgets.QWidget):
     """Страница отображения графика"""
     pens = [
-        pg.mkPen(color=QtGui.QColor('#A04D73'), width=2, style=QtCore.Qt.PenStyle.SolidLine),
-        pg.mkPen(color=QtGui.QColor('#6A8DC1'), width=2, style=QtCore.Qt.PenStyle.DashLine),
-        pg.mkPen(color=QtGui.QColor('#267A8B'), width=2, style=QtCore.Qt.PenStyle.DotLine),
-        pg.mkPen(color=QtGui.QColor('#A3D4AF'), width=2, style=QtCore.Qt.PenStyle.DashDotLine),
-        pg.mkPen(color=QtGui.QColor('#B086A8'), width=2, style=QtCore.Qt.PenStyle.DashDotDotLine),
-        pg.mkPen(color=QtGui.QColor('#CDAFA5'), width=2, style=QtCore.Qt.PenStyle.DashDotLine),
+        pg.mkPen(color=QtGui.QColor('#A04D73'), width=6, style=QtCore.Qt.PenStyle.SolidLine),
+        pg.mkPen(color=QtGui.QColor('#6A8DC1'), width=6, style=QtCore.Qt.PenStyle.DashLine),
+        pg.mkPen(color=QtGui.QColor('#267A8B'), width=6, style=QtCore.Qt.PenStyle.DotLine),
+        pg.mkPen(color=QtGui.QColor('#A3D4AF'), width=6, style=QtCore.Qt.PenStyle.DashDotLine),
+        pg.mkPen(color=QtGui.QColor('#B086A8'), width=6, style=QtCore.Qt.PenStyle.DashDotDotLine),
+        pg.mkPen(color=QtGui.QColor('#CDAFA5'), width=6, style=QtCore.Qt.PenStyle.DashDotLine),
     ]
 
     def __init__(self, parent: QtWidgets.QMainWindow | None = None):
@@ -29,7 +29,7 @@ class PlotPage(QtWidgets.QWidget):
         self.graph.setTitle(
             '<span style="font-family:Century Gothic; font-size: 15pt; color: black">Эффективность алгоритмов</span>'
         )
-        self.graph.setLabel('left', '<font face="Century Gothic" size="5" color="black">S</font>')
+        self.graph.setLabel('left', '<font face="Century Gothic" size="5" color="black">Значение целевой функции S</font>')
         self.graph.setLabel('bottom', '<font face="Century Gothic" size="5" color="black">Время</font>')
 
         self.legend = self.graph.addLegend(offset=(-1, -1), labelTextColor='black')

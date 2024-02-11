@@ -164,6 +164,18 @@ QWidget#lineEdit_5:focus{
   border-bottom: 3px solid #ffffff;
 }
 
+QWidget#lbl_1, QWidget#lbl_2 {
+    background-color: rgba(0, 0, 0, 0);
+    color: #1C4570;
+}
+QWidget#lbl_1 {
+    margin-bottom: 10px;
+}
+
+QWidget#lbl_2 {
+    margin-left: 36px;
+}
+
 /*3rd block*/
 QWidget#label_13,
 QWidget#radioButton_3,
@@ -214,7 +226,7 @@ QTabBar::tab::selected{
 
 QLabel[heading="true"] {
   color: #464d55;
-  font-weight: 600;
+  font-weight: bold;
   font-size: 16px;
 }
 QLabel[subheading="true"] {

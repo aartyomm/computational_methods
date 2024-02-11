@@ -5,6 +5,13 @@ from interface.main_window import MainWindow
 from resources import resource
 
 if __name__ == '__main__':
+    try:
+        from ctypes import windll
+        appid = 'SweetBeet.1.0'
+        windll.shell32.SetCurrentProcessExplicitAppUserModelID(appid)
+    except ImportError:
+        pass
+
     app = QtWidgets.QApplication(sys.argv)
     QtGui.QFontDatabase.addApplicationFont(':/fonts/fonts/GOTHIC_regular.TTF')
     QtGui.QFontDatabase.addApplicationFont(':/fonts/fonts/GOTHICB_bold.TTF')

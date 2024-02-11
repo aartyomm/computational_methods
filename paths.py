@@ -11,5 +11,3 @@ class Paths:
     path_to_tmp = os.path.join(__basedir, 'tmp')
 
     path_to_style = os.path.join(__basedir, 'style', 'style.qss')
-
-
