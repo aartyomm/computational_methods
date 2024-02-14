@@ -1,9 +1,11 @@
 import csv
 from typing import Any
+from PyQt6 import QtGui
 from algorithms import Algorithms
 from paths import Paths
 import shutil
 import os
+from interface import validators
 
 
 class FileController:
@@ -94,23 +96,55 @@ class FileController:
 
     @staticmethod
     def read_experiment_params(path: str) -> tuple:
+        results = []
         with open(path) as file:
-            n = int(file.readline())
-            min_a, max_a = map(float, file.readline().split())
-            is_normal = int(file.readline())
-            min_b, max_b = map(float, file.readline().split())
-            consider_inorganic = int(file.readline())
-            t = int(file.readline())
+            n = file.readline().strip()
+            results.append(validators.Int_1_1000_Validator().validate(n, 0))
 
-        return n, min_a, max_a, is_normal, min_b, max_b, consider_inorganic, t
+            min_a, max_a = file.readline().strip().split()
+            results.append(validators.Double_0_100000_Validator().validate(min_a, 0))
+            results.append(validators.Double_0_100000_Validator().validate(max_a, 0))
+
+            is_normal = file.readline().strip()
+            results.append(validators.DistributionValidator().validate(is_normal, 0))
+
+            min_b, max_b = file.readline().strip().split()
+            results.append(validators.Double_0_1_Validator().validate(min_b, 0))
+            results.append(validators.Double_0_1_Validator().validate(max_b, 0))
+
+            consider_inorganic = file.readline().strip()
+            results.append(validators.InorganicValidator().validate(consider_inorganic, 0))
+
+            t = file.readline().strip()
+            results.append(validators.Int_1_1000_Validator().validate(t, 0))
+
+        for res in results:
+            if res[0] == QtGui.QValidator.State.Invalid:
+                print(res)
+                raise ValueError
+
+        is_normal = 1 if is_normal.lower() in ['1', 'нормальное'] else 0
+
+        consider_inorganic = 1 if consider_inorganic.lower() in ['1', 'да'] else 0
+
+        return int(n), float(min_a), float(max_a), is_normal, float(min_b), float(max_b), consider_inorganic, int(t)
 
     @staticmethod
     def read_matrix(path: str) -> tuple[int, list[list[float]]]:
         with open(path) as file:
-            n = int(file.readline())
+            n = file.readline().strip()
+            if validators.Int_1_1000_Validator().validate(n, 0)[0] == QtGui.QValidator.State.Invalid:
+                raise ValueError
+            n = int(n)
             matrix = [[] for _ in range(n)]
             for i in range(n):
-                matrix[i] = list(map(float, file.readline().split()))
+                row = file.readline().strip().split()
+                if len(row) != n:
+                    raise ValueError
+                for element in row:
+                    if validators.Double_0_100000_Validator().validate(element, 0)[0] == QtGui.QValidator.State.Invalid:
+                        raise ValueError
+                matrix[i] = list(map(float, row))
         return n, matrix
 
 

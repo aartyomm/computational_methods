@@ -39,7 +39,7 @@ class InputExperimentPage(QtWidgets.QWidget):
                                            QtWidgets.QSizePolicy.Policy.Maximum)
         self.gridLayout.addItem(spacerItem, 15, 0, 1, 1)
         self.lineEdit_3 = QtWidgets.QLineEdit(parent=self)
-        self.lineEdit_3.setValidator(validators.Double_0_1_Validator())
+        self.lineEdit_3.setValidator(validators.Double_0_100000_Validator())
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Maximum, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -114,7 +114,7 @@ class InputExperimentPage(QtWidgets.QWidget):
         self.gridLayout.addWidget(self.label_4, 4, 0, 1, 1)
 
         self.lineEdit_2 = QtWidgets.QLineEdit(parent=self)
-        self.lineEdit_2.setValidator(validators.Double_0_1_Validator())
+        self.lineEdit_2.setValidator(validators.Double_0_100000_Validator())
         self.lineEdit_2.textChanged.connect(self.clear_answers_tab)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Maximum, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -228,6 +228,7 @@ class InputExperimentPage(QtWidgets.QWidget):
 
         self.label_7 = QtWidgets.QLabel(parent=self)
         self.label_7.setText("")
+        self.label_7.setWordWrap(True)
         self.label_7.setObjectName("label_7")
         self.label_7.setAlignment(
             QtCore.Qt.AlignmentFlag.AlignLeading | QtCore.Qt.AlignmentFlag.AlignLeft |
@@ -539,17 +540,24 @@ class InputExperimentPage(QtWidgets.QWidget):
     def write_err_tab(self, s: str):
         self.label_7.setText(s)
 
-    def run_experiment(self):
-        fl = 0
-        n = -1
-        min_a = -1.0
-        max_a = -1.0
-        is_normal = False
-        organic = False
-        min_b = -1
-        max_b = -1
-        t = -1
+    def __check_params(self, n: int, t: int, min_a: float, max_a: float,
+                     min_b: float, max_b: float, is_normal: bool) -> bool:
+        if min_a > max_a:
+            self.write_err_tab('Минимальная сахаристость должна быть не больше максимальной')
+            return False
 
+        if not is_normal and min_b > max_b:
+            self.write_err_tab('Минимальная деградация\nдолжна быть не больше максимальной')
+            return False
+
+        max_num_experiment = 1000000 // n ** 2
+        if t > max_num_experiment:
+            self.write_err_tab(f'Макс кол-во экспериментов для данной матрицы - {max_num_experiment}')
+            return False
+        return True
+
+    def run_experiment(self):
+        is_normal = False
         try:
             n = int(self.lineEdit_1.text())
             min_a = float(self.lineEdit_2.text())
@@ -557,35 +565,38 @@ class InputExperimentPage(QtWidgets.QWidget):
             min_b = float(self.lineEdit_7.text())
             max_b = float(self.lineEdit_8.text())
             t = int(self.lineEdit_4.text())
-            fl = 0
+            if self.radioButton_1.isChecked():
+                is_normal = False
+            if self.radioButton_2.isChecked():
+                is_normal = True
+
+            if self.checkBox.isChecked():
+                organic = True
+            else:
+                organic = False
             self.write_err_tab("")
         except:
-            fl = 1
             self.write_err_tab("Заполните все поля числами")
-
-        if self.radioButton_1.isChecked():
-            is_normal = False
-        if self.radioButton_2.isChecked():
-            is_normal = True
-
-        if self.checkBox.isChecked():
-            organic = True
-        else:
-            organic = False
-
-        if fl == 0:
-            algorithms: Algorithms = experiment(n, t, min_a, max_a, min_b, max_b, organic, is_normal)
-            self.write_answers(algorithms)
-            self.plot_page.print_plots(algorithms)
-            errors = algorithms.calculate_error()
-            FileController.tmp_save_experiment(n, t, min_a, max_a, min_b, max_b, organic, is_normal, algorithms, errors)
-        if fl == 1:
             self.clear_answers_tab()
+            return
+
+        if not self.__check_params(n, t, min_a, max_a, min_b, max_b, is_normal):
+            self.clear_answers_tab()
+            return
+
+        algorithms: Algorithms = experiment(n, t, min_a, max_a, min_b, max_b, organic, is_normal)
+        self.write_answers(algorithms)
+        self.plot_page.print_plots(algorithms)
+        errors = algorithms.calculate_error()
+        FileController.tmp_save_experiment(n, t, min_a, max_a, min_b, max_b, organic, is_normal, algorithms, errors)
 
     def fill_params_from_file(self):
         path = QtWidgets.QFileDialog.getOpenFileName(self, 'Выбор файла', '/', '*.txt')[0]
-        try:
-            if path:
+        if path:
+            info_msg = QtWidgets.QMessageBox()
+            info_msg.setWindowTitle('Ввод параметров эксперимента')
+            info_msg.setWindowIcon(QtGui.QIcon(Paths.path_to_logo))
+            try:
                 params = FileController.read_experiment_params(path)
                 self.lineEdit_1.setText(str(params[0]))
                 self.lineEdit_2.setText(str(params[1]))
@@ -601,8 +612,15 @@ class InputExperimentPage(QtWidgets.QWidget):
                 else:
                     self.checkBox.setChecked(False)
                 self.lineEdit_4.setText(str(params[7]))
-        except Exception as error:
-            print(error)
+            except ValueError:
+                info_msg.setText('Неверный формат данных!')
+                info_msg.setIcon(QtWidgets.QMessageBox.Icon.Critical)
+                info_msg.exec()
+            except Exception as error:
+                info_msg.setText('Произошла ошибка при вводе параметров из файла!')
+                info_msg.setIcon(QtWidgets.QMessageBox.Icon.Critical)
+                info_msg.exec()
+                print(error)
 
     def save_to_file(self):
         path = QtWidgets.QFileDialog.getSaveFileName(self, 'Сохранить данные', '/параметры эксперимента.csv',
@@ -615,9 +633,11 @@ class InputExperimentPage(QtWidgets.QWidget):
                 FileController.user_save_experiment(path)
                 info_msg.setText('Файл успешно сохранен!')
                 info_msg.setIcon(QtWidgets.QMessageBox.Icon.Information)
+                info_msg.exec()
             except Exception as error:
                 info_msg.setText('Произошла ошибка при сохранении файла!')
                 info_msg.setIcon(QtWidgets.QMessageBox.Icon.Critical)
+                info_msg.exec()
                 print(error)
             finally:
                 info_msg.exec()

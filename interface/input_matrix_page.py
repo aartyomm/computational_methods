@@ -469,7 +469,7 @@ class InputMatrixPage (QtWidgets.QWidget):
             for i in range(n):
                 for j in range(n):
                     fld = QtWidgets.QLineEdit("fld_" + str(j + i * n))
-                    fld.setValidator(validators.Double_0_1000_Validator())
+                    fld.setValidator(validators.Double_0_100000_Validator())
                     fld.setText("" if matrix is None else str(matrix[i][j]))
                     fld.textEdited.connect(self.clear_answers_tab_2)
                     fld.setCursorPosition(0)
@@ -535,6 +535,11 @@ class InputMatrixPage (QtWidgets.QWidget):
         self.plot_page.print_plots(self.algorithms)
         self.write_answers_tab_2(self.algorithms)
 
+    def show_info_input(self):
+        self.label_15.setText('Чтобы создать матрицу,\nвведите размер меньше 15\nили воспользуйтесь\n'
+                              'вводом из файла')
+
+
     def change_display_create_matrix_btn(self):
         label_value = self.lineEdit_5.text()
         if not label_value.isdigit() or int(label_value) == 0:
@@ -547,8 +552,7 @@ class InputMatrixPage (QtWidgets.QWidget):
         if int(label_value) > 15:
             self.pushButton_2.setDisabled(True)
             if len(self.matrix_from_file) == 0:
-                self.label_15.setText('Чтобы создать матрицу,\nвведите размер меньше 15\nили воспользуйтесь\n'
-                                      'вводом из файла')
+                self.show_info_input()
         else:
             self.pushButton_2.setDisabled(False)
             if len(self.matrix_from_file) == 0:
@@ -601,8 +605,11 @@ class InputMatrixPage (QtWidgets.QWidget):
     def read_matrix_from_file(self):
         path = QtWidgets.QFileDialog.getOpenFileName(self, 'Выбор файла', '/', '*.txt')[0]
 
-        try:
-            if path:
+        if path:
+            info_msg = QtWidgets.QMessageBox()
+            info_msg.setWindowTitle('Ввод матрицы')
+            info_msg.setWindowIcon(QtGui.QIcon(Paths.path_to_logo))
+            try:
                 n, matrix = FileController.read_matrix(path)
                 if n < 16:
                     self.lineEdit_5.setText(str(n))
@@ -616,9 +623,21 @@ class InputMatrixPage (QtWidgets.QWidget):
                     self.clear_answers_tab_2()
                     self.label_15.setText('Матрица успешно введена!\nМожно приступать к расчёту')
                 self.delete_errors()
-
-        except Exception as error:
-            print(error)
+            except ValueError:
+                if len(self.matrix_from_file) != 0:
+                    self.show_info_input()
+                    self.pushButton_3.setVisible(False)
+                info_msg.setText('Неверный формат данных!')
+                info_msg.setIcon(QtWidgets.QMessageBox.Icon.Critical)
+                info_msg.exec()
+            except Exception as error:
+                if len(self.matrix_from_file) != 0:
+                    self.show_info_input()
+                    self.pushButton_3.setVisible(False)
+                info_msg.setText('Произошла ошибка при вводе параметров из файла!')
+                info_msg.setIcon(QtWidgets.QMessageBox.Icon.Critical)
+                info_msg.exec()
+                print(error)
 
     def save_to_file(self):
         path = QtWidgets.QFileDialog.getSaveFileName(self, 'Сохранить данные', '/матрица сортов.csv',
