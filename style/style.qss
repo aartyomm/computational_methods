@@ -12,8 +12,7 @@ QLineEdit[exp_style="true"]{
     border-radius: 0px;
     border: none;
     border-bottom: 2px solid #e0e4e7;
-    padding: 0px 15px;
-    padding: -7px -100px;
+    margin-bottom: 7px;
     margin-right: 20px;
     margin-left: 20px;
     font: 75 40px "Century Gothic";

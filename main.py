@@ -11,7 +11,6 @@ if __name__ == '__main__':
         windll.shell32.SetCurrentProcessExplicitAppUserModelID(appid)
     except ImportError:
         pass
-
     app = QtWidgets.QApplication(sys.argv)
     QtGui.QFontDatabase.addApplicationFont(':/fonts/fonts/GOTHIC_regular.TTF')
     QtGui.QFontDatabase.addApplicationFont(':/fonts/fonts/GOTHICB_bold.TTF')

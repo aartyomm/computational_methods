@@ -43,6 +43,7 @@ class InputMatrixPage (QtWidgets.QWidget):
         self.lineEdit_5 = QtWidgets.QLineEdit(parent=self)
         self.lineEdit_5.textChanged.connect(self.change_display_create_matrix_btn)
         self.lineEdit_5.setValidator(validators.Int_1_1000_Validator())
+        self.lineEdit_5.setMaximumWidth(218)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -475,6 +476,8 @@ class InputMatrixPage (QtWidgets.QWidget):
                     fld.setCursorPosition(0)
                     fld.setAlignment(QtCore.Qt.AlignmentFlag.AlignHCenter)
                     fld.setFixedSize(80, 40)
+                    # fld.setMinimumSize(45, 26)
+                    # fld.setMaximumSize(80, 40)
                     layout_grid_input.addWidget(fld, i, j)
 
             label_role = QtWidgets.QFormLayout.ItemRole.LabelRole

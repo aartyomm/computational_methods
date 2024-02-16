@@ -40,6 +40,7 @@ class InputExperimentPage(QtWidgets.QWidget):
         self.gridLayout.addItem(spacerItem, 15, 0, 1, 1)
         self.lineEdit_3 = QtWidgets.QLineEdit(parent=self)
         self.lineEdit_3.setValidator(validators.Double_0_100000_Validator())
+        self.lineEdit_3.setMaximumWidth(218)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Maximum, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -79,6 +80,7 @@ class InputExperimentPage(QtWidgets.QWidget):
 
         self.lineEdit_1 = QtWidgets.QLineEdit(parent=self)
         self.lineEdit_1.setValidator(validators.Int_1_1000_Validator())
+        self.lineEdit_1.setMaximumWidth(218)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Maximum, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -115,6 +117,7 @@ class InputExperimentPage(QtWidgets.QWidget):
 
         self.lineEdit_2 = QtWidgets.QLineEdit(parent=self)
         self.lineEdit_2.setValidator(validators.Double_0_100000_Validator())
+        self.lineEdit_2.setMaximumWidth(218)
         self.lineEdit_2.textChanged.connect(self.clear_answers_tab)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Maximum, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -141,12 +144,14 @@ class InputExperimentPage(QtWidgets.QWidget):
 
         self.lineEdit_8 = QtWidgets.QLineEdit(parent=self)
         self.lineEdit_8.setValidator(validators.Double_0_1_Validator())
+        self.lineEdit_8.setMaximumWidth(218)
         self.lineEdit_8.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.lineEdit_8.setObjectName("lineEdit_8")
         self.gridLayout.addWidget(self.lineEdit_8, 10, 1, 1, 1)
 
         self.lineEdit_7 = QtWidgets.QLineEdit(parent=self)
         self.lineEdit_7.setValidator(validators.Double_0_1_Validator())
+        self.lineEdit_7.setMaximumWidth(218)
         self.lineEdit_7.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.lineEdit_7.textChanged.connect(self.clear_answers_tab)
         self.lineEdit_7.setObjectName("lineEdit_7")
@@ -185,6 +190,7 @@ class InputExperimentPage(QtWidgets.QWidget):
 
         self.lineEdit_4 = QtWidgets.QLineEdit(parent=self)
         self.lineEdit_4.setValidator(validators.Int_1_1000_Validator())
+        self.lineEdit_4.setMaximumWidth(218)
         self.lineEdit_4.textChanged.connect(self.clear_answers_tab)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Maximum, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -633,11 +639,9 @@ class InputExperimentPage(QtWidgets.QWidget):
                 FileController.user_save_experiment(path)
                 info_msg.setText('Файл успешно сохранен!')
                 info_msg.setIcon(QtWidgets.QMessageBox.Icon.Information)
-                info_msg.exec()
             except Exception as error:
                 info_msg.setText('Произошла ошибка при сохранении файла!')
                 info_msg.setIcon(QtWidgets.QMessageBox.Icon.Critical)
-                info_msg.exec()
                 print(error)
             finally:
                 info_msg.exec()
