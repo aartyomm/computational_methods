@@ -12,7 +12,7 @@ QLineEdit[exp_style="true"]{
     border-radius: 0px;
     border: none;
     border-bottom: 2px solid #e0e4e7;
-    margin-bottom: 7px;
+    padding: -7px 0px;
     margin-right: 20px;
     margin-left: 20px;
     font: 75 40px "Century Gothic";
@@ -192,9 +192,7 @@ QWidget#radioButton_5,
 QWidget#radioButton_6,
 QWidget#radioButton_7,
 QWidget#radioButton_8{
-  margin-left: 10px;
-  margin-top: 5px;
-  margin-bottom: 5px;
+  margin: 5px 10px;
 }
 
 QTabWidget::pane{
@@ -247,8 +245,11 @@ QLineEdit {
     margin-bottom: 2px;
     margin-right: 2px;
     color: #1C4570;
-    font: 75 25px "Century Gothic";
-    font-weight: bold;
+    font: bold 25px "Century Gothic";
+}
+
+QLineEdit[small_cell="true"] {
+    font: bold 13px "Century Gothic";
 }
 
 QLineEdit:focus {

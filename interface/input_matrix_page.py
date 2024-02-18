@@ -475,9 +475,11 @@ class InputMatrixPage (QtWidgets.QWidget):
                     fld.textEdited.connect(self.clear_answers_tab_2)
                     fld.setCursorPosition(0)
                     fld.setAlignment(QtCore.Qt.AlignmentFlag.AlignHCenter)
-                    fld.setFixedSize(80, 40)
-                    # fld.setMinimumSize(45, 26)
-                    # fld.setMaximumSize(80, 40)
+                    if n > 8:
+                        fld.setFixedSize(40, 20)
+                        fld.setProperty('small_cell', 'true')
+                    else:
+                        fld.setFixedSize(80, 40)
                     layout_grid_input.addWidget(fld, i, j)
 
             label_role = QtWidgets.QFormLayout.ItemRole.LabelRole

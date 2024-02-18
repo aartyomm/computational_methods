@@ -11,6 +11,8 @@ class InputPagesController(QtWidgets.QTabWidget):
     def __init__(self, plot_page: PlotPage, parent: QtWidgets.QMainWindow | None = None):
         super(InputPagesController, self).__init__(parent)
         self.setObjectName('PagesController')
+        self.setMinimumWidth(520)
+        self.setMinimumSize(520, 760)
         _translate = QtCore.QCoreApplication.translate
         self.input_matrix_page = InputMatrixPage(plot_page)
         self.input_experiment_page = InputExperimentPage(plot_page)
