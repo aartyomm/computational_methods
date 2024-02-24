@@ -4,6 +4,7 @@ from PyQt6 import QtGui
 import pyqtgraph as pg
 from algorithms import Algorithms
 from paths import Paths
+from interface.colored_axis import ColoredAxis
 
 
 class PlotPage(QtWidgets.QWidget):
@@ -20,12 +21,17 @@ class PlotPage(QtWidgets.QWidget):
     def __init__(self, parent: QtWidgets.QMainWindow | None = None):
         super(PlotPage, self).__init__(parent)
 
+        black_pen = pg.mkPen(color='black', width=2)
+        self.axis_x = ColoredAxis(orientation='bottom', axisPen=black_pen, textPen=black_pen)
+        self.axis_y = ColoredAxis(orientation='left', axisPen=black_pen, textPen=black_pen)
+
         self.setObjectName('PlotPage')
         self.setAttribute(QtCore.Qt.WidgetAttribute.WA_StyledBackground, True)
         self.grid = QtWidgets.QGridLayout(self)
         self.setMinimumSize(700, 600)
         self.graph = pg.PlotWidget()
         self.graph.setBackground(None)
+        self.graph.setAxisItems({'bottom': self.axis_x, 'left': self.axis_y})
         self.graph.setTitle(
             '<span style="font-family:Century Gothic; font-size: 15pt; color: black">Эффективность алгоритмов</span>'
         )
@@ -86,7 +92,7 @@ class PlotPage(QtWidgets.QWidget):
             if self.line_checkboxes[i].isChecked():
                 self.lines.append(self.graph.plot(self.x, algorithms[i].ans, name=algorithms[i].name, pen=self.pens[i]))
             else:
-                self.lines.append(self.graph.plot([], [], name=algorithms[i].name, pen=self.pens[   i]))
+                self.lines.append(self.graph.plot([], [], name=algorithms[i].name, pen=self.pens[i]))
 
     def clear_graph(self):
         self.graph_icon.setVisible(True)
