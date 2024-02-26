@@ -18,6 +18,8 @@ class InputExperimentPage(QtWidgets.QWidget):
         self.plot_page = plot_page
         self.setObjectName('InputExperimentPage')
         self.setAttribute(QtCore.Qt.WidgetAttribute.WA_StyledBackground, True)
+        self.setMinimumSize(520, 760)
+        self.setMaximumWidth(550)
 
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred,
                                            QtWidgets.QSizePolicy.Policy.Preferred)
@@ -32,14 +34,20 @@ class InputExperimentPage(QtWidgets.QWidget):
         self.gridLayout_8 = QtWidgets.QGridLayout(self)
         self.gridLayout_8.setContentsMargins(20, 20, 20, 20)
         self.gridLayout_8.setObjectName("gridLayout_8")
+
         self.gridLayout = QtWidgets.QGridLayout()
         self.gridLayout.setSizeConstraint(QtWidgets.QLayout.SizeConstraint.SetDefaultConstraint)
         self.gridLayout.setObjectName("gridLayout")
         spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum,
                                            QtWidgets.QSizePolicy.Policy.Maximum)
         self.gridLayout.addItem(spacerItem, 15, 0, 1, 1)
+
+        self.label_20 = QtWidgets.QLabel(parent=self)
+        self.label_20.setObjectName("label_20")
+        self.gridLayout.addWidget(self.label_20, 1, 0, 1, 2)
+
         self.lineEdit_3 = QtWidgets.QLineEdit(parent=self)
-        self.lineEdit_3.setValidator(validators.Double_0_100000_Validator())
+        self.lineEdit_3.setValidator(validators.Double_0_0_2_Validator())
         self.lineEdit_3.setMaximumWidth(218)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Maximum, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -49,7 +57,7 @@ class InputExperimentPage(QtWidgets.QWidget):
         self.lineEdit_3.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.lineEdit_3.textChanged.connect(self.clear_answers_tab)
         self.lineEdit_3.setObjectName("lineEdit_3")
-        self.gridLayout.addWidget(self.lineEdit_3, 4, 1, 1, 1)
+        self.gridLayout.addWidget(self.lineEdit_3, 5, 1, 1, 1)
 
         self.label_5 = QtWidgets.QLabel(parent=self)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Maximum)
@@ -57,8 +65,11 @@ class InputExperimentPage(QtWidgets.QWidget):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label_5.sizePolicy().hasHeightForWidth())
         self.label_5.setSizePolicy(sizePolicy)
+        self.label_5.setAlignment(
+            QtCore.Qt.AlignmentFlag.AlignLeading | QtCore.Qt.AlignmentFlag.AlignLeft |
+            QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.label_5.setObjectName("label_5")
-        self.gridLayout.addWidget(self.label_5, 6, 0, 1, 1)
+        self.gridLayout.addWidget(self.label_5, 7, 0, 1, 1)
 
         self.label = QtWidgets.QLabel(parent=self)
         self.label.setFocusPolicy(QtCore.Qt.FocusPolicy.NoFocus)
@@ -76,16 +87,12 @@ class InputExperimentPage(QtWidgets.QWidget):
         self.label_2.setAlignment(
             QtCore.Qt.AlignmentFlag.AlignLeading | QtCore.Qt.AlignmentFlag.AlignLeft | QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.label_2.setObjectName("label_2")
-        self.gridLayout.addWidget(self.label_2, 2, 0, 1, 1)
+        self.gridLayout.addWidget(self.label_2, 3, 0, 1, 2)
 
         self.lineEdit_1 = QtWidgets.QLineEdit(parent=self)
         self.lineEdit_1.setValidator(validators.Int_1_1000_Validator())
         self.lineEdit_1.setMaximumWidth(218)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Maximum, QtWidgets.QSizePolicy.Policy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.lineEdit_1.sizePolicy().hasHeightForWidth())
-        self.lineEdit_1.textChanged.connect(self.clear_answers_tab)
+        self.lineEdit_1.textChanged.connect(lambda: (self.clear_answers_tab(), self.set_stage_duration()))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Maximum, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -97,9 +104,14 @@ class InputExperimentPage(QtWidgets.QWidget):
 
         self.label_3 = QtWidgets.QLabel(parent=self)
         self.label_3.setAlignment(
-            QtCore.Qt.AlignmentFlag.AlignRight | QtCore.Qt.AlignmentFlag.AlignTrailing | QtCore.Qt.AlignmentFlag.AlignVCenter)
+            QtCore.Qt.AlignmentFlag.AlignRight | QtCore.Qt.AlignmentFlag.AlignTrailing |
+            QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.label_3.setObjectName("label_3")
-        self.gridLayout.addWidget(self.label_3, 3, 0, 1, 1)
+        self.gridLayout.addWidget(self.label_3, 4, 0, 1, 1)
+
+        spacerItem7 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum,
+                                            QtWidgets.QSizePolicy.Policy.Maximum)
+        self.gridLayout.addItem(spacerItem7, 11, 0, 1, 1)
 
         self.label_4 = QtWidgets.QLabel(parent=self)
         font = QtGui.QFont()
@@ -113,10 +125,10 @@ class InputExperimentPage(QtWidgets.QWidget):
             QtCore.Qt.AlignmentFlag.AlignRight | QtCore.Qt.AlignmentFlag.AlignRight
             | QtCore.Qt.AlignmentFlag.AlignTrailing | QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.label_4.setObjectName("label_4")
-        self.gridLayout.addWidget(self.label_4, 4, 0, 1, 1)
+        self.gridLayout.addWidget(self.label_4, 5, 0, 1, 1)
 
         self.lineEdit_2 = QtWidgets.QLineEdit(parent=self)
-        self.lineEdit_2.setValidator(validators.Double_0_100000_Validator())
+        self.lineEdit_2.setValidator(validators.Double_0_0_2_Validator())
         self.lineEdit_2.setMaximumWidth(218)
         self.lineEdit_2.textChanged.connect(self.clear_answers_tab)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Maximum, QtWidgets.QSizePolicy.Policy.Fixed)
@@ -126,7 +138,7 @@ class InputExperimentPage(QtWidgets.QWidget):
         self.lineEdit_2.setSizePolicy(sizePolicy)
         self.lineEdit_2.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.lineEdit_2.setObjectName("lineEdit_2")
-        self.gridLayout.addWidget(self.lineEdit_2, 3, 1, 1, 1)
+        self.gridLayout.addWidget(self.lineEdit_2, 4, 1, 1, 1)
 
         self.label = QtWidgets.QLabel(parent=self)
         self.label.setFocusPolicy(QtCore.Qt.FocusPolicy.NoFocus)
@@ -172,21 +184,16 @@ class InputExperimentPage(QtWidgets.QWidget):
         self.gridLayout.addItem(spacerItem2, 15, 0, 1, 1)
         spacerItem3 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum,
                                             QtWidgets.QSizePolicy.Policy.Maximum)
-        self.gridLayout.addItem(spacerItem3, 13, 0, 1, 1)
+        self.gridLayout.addItem(spacerItem3, 2, 0, 1, 1)
         spacerItem4 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum,
                                             QtWidgets.QSizePolicy.Policy.Maximum)
-        self.gridLayout.addItem(spacerItem4, 1, 0, 1, 1)
+        self.gridLayout.addItem(spacerItem4, 14, 0, 1, 1)
 
         self.label_6 = QtWidgets.QLabel(parent=self)
         self.label_6.setAlignment(
             QtCore.Qt.AlignmentFlag.AlignLeading | QtCore.Qt.AlignmentFlag.AlignLeft | QtCore.Qt.AlignmentFlag.AlignTop)
         self.label_6.setObjectName("label_6")
-        self.gridLayout.addWidget(self.label_6, 14, 0, 1, 1)
-
-        self.pushButton_6 = QtWidgets.QPushButton(parent=self)
-        self.pushButton_6.clicked.connect(self.fill_params_from_file)
-        self.pushButton_6.setObjectName("pushButton_6")
-        self.gridLayout.addWidget(self.pushButton_6, 16, 0, 1, 1)
+        self.gridLayout.addWidget(self.label_6, 15, 0, 1, 1)
 
         self.lineEdit_4 = QtWidgets.QLineEdit(parent=self)
         self.lineEdit_4.setValidator(validators.Int_1_1000_Validator())
@@ -199,7 +206,7 @@ class InputExperimentPage(QtWidgets.QWidget):
         self.lineEdit_4.setSizePolicy(sizePolicy)
         self.lineEdit_4.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.lineEdit_4.setObjectName("lineEdit_4")
-        self.gridLayout.addWidget(self.lineEdit_4, 14, 1, 1, 1)
+        self.gridLayout.addWidget(self.lineEdit_4, 15, 1, 1, 1)
 
         self.pushButton = QtWidgets.QPushButton(parent=self)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Fixed)
@@ -214,7 +221,11 @@ class InputExperimentPage(QtWidgets.QWidget):
 
         spacerItem5 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum,
                                             QtWidgets.QSizePolicy.Policy.Maximum)
-        self.gridLayout.addItem(spacerItem5, 11, 0, 1, 1)
+        self.gridLayout.addItem(spacerItem5, 16, 0, 1, 1)
+
+        spacerItem6 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum,
+                                            QtWidgets.QSizePolicy.Policy.Maximum)
+        self.gridLayout.addItem(spacerItem6, 6, 0, 1, 1)
 
         self.checkBox = QtWidgets.QCheckBox(parent=self)
         self.checkBox.setObjectName("checkBox")
@@ -224,13 +235,13 @@ class InputExperimentPage(QtWidgets.QWidget):
         self.radioButton_1 = QtWidgets.QRadioButton(parent=self)
         self.radioButton_1.setObjectName("radioButton_1")
         self.radioButton_1.toggled.connect(self.clear_answers_tab)
-        self.gridLayout.addWidget(self.radioButton_1, 8, 0, 1, 2)
+        self.gridLayout.addWidget(self.radioButton_1, 8, 1, 1, 1)
 
         self.radioButton_2 = QtWidgets.QRadioButton(parent=self)
         self.radioButton_2.setChecked(True)
         self.radioButton_2.setObjectName("radioButton_2")
         self.radioButton_2.toggled.connect(self.clear_answers_tab)
-        self.gridLayout.addWidget(self.radioButton_2, 7, 0, 1, 2)
+        self.gridLayout.addWidget(self.radioButton_2, 8, 0, 1, 1)
 
         self.label_7 = QtWidgets.QLabel(parent=self)
         self.label_7.setText("")
@@ -242,9 +253,26 @@ class InputExperimentPage(QtWidgets.QWidget):
         self.gridLayout.addWidget(self.label_7, 17, 1, 1, 1)
 
         self.gridLayout_8.addLayout(self.gridLayout, 0, 0, 1, 1)
-        spacerItem6 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum,
+        spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum,
                                             QtWidgets.QSizePolicy.Policy.Expanding)
-        self.gridLayout_8.addItem(spacerItem6, 1, 0, 1, 1)
+        self.gridLayout_8.addItem(spacerItem1, 1, 0, 1, 1)
+
+        self.gridLayout_13 = QtWidgets.QGridLayout()
+        self.gridLayout_13.setObjectName("gridLayout_13")
+        self.label_18 = QtWidgets.QLabel(parent=self)
+        self.label_18.setObjectName("label_18")
+        self.gridLayout_13.addWidget(self.label_18, 1, 1, 1, 1)
+        self.label_17 = QtWidgets.QLabel(parent=self)
+        self.label_17.setObjectName("label_17")
+        self.gridLayout_13.addWidget(self.label_17, 1, 0, 1, 1)
+        self.label_19 = QtWidgets.QLabel(parent=self)
+        self.label_19.setObjectName("label_19")
+        self.gridLayout_13.addWidget(self.label_19, 1, 2, 1, 1)
+        self.label_16 = QtWidgets.QLabel(parent=self)
+        self.label_16.setObjectName("label_16")
+        self.label_16.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.gridLayout_13.addWidget(self.label_16, 0, 0, 1, 3)
+        self.gridLayout.addLayout(self.gridLayout_13, 13, 0, 1, 2)
 
         self.gridLayout_4 = QtWidgets.QGridLayout()
         self.gridLayout_4.setContentsMargins(-1, 0, -1, -1)
@@ -333,9 +361,9 @@ class InputExperimentPage(QtWidgets.QWidget):
         self.ans_label_5.setObjectName("ans_label_5")
         self.gridLayout_4.addWidget(self.ans_label_5, 1, 0, 1, 1)
 
-        spacerItem7 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Maximum,
+        spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Maximum,
                                             QtWidgets.QSizePolicy.Policy.Minimum)
-        self.gridLayout_4.addItem(spacerItem7, 0, 2, 1, 1)
+        self.gridLayout_4.addItem(spacerItem2, 0, 2, 1, 1)
 
         self.ans_label_3 = QtWidgets.QLabel(parent=self)
         self.ans_label_3.setText("")
@@ -357,17 +385,17 @@ class InputExperimentPage(QtWidgets.QWidget):
 
         self.label_back_1 = QtWidgets.QLabel()
         self.label_back_1.setObjectName('label_back_1')
-        self.gridLayout.addWidget(self.label_back_1, 0, 0, 2, 2);
+        self.gridLayout.addWidget(self.label_back_1, 0, 0, 2, 2)
         self.label_back_1.lower()
 
         self.label_back_2 = QtWidgets.QLabel()
         self.label_back_2.setObjectName('label_back_2')
-        self.gridLayout.addWidget(self.label_back_2, 2, 0, 4, 2)
+        self.gridLayout.addWidget(self.label_back_2, 3, 0, 3, 2)
         self.label_back_2.lower()
 
         self.label_back_3 = QtWidgets.QLabel()
         self.label_back_3.setObjectName('label_back_3')
-        self.gridLayout.addWidget(self.label_back_3, 6, 0, 6, 2)
+        self.gridLayout.addWidget(self.label_back_3, 7, 0, 4, 2)
         self.label_back_3.lower()
 
         self.label_back_4 = QtWidgets.QLabel()
@@ -377,7 +405,7 @@ class InputExperimentPage(QtWidgets.QWidget):
 
         self.label_back_5 = QtWidgets.QLabel()
         self.label_back_5.setObjectName('label_back_5')
-        self.gridLayout.addWidget(self.label_back_5, 14, 0, 2, 2)
+        self.gridLayout.addWidget(self.label_back_5, 15, 0, 1, 2)
         self.label_back_5.lower()
 
         self.retranslateUi()
@@ -386,59 +414,73 @@ class InputExperimentPage(QtWidgets.QWidget):
         self.setTabOrder(self.lineEdit_1, self.lineEdit_2)
         self.setTabOrder(self.lineEdit_2, self.lineEdit_3)
         self.setTabOrder(self.lineEdit_3, self.radioButton_2)
-        self.setTabOrder(self.radioButton_2, self.radioButton_1)
-        self.setTabOrder(self.radioButton_1, self.lineEdit_7)
+        self.setTabOrder(self.radioButton_2, self.lineEdit_7)
         self.setTabOrder(self.lineEdit_7, self.lineEdit_8)
         self.setTabOrder(self.lineEdit_8, self.checkBox)
         self.setTabOrder(self.checkBox, self.lineEdit_4)
-        self.setTabOrder(self.lineEdit_4, self.pushButton_6)
-        self.setTabOrder(self.pushButton_6, self.pushButton)
+        self.setTabOrder(self.lineEdit_4, self.pushButton)
         self.setTabOrder(self.pushButton, self.pushButton_4)
 
-        self.radioButton_2.clicked.connect(self.show_normal_params)
+        self.radioButton_2.clicked.connect(self.show_concentrated_params)
         self.radioButton_1.clicked.connect(self.show_uniform_params)
         self.pushButton.clicked.connect(self.run_experiment)
         self.pushButton_4.clicked.connect(self.save_to_file)
 
     def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
-        self.pushButton.setText(_translate("InputExperimentPage", "Рассчитать"))
+        self.pushButton.setText(_translate("InputExperimentPage", "Calculate"))
         self.pushButton.setProperty("exp_style", _translate("InputExperimentPage", "true"))
 
-        self.pushButton_6.setText(_translate("MainWindow", "Загрузить данные из файла"))
-        self.pushButton_6.setProperty("exp_style", _translate("InputExperimentPage", "true"))
-
-        self.label.setText(_translate("InputExperimentPage", "Количество сортов свёклы"))
+        self.label.setText(_translate("InputExperimentPage", "Number of beet varieties"))
         self.label.setProperty("heading", _translate("InputExperimentPage", "true"))
         self.label.setProperty("exp_style", _translate("InputExperimentPage", "true"))
 
-        self.label_2.setText(_translate("InputExperimentPage", "Сахаристость до переработки"))
+        self.label_2.setText(_translate("InputExperimentPage",
+                                        "Sugar content before processing [0.14; 0.2]"))
         self.label_2.setProperty("heading", _translate("InputExperimentPage", "true"))
         self.label_2.setProperty("exp_style", _translate("InputExperimentPage", "true"))
 
-        self.label_5.setText(_translate("InputExperimentPage", "Распределение деградации"))
+        self.label_5.setText(_translate("InputExperimentPage", "Distribution of degradation"))
         self.label_5.setProperty("heading", _translate("InputExperimentPage", "true"))
         self.label_5.setProperty("exp_style", _translate("InputExperimentPage", "true"))
 
-        self.label_4.setText(_translate("InputExperimentPage", "Максимальное значение:"))
+        self.label_4.setText(_translate("InputExperimentPage", "Maximum value:"))
         self.label_4.setProperty("subheading", _translate("InputExperimentPage", "true"))
         self.label_4.setProperty("exp_style", _translate("InputExperimentPage", "true"))
 
-        self.label_3.setText(_translate("InputExperimentPage", "Минимальное значение:"))
+        self.label_3.setText(_translate("InputExperimentPage", "Minimum value:"))
         self.label_3.setProperty("subheading", _translate("InputExperimentPage", "true"))
         self.label_3.setProperty("exp_style", _translate("InputExperimentPage", "true"))
 
-        self.radioButton_1.setText(_translate("InputExperimentPage", "Равномерное распределение"))
+        self.label_18.setText(_translate("InputExperimentPage", "Na: 0.15 - 0.92"))
+        self.label_18.setProperty("exp_style", _translate("InputExperimentPage", "true"))
+
+        self.label_18.setProperty("subheading", _translate("InputExperimentPage", "true"))
+        self.label_17.setText(_translate("InputExperimentPage", "K: 4 - 8.7"))
+
+        self.label_17.setProperty("exp_style", _translate("InputExperimentPage", "true"))
+        self.label_17.setProperty("subheading", _translate("InputExperimentPage", "true"))
+
+        self.label_19.setText(_translate("InputExperimentPage", "N: 1.2 - 3"))
+        self.label_19.setProperty("exp_style", _translate("InputExperimentPage", "true"))
+
+        self.label_19.setProperty("subheading", _translate("InputExperimentPage", "true"))
+        self.label_16.setText(_translate("InputExperimentPage", "Inorganics content, mol/100g"))
+
+        self.label_16.setProperty("exp_style", _translate("InputExperimentPage", "true"))
+        self.label_16.setProperty("subheading", _translate("InputExperimentPage", "true"))
+
+        self.radioButton_1.setText(_translate("InputExperimentPage", "Uniform"))
         self.radioButton_1.setProperty("exp_style", _translate("InputExperimentPage", "true"))
         self.radioButton_1.setProperty("subheading", _translate("InputExperimentPage", "true"))
         self.radioButton_1.setProperty("color_of_back_label", _translate("MainWindow", "white"))
 
-        self.checkBox.setText(_translate("InputExperimentPage", "Учитывать влияние неорганики"))
+        self.checkBox.setText(_translate("InputExperimentPage", "Consider the effects of inorganics"))
         self.checkBox.setProperty("exp_style", _translate("InputExperimentPage", "true"))
         self.checkBox.setProperty("subheading", _translate("InputExperimentPage", "true"))
         self.checkBox.setProperty("color_of_back_label", _translate("MainWindow", "red"))
 
-        self.label_6.setText(_translate("InputExperimentPage", "Количество экспериментов"))
+        self.label_6.setText(_translate("InputExperimentPage", "Number of experiments"))
         self.label_6.setProperty("heading", _translate("InputExperimentPage", "true"))
         self.label_6.setProperty("exp_style", _translate("InputExperimentPage", "true"))
 
@@ -446,21 +488,25 @@ class InputExperimentPage(QtWidgets.QWidget):
         self.label_7.setProperty("exp_style", _translate("InputExperimentPage", "true"))
         self.ans_label_7.setProperty("ans_style", _translate("InputExperimentPage", "true"))
 
-        self.radioButton_2.setText(_translate("InputExperimentPage", "Нормальное распределение"))
+        self.radioButton_2.setText(_translate("InputExperimentPage", "Concentrated"))
         self.radioButton_2.setProperty("exp_style", _translate("InputExperimentPage", "true"))
         self.radioButton_2.setProperty("subheading", _translate("InputExperimentPage", "true"))
         self.radioButton_2.setProperty("color_of_back_label", _translate("MainWindow", "white"))
 
-        self.label_11.setText(_translate("InputExperimentPage", "Среднее значение:"))
+        self.label_11.setText(_translate("InputExperimentPage", "Average value:"))
         self.label_11.setProperty("exp_style", _translate("InputExperimentPage", "true"))
         self.label_11.setProperty("subheading", _translate("InputExperimentPage", "true"))
 
-        self.label_12.setText(_translate("InputExperimentPage", "Отклонение:"))
+        self.label_12.setText(_translate("InputExperimentPage", "Deviation:"))
         self.label_12.setProperty("exp_style", _translate("InputExperimentPage", "true"))
         self.label_12.setProperty("subheading", _translate("InputExperimentPage", "true"))
 
-        self.pushButton_4.setText(_translate("InputExperimentPage", "Сохранить"))
+        self.pushButton_4.setText(_translate("InputExperimentPage", "Save"))
         self.pushButton_4.setProperty("exp_style", _translate("InputExperimentPage", "true"))
+
+        self.label_20.setText(_translate("InputExperimentPage", "One stage lasts n days"))
+        self.label_20.setProperty("exp_style", _translate("MainWindow", "true"))
+        self.label_20.setProperty("subheading", _translate("MainWindow", "true"))
 
         self.ans_label_25.setProperty("exp_style", _translate("InputExperimentPage", "true"))
         self.ans_label_25.setProperty("ans_style", _translate("InputExperimentPage", "true"))
@@ -535,13 +581,13 @@ class InputExperimentPage(QtWidgets.QWidget):
         for label in labels:
             label.setText('')
 
-    def show_normal_params(self):
-        self.label_11.setText("Среднее значение:")
-        self.label_12.setText("Отклонение:")
+    def show_concentrated_params(self):
+        self.label_11.setText("Average value:")
+        self.label_12.setText("Deviation:")
 
     def show_uniform_params(self):
-        self.label_11.setText("Минимальное значение:")
-        self.label_12.setText("Максимальное значение:")
+        self.label_11.setText("Minimum value:")
+        self.label_12.setText("Maximum value:")
 
     def write_err_tab(self, s: str):
         self.label_7.setText(s)
@@ -549,18 +595,30 @@ class InputExperimentPage(QtWidgets.QWidget):
     def __check_params(self, n: int, t: int, min_a: float, max_a: float,
                      min_b: float, max_b: float, is_normal: bool) -> bool:
         if min_a > max_a:
-            self.write_err_tab('Минимальная сахаристость должна быть не больше максимальной')
+            self.write_err_tab('Min sugar content should not exceed max')
+            return False
+
+        if not (0.14 <= min_a <= 0.2) or not (0.14 <= max_a <= 0.2):
+            self.write_err_tab('Min sugar content should\nbe within [0.14; 0.2]')
             return False
 
         if not is_normal and min_b > max_b:
-            self.write_err_tab('Минимальная деградация\nдолжна быть не больше максимальной')
+            self.write_err_tab('Min degradation should not be greater than max')
             return False
 
         max_num_experiment = 1000000 // n ** 2
         if t > max_num_experiment:
-            self.write_err_tab(f'Макс кол-во экспериментов для данной матрицы - {max_num_experiment}')
+            self.write_err_tab(f'Max number of experiments\nfor this matrix - {max_num_experiment}')
             return False
         return True
+
+    def set_stage_duration(self):
+        if self.lineEdit_1.text() == '':
+            self.label_20.setText("One stage lasts n days")
+        else:
+            n = int(self.lineEdit_1.text())
+            days = 100 // n if 100 % n == 0 else 100 // n + 1
+            self.label_20.setText(f"One stage lasts {days} days")
 
     def run_experiment(self):
         is_normal = False
@@ -582,7 +640,7 @@ class InputExperimentPage(QtWidgets.QWidget):
                 organic = False
             self.write_err_tab("")
         except:
-            self.write_err_tab("Заполните все поля числами")
+            self.write_err_tab("Fill in all fields with numbers")
             self.clear_answers_tab()
             return
 
@@ -629,18 +687,18 @@ class InputExperimentPage(QtWidgets.QWidget):
                 print(error)
 
     def save_to_file(self):
-        path = QtWidgets.QFileDialog.getSaveFileName(self, 'Сохранить данные', '/параметры эксперимента.csv',
+        path = QtWidgets.QFileDialog.getSaveFileName(self, 'Save data', '/experiment parameters.csv',
                                                      '*.csv')[0]
         if path:
             info_msg = QtWidgets.QMessageBox()
-            info_msg.setWindowTitle('Сохранение')
+            info_msg.setWindowTitle('Save')
             info_msg.setWindowIcon(QtGui.QIcon(Paths.path_to_logo))
             try:
                 FileController.user_save_experiment(path)
-                info_msg.setText('Файл успешно сохранен!')
+                info_msg.setText('The file has been saved successfully!')
                 info_msg.setIcon(QtWidgets.QMessageBox.Icon.Information)
             except Exception as error:
-                info_msg.setText('Произошла ошибка при сохранении файла!')
+                info_msg.setText('An error occurred while saving the file!')
                 info_msg.setIcon(QtWidgets.QMessageBox.Icon.Critical)
                 print(error)
             finally:

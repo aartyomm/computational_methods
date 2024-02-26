@@ -17,26 +17,26 @@ class FileController:
                                consider_inorganic: bool, is_normal: bool, algorithms: Algorithms, errors: tuple):
 
         parameters = [['n', n, ''], ['t', t, ''], ['a', f'[{min_a}; {max_a}]', ''],
-                      ['Распределение b', 'Нормальное' if is_normal else 'Равномерное', '']]
+                      ['Distribution b', 'Concentrated' if is_normal else 'Uniform', '']]
         answer = FileController.__generate_answer(algorithms, errors)
         if is_normal:
             parameters.append(['b', f'a={min_b}; b={max_b}', ''])
         else:
             parameters.append(['b', f'[{min_b}; {max_b}]', ''])
-        parameters.append(['Влияние неорганики', 'Да' if consider_inorganic else 'Нет', ''])
+        parameters.append(['Inorganic effects', 'Yes' if consider_inorganic else 'No', ''])
 
         with open(path, mode='w') as file:
             writer = csv.writer(file, delimiter=';', lineterminator='\r')
-            writer.writerow(['Параметры', 'Значение', '', 'Алгоритм', 'Результат', '',
-                             'Относительная погрешность', 'Значение'])
+            writer.writerow(['Parameters', 'Value', '', 'Algorithm', 'Answer', '',
+                             'Relative error', 'Value'])
             for i in range(len(answer)):
                 writer.writerow(parameters[i] + answer[i])
 
     @staticmethod
     def __generate_answer(algorithms: Algorithms, errors: tuple) -> tuple[list[str | Any]]:
         answer = []
-        error_names = ['Жадный к максимуму', 'Бережливый к минимуму', 'Жадно-бережливый к максимуму',
-                       'Жадно-бережливый к минимуму', 'Бережливо-Жадный к максимуму', 'Бережливо-Жадный к минимуму']
+        error_names = ['Greedy to maximum', 'Thrifty to minimum', 'Greedy-thrifty to maximum',
+                       'Greedy-thrifty to minimum', 'Thrifty-greedy to maximum', 'Thrifty-greedy to minimum']
         for i in range(len(algorithms)):
             cur = [algorithms[i].name, round(algorithms[i].ans[-1], 2), '', error_names[i], f'{errors[i]}%']
             answer.append(cur)

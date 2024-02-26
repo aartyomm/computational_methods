@@ -10,12 +10,12 @@ from interface.colored_axis import ColoredAxis
 class PlotPage(QtWidgets.QWidget):
     """Страница отображения графика"""
     pens = [
-        pg.mkPen(color=QtGui.QColor('#A04D73'), width=6, style=QtCore.Qt.PenStyle.SolidLine),
-        pg.mkPen(color=QtGui.QColor('#6A8DC1'), width=6, style=QtCore.Qt.PenStyle.DashLine),
-        pg.mkPen(color=QtGui.QColor('#267A8B'), width=6, style=QtCore.Qt.PenStyle.DotLine),
-        pg.mkPen(color=QtGui.QColor('#A3D4AF'), width=6, style=QtCore.Qt.PenStyle.DashDotLine),
-        pg.mkPen(color=QtGui.QColor('#B086A8'), width=6, style=QtCore.Qt.PenStyle.DashDotDotLine),
-        pg.mkPen(color=QtGui.QColor('#CDAFA5'), width=6, style=QtCore.Qt.PenStyle.DashDotLine),
+        pg.mkPen(color=QtGui.QColor('red'), width=6, style=QtCore.Qt.PenStyle.SolidLine),
+        pg.mkPen(color=QtGui.QColor('blue'), width=6, style=QtCore.Qt.PenStyle.DashLine),
+        pg.mkPen(color=QtGui.QColor('#19ff19'), width=6, style=QtCore.Qt.PenStyle.DotLine),
+        pg.mkPen(color=QtGui.QColor('#ff9900'), width=6, style=QtCore.Qt.PenStyle.DashDotLine),
+        pg.mkPen(color=QtGui.QColor('#black'), width=6, style=QtCore.Qt.PenStyle.DashDotDotLine),
+        pg.mkPen(color=QtGui.QColor('#994d00'), width=6, style=QtCore.Qt.PenStyle.DashDotLine),
     ]
 
     def __init__(self, parent: QtWidgets.QMainWindow | None = None):
@@ -33,19 +33,24 @@ class PlotPage(QtWidgets.QWidget):
         self.graph.setBackground(None)
         self.graph.setAxisItems({'bottom': self.axis_x, 'left': self.axis_y})
         self.graph.setTitle(
-            '<span style="font-family:Century Gothic; font-size: 15pt; color: black">Эффективность алгоритмов</span>'
+            '<span style="font-family:Century Gothic; font-size: 15pt; color: black">'
+            'Dynamics of the objective function'
+            '</span>'
         )
-        self.graph.setLabel('left', '<font face="Century Gothic" size="5" color="black">Значение целевой функции S</font>')
-        self.graph.setLabel('bottom', '<font face="Century Gothic" size="5" color="black">Время</font>')
+        self.graph.setLabel('left',
+                            '<font face="Century Gothic" size="5" color="black">'
+                            'Value of the objective function S'
+                            '</font>')
+        self.graph.setLabel('bottom', '<font face="Century Gothic" size="5" color="black">Stage</font>')
 
-        self.legend = self.graph.addLegend(offset=(-1, -1), labelTextColor='black')
+        self.legend = self.graph.addLegend(offset=(-1, -1), labelTextColor='black', labelTextSize='12pt')
         self.legend.mouseDragEvent = lambda *args, **kwargs: None
         self.legend.hoverEvent = lambda *args, **kwargs: None
 
         self.vertical_for_checkboxes = QtWidgets.QVBoxLayout()
-        self.vertical_for_checkboxes.setSpacing(8)
+        self.vertical_for_checkboxes.setSpacing(10)
         self.vertical_for_checkboxes.addStretch()
-        self.vertical_for_checkboxes.setContentsMargins(0, 0, 155, 52)
+        self.vertical_for_checkboxes.setContentsMargins(0, 0, 150, 55)
 
         self.horizontal_for_checkboxes = QtWidgets.QHBoxLayout(self.graph)
         self.horizontal_for_checkboxes.addStretch()

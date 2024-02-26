@@ -17,12 +17,12 @@ class Algorithm:
 class Algorithms:
     def __init__(self, num_days: int):
         self.__algorithms = [
-            Algorithm('Венгерский макс', self.__hungarian_max, num_days),
-            Algorithm('Венгерский мин', self.__hungarian_min, num_days),
-            Algorithm('Жадный', self.__greedy_max, num_days),
-            Algorithm('Бережливый', self.__greedy_min, num_days),
-            Algorithm('Жадно-бережливый', self.__greedy_thrifty, num_days),
-            Algorithm('Бережливо-жадный', self.__thrifty_greedy, num_days)
+            Algorithm('Maximum', self.__hungarian_max, num_days),
+            Algorithm('Minimum', self.__hungarian_min, num_days),
+            Algorithm('Greedy', self.__greedy_max, num_days),
+            Algorithm('Thrifty', self.__greedy_min, num_days),
+            Algorithm('Greedy-thrifty', self.__greedy_thrifty, num_days),
+            Algorithm('Thrifty-greedy', self.__thrifty_greedy, num_days)
         ]
         self.num_days = num_days
 

@@ -13,6 +13,7 @@ QLineEdit[exp_style="true"]{
   border: none;
   border-bottom: 2px solid #e0e4e7;
   padding: 0px 0px;
+  padding-bottom: -2px;
   margin-right: 20px;
   margin-left: 20px;
   margin-bottom: 10px;
@@ -31,7 +32,7 @@ QLabel[ans_style="true"]{
   padding: 1px 0px;
 }
 QLabel[exp_style="true"][error="true"] {
-  color: #A04D73;
+  color: black;
   font-size: 13px;
   font-weight: normal;
 }
@@ -85,16 +86,16 @@ QWidget#label_11,
 QWidget#label_12,
 QWidget#radioButton_1,
 QWidget#radioButton_2{
-  color: #1C4570;
+  color: #ffffff;
   background-color: rgba(0, 0, 0, 0);
 }
 QWidget#lineEdit_7,
 QWidget#lineEdit_8{
-  border-bottom: 2px solid #1C4570;
+  border-bottom: 2px solid #ffffff;
 }
 QWidget#lineEdit_7:focus,
 QWidget#lineEdit_8:focus{
-  border-bottom: 3px solid #1C4570;
+  border-bottom: 3px solid #ffffff;
 }
 QWidget#radioButton_1,
 QWidget#radioButton_2{
@@ -108,20 +109,20 @@ QWidget#graph_icon {
 }
 
 QWidget#label_back_1, QWidget#label_back_4, QWidget#label_back_8{
-    background-color: #A04D73;
-    border: 3px solid #A04D73;
+    background-color: #646464;
+    border: 3px solid #646464;
     border-radius: 10px;
 }
 
 QWidget#label_back_2, QWidget#label_back_6{
-    background-color: #1C4570;
-    border: 3px solid #1C4570;
+    background-color: #404040;
+    border: 3px solid #404040;
     border-radius: 10px;
 }
 
 QWidget#label_back_3, QWidget#label_back_5, QWidget#label_back_7{
-    background-color: #EAEAEA;
-    border: 3px solid #EAEAEA;
+    background-color: #949494;
+    border: 3px solid #949494;
     border-radius: 10px;
 }
 
@@ -143,14 +144,14 @@ QWidget#checkBox{
 /*5th block*/
 QWidget#label_6,
 QWidget#lineEdit_4{
-  color: #1C4570;
+  color: #ffffff;
   background-color: rgba(0, 0, 0, 0);
 }
 QWidget#lineEdit_4{
-  border-bottom: 2px solid #1C4570;
+  border-bottom: 2px solid #ffffff;
 }
 QWidget#lineEdit_4:focus{
-  border-bottom: 3px solid #1C4570;
+  border-bottom: 3px solid #ffffff;
 }
 
 /*2nd tab*/
@@ -199,8 +200,8 @@ QWidget#radioButton_8{
 }
 
 QWidget#InputExperimentPage {
-    background-color: #6A8DC1;
-    border: 10px solid #6A8DC1;
+    background-color: #d0d0d0;
+    border: 10px solid #d0d0d0;
     border-radius: 30px;
     border-top-left-radius: 0px;
     border-bottom-left-radius: 0px;
@@ -242,17 +243,17 @@ QLineEdit::placeholder {
 }
 
 QPushButton {
-  background-color: #1C4570;
+  background-color: #424242;
   color: #fff;
   font-weight: bold;
   border-radius: 8px;
-  border: 3px solid #1C4570;
+  border: 3px solid #424242;
   margin-top: 0px;
   outline: 0px;
 }
 QPushButton:hover,
 QPushButton:focus {
-  border: 3px solid #9ac3fe;
+  border: 3px solid #646464;
 }
 QPushButton::disabled{
   background-color: #A9A9A9;
@@ -275,20 +276,20 @@ QRadioButton[exp_style="true"]::indicator{
   width: 20px;
 }
 QRadioButton[exp_style="true"][color_of_back_label="white"]::indicator:unchecked{
-  image: url(:/icons/pngs/radiobutton_unchecked_blue.png);
+  image: url(:/icons/pngs/radiobutton_unchecked_bw.png);
 }
 QRadioButton[exp_style="true"][color_of_back_label="white"]:unchecked{
 }
 QRadioButton[exp_style="true"][color_of_back_label="white"]::indicator:unchecked:hover,
 QRadioButton[exp_style="true"][color_of_back_label="white"]::indicator:unchecked:focus{
-  image: url(:/icons/pngs/radiobutton_unchecked_hover_blue.png);
+  image: url(:/icons/pngs/radiobutton_unchecked_hover_bw.png);
 }
 QRadioButton[exp_style="true"][color_of_back_label="white"]::indicator:checked{
-  image: url(:/icons/pngs/radiobutton_checked_blue.png)
+  image: url(:/icons/pngs/radiobutton_checked_bw.png)
 }
 QRadioButton[exp_style="true"][color_of_back_label="white"]::indicator:checked:hover,
 QRadioButton[exp_style="true"][color_of_back_label="white"]::indicator:checked:focus{
-  image: url(:/icons/pngs/radiobutton_checked_hover_blue.png)
+  image: url(:/icons/pngs/radiobutton_checked_hover_bw.png)
 }
 
 QRadioButton[exp_style="true"][color_of_back_label="red"]::indicator:unchecked{
@@ -312,18 +313,18 @@ QCheckBox[exp_style="true"]::indicator{
   width: 20px;
 }
 QCheckBox[exp_style="true"][color_of_back_label="red"]::indicator:unchecked{
-  image: url(:/icons/pngs/checkbox_unchecked.png);
+  image: url(:/icons/pngs/checkbox_unchecked_bw.png);
 }
 QCheckBox[exp_style="true"][color_of_back_label="red"]::indicator:unchecked:hover,
 QCheckBox[exp_style="true"][color_of_back_label="red"]::indicator:unchecked:focus{
-  image: url(:/icons/pngs/checkbox_unchecked_hover.png);
+  image: url(:/icons/pngs/checkbox_unchecked_hover_bw.png);
 }
 QCheckBox[exp_style="true"][color_of_back_label="red"]::indicator:checked{
-  image: url(:/icons/pngs/checkbox_checked_blue.png);
+  image: url(:/icons/pngs/checkbox_checked_bw.png);
 }
 QCheckBox[exp_style="true"][color_of_back_label="red"]::indicator:checked:hover,
 QCheckBox[exp_style="true"][color_of_back_label="red"]::indicator:checked:focus{
-  image: url(:/icons/pngs/checkbox_checked_hover_blue.png);
+  image: url(:/icons/pngs/checkbox_checked_hover_bw.png);
 }
 
 QCheckBox[plot_style="true"]::indicator{
@@ -331,16 +332,16 @@ QCheckBox[plot_style="true"]::indicator{
   width: 20px;
 }
 QCheckBox[plot_style="true"]::indicator:unchecked{
-  image: url(:/icons/pngs/checkbox_unchecked_redback.png);
+  image: url(:/icons/pngs/checkbox_unchecked_bwback.png);
 }
 QCheckBox[plot_style="true"]::indicator:unchecked:hover,
 QCheckBox[plot_style="true"]::indicator:unchecked:focus{
-  image: url(:/icons/pngs/checkbox_unchecked_hover_redback.png);
+  image: url(:/icons/pngs/checkbox_unchecked_hover_bwback.png);
 }
 QCheckBox[plot_style="true"]::indicator:checked{
-  image: url(:/icons/pngs/checkbox_checked_redback.png);
+  image: url(:/icons/pngs/checkbox_checked_bwback.png);
 }
 QCheckBox[plot_style="true"]::indicator:checked:hover,
 QCheckBox[plot_style="true"]::indicator:checked:focus{
-  image: url(:/icons/pngs/checkbox_checked_hover_redback.png);
+  image: url(:/icons/pngs/checkbox_checked_hover_bwback.png);
 }
