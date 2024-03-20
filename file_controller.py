@@ -19,10 +19,7 @@ class FileController:
         parameters = [['n', n, ''], ['t', t, ''], ['a', f'[{min_a}; {max_a}]', ''],
                       ['Distribution b', 'Concentrated' if is_normal else 'Uniform', '']]
         answer = FileController.__generate_answer(algorithms, errors)
-        if is_normal:
-            parameters.append(['b', f'a={min_b}; b={max_b}', ''])
-        else:
-            parameters.append(['b', f'[{min_b}; {max_b}]', ''])
+        parameters.append(['b', f'[{min_b}; {max_b}]', ''])
         parameters.append(['Inorganic effects', 'Yes' if consider_inorganic else 'No', ''])
 
         with open(path, mode='w') as file:

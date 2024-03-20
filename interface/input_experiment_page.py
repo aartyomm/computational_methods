@@ -3,6 +3,7 @@ from PyQt6 import QtCore
 from PyQt6.QtCore import Qt
 from PyQt6 import QtGui
 from interface.plot_page import PlotPage
+from interface.answer_page import AnswerPage
 from algorithms import Algorithms
 from experiment import experiment
 from file_controller import FileController
@@ -13,9 +14,10 @@ from interface import validators
 class InputExperimentPage(QtWidgets.QWidget):
     """Страница ввода параметров для эксперимента"""
 
-    def __init__(self, plot_page: PlotPage):
+    def __init__(self, plot_page: PlotPage, answer_page: AnswerPage):
         super(InputExperimentPage, self).__init__()
         self.plot_page = plot_page
+        self.answer_page = answer_page
         self.setObjectName('InputExperimentPage')
         self.setAttribute(QtCore.Qt.WidgetAttribute.WA_StyledBackground, True)
         self.setMinimumSize(520, 760)
@@ -37,168 +39,25 @@ class InputExperimentPage(QtWidgets.QWidget):
 
         self.gridLayout = QtWidgets.QGridLayout()
         self.gridLayout.setSizeConstraint(QtWidgets.QLayout.SizeConstraint.SetDefaultConstraint)
+        self.gridLayout.setVerticalSpacing(0)
         self.gridLayout.setObjectName("gridLayout")
-        spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum,
-                                           QtWidgets.QSizePolicy.Policy.Maximum)
-        self.gridLayout.addItem(spacerItem, 15, 0, 1, 1)
-
-        self.label_20 = QtWidgets.QLabel(parent=self)
-        self.label_20.setObjectName("label_20")
-        self.gridLayout.addWidget(self.label_20, 1, 0, 1, 2)
-
-        self.lineEdit_3 = QtWidgets.QLineEdit(parent=self)
-        self.lineEdit_3.setValidator(validators.Double_0_0_2_Validator())
-        self.lineEdit_3.setMaximumWidth(218)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Maximum, QtWidgets.QSizePolicy.Policy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.lineEdit_3.sizePolicy().hasHeightForWidth())
-        self.lineEdit_3.setSizePolicy(sizePolicy)
-        self.lineEdit_3.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.lineEdit_3.textChanged.connect(self.clear_answers_tab)
-        self.lineEdit_3.setObjectName("lineEdit_3")
-        self.gridLayout.addWidget(self.lineEdit_3, 5, 1, 1, 1)
-
-        self.label_5 = QtWidgets.QLabel(parent=self)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Maximum)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.label_5.sizePolicy().hasHeightForWidth())
-        self.label_5.setSizePolicy(sizePolicy)
-        self.label_5.setAlignment(
-            QtCore.Qt.AlignmentFlag.AlignLeading | QtCore.Qt.AlignmentFlag.AlignLeft |
-            QtCore.Qt.AlignmentFlag.AlignVCenter)
-        self.label_5.setObjectName("label_5")
-        self.gridLayout.addWidget(self.label_5, 7, 0, 1, 1)
-
-        self.label = QtWidgets.QLabel(parent=self)
-        self.label.setFocusPolicy(QtCore.Qt.FocusPolicy.NoFocus)
-        self.label.setAlignment(
-            QtCore.Qt.AlignmentFlag.AlignLeading | QtCore.Qt.AlignmentFlag.AlignLeft | QtCore.Qt.AlignmentFlag.AlignVCenter)
-        self.label.setObjectName("label")
-        self.gridLayout.addWidget(self.label, 0, 0, 1, 1)
-
-        self.label_2 = QtWidgets.QLabel(parent=self)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Maximum)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.label_2.sizePolicy().hasHeightForWidth())
-        self.label_2.setSizePolicy(sizePolicy)
-        self.label_2.setAlignment(
-            QtCore.Qt.AlignmentFlag.AlignLeading | QtCore.Qt.AlignmentFlag.AlignLeft | QtCore.Qt.AlignmentFlag.AlignVCenter)
-        self.label_2.setObjectName("label_2")
-        self.gridLayout.addWidget(self.label_2, 3, 0, 1, 2)
 
         self.lineEdit_1 = QtWidgets.QLineEdit(parent=self)
-        self.lineEdit_1.setValidator(validators.Int_1_1000_Validator())
-        self.lineEdit_1.setMaximumWidth(218)
-        self.lineEdit_1.textChanged.connect(lambda: (self.clear_answers_tab(), self.set_stage_duration()))
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Maximum, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.lineEdit_1.sizePolicy().hasHeightForWidth())
         self.lineEdit_1.setSizePolicy(sizePolicy)
+        self.lineEdit_1.setText("")
+        self.lineEdit_1.textChanged.connect(self.set_stage_duration)
         self.lineEdit_1.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.lineEdit_1.setObjectName("lineEdit_1")
-        self.gridLayout.addWidget(self.lineEdit_1, 0, 1, 1, 1)
+        self.gridLayout.addWidget(self.lineEdit_1, 2, 0, 1, 1)
 
-        self.label_3 = QtWidgets.QLabel(parent=self)
-        self.label_3.setAlignment(
-            QtCore.Qt.AlignmentFlag.AlignRight | QtCore.Qt.AlignmentFlag.AlignTrailing |
-            QtCore.Qt.AlignmentFlag.AlignVCenter)
-        self.label_3.setObjectName("label_3")
-        self.gridLayout.addWidget(self.label_3, 4, 0, 1, 1)
-
-        spacerItem7 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum,
-                                            QtWidgets.QSizePolicy.Policy.Maximum)
-        self.gridLayout.addItem(spacerItem7, 11, 0, 1, 1)
-
-        self.label_4 = QtWidgets.QLabel(parent=self)
-        font = QtGui.QFont()
-        font.setFamily("Century Gothic")
-        font.setPointSize(-1)
-        font.setBold(True)
-        font.setItalic(False)
-        font.setWeight(75)
-        self.label_4.setFont(font)
-        self.label_4.setAlignment(
-            QtCore.Qt.AlignmentFlag.AlignRight | QtCore.Qt.AlignmentFlag.AlignRight
-            | QtCore.Qt.AlignmentFlag.AlignTrailing | QtCore.Qt.AlignmentFlag.AlignVCenter)
-        self.label_4.setObjectName("label_4")
-        self.gridLayout.addWidget(self.label_4, 5, 0, 1, 1)
-
-        self.lineEdit_2 = QtWidgets.QLineEdit(parent=self)
-        self.lineEdit_2.setValidator(validators.Double_0_0_2_Validator())
-        self.lineEdit_2.setMaximumWidth(218)
-        self.lineEdit_2.textChanged.connect(self.clear_answers_tab)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Maximum, QtWidgets.QSizePolicy.Policy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.lineEdit_2.sizePolicy().hasHeightForWidth())
-        self.lineEdit_2.setSizePolicy(sizePolicy)
-        self.lineEdit_2.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.lineEdit_2.setObjectName("lineEdit_2")
-        self.gridLayout.addWidget(self.lineEdit_2, 4, 1, 1, 1)
-
-        self.label = QtWidgets.QLabel(parent=self)
-        self.label.setFocusPolicy(QtCore.Qt.FocusPolicy.NoFocus)
-        self.label.setAlignment(
-            QtCore.Qt.AlignmentFlag.AlignLeading | QtCore.Qt.AlignmentFlag.AlignLeft | QtCore.Qt.AlignmentFlag.AlignTop)
-        self.label.setObjectName("label")
-        self.gridLayout.addWidget(self.label, 0, 0, 1, 1)
-
-        self.label_11 = QtWidgets.QLabel(parent=self)
-        self.label_11.setAlignment(
-            QtCore.Qt.AlignmentFlag.AlignRight | QtCore.Qt.AlignmentFlag.AlignTrailing |
-            QtCore.Qt.AlignmentFlag.AlignTrailing | QtCore.Qt.AlignmentFlag.AlignVCenter)
-        self.label_11.setObjectName("label_11")
-        self.gridLayout.addWidget(self.label_11, 9, 0, 1, 1)
-
-        self.lineEdit_8 = QtWidgets.QLineEdit(parent=self)
-        self.lineEdit_8.setValidator(validators.Double_0_1_Validator())
-        self.lineEdit_8.setMaximumWidth(218)
-        self.lineEdit_8.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.lineEdit_8.setObjectName("lineEdit_8")
-        self.gridLayout.addWidget(self.lineEdit_8, 10, 1, 1, 1)
-
-        self.lineEdit_7 = QtWidgets.QLineEdit(parent=self)
-        self.lineEdit_7.setValidator(validators.Double_0_1_Validator())
-        self.lineEdit_7.setMaximumWidth(218)
-        self.lineEdit_7.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.lineEdit_7.textChanged.connect(self.clear_answers_tab)
-        self.lineEdit_7.setObjectName("lineEdit_7")
-        self.gridLayout.addWidget(self.lineEdit_7, 9, 1, 1, 1)
-
-        self.label_12 = QtWidgets.QLabel(parent=self)
-        self.label_12.setAlignment(
-            QtCore.Qt.AlignmentFlag.AlignRight | QtCore.Qt.AlignmentFlag.AlignTrailing |
-            QtCore.Qt.AlignmentFlag.AlignVCenter)
-        self.label_12.setObjectName("label_12")
-        self.gridLayout.addWidget(self.label_12, 10, 0, 1, 1)
-
-        spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum,
-                                            QtWidgets.QSizePolicy.Policy.Maximum)
-        self.gridLayout.addItem(spacerItem1, 5, 0, 1, 1)
-        spacerItem2 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum,
-                                            QtWidgets.QSizePolicy.Policy.Maximum)
-        self.gridLayout.addItem(spacerItem2, 15, 0, 1, 1)
-        spacerItem3 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum,
-                                            QtWidgets.QSizePolicy.Policy.Maximum)
-        self.gridLayout.addItem(spacerItem3, 2, 0, 1, 1)
-        spacerItem4 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum,
-                                            QtWidgets.QSizePolicy.Policy.Maximum)
-        self.gridLayout.addItem(spacerItem4, 14, 0, 1, 1)
-
-        self.label_6 = QtWidgets.QLabel(parent=self)
-        self.label_6.setAlignment(
-            QtCore.Qt.AlignmentFlag.AlignLeading | QtCore.Qt.AlignmentFlag.AlignLeft | QtCore.Qt.AlignmentFlag.AlignTop)
-        self.label_6.setObjectName("label_6")
-        self.gridLayout.addWidget(self.label_6, 15, 0, 1, 1)
-
+        self.label_20 = QtWidgets.QLabel(parent=self)
+        self.label_20.setObjectName("label_20")
+        self.gridLayout.addWidget(self.label_20, 1, 0, 1, 1)
         self.lineEdit_4 = QtWidgets.QLineEdit(parent=self)
-        self.lineEdit_4.setValidator(validators.Int_1_1000_Validator())
-        self.lineEdit_4.setMaximumWidth(218)
-        self.lineEdit_4.textChanged.connect(self.clear_answers_tab)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Maximum, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -206,59 +65,26 @@ class InputExperimentPage(QtWidgets.QWidget):
         self.lineEdit_4.setSizePolicy(sizePolicy)
         self.lineEdit_4.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.lineEdit_4.setObjectName("lineEdit_4")
-        self.gridLayout.addWidget(self.lineEdit_4, 15, 1, 1, 1)
+        self.gridLayout.addWidget(self.lineEdit_4, 2, 1, 1, 1)
 
-        self.pushButton = QtWidgets.QPushButton(parent=self)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.pushButton.sizePolicy().hasHeightForWidth())
-        self.pushButton.setSizePolicy(sizePolicy)
-        self.pushButton.setLayoutDirection(QtCore.Qt.LayoutDirection.LeftToRight)
-        self.pushButton.setDefault(True)
-        self.pushButton.setObjectName("pushButton")
-        self.gridLayout.addWidget(self.pushButton, 17, 0, 1, 1)
+        self.label_6 = QtWidgets.QLabel(parent=self)
+        self.label_6.setAlignment(
+            QtCore.Qt.AlignmentFlag.AlignLeading | QtCore.Qt.AlignmentFlag.AlignLeft | QtCore.Qt.AlignmentFlag.AlignTop)
+        self.label_6.setObjectName("label_6")
+        self.gridLayout.addWidget(self.label_6, 0, 1, 1, 1)
 
-        spacerItem5 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum,
-                                            QtWidgets.QSizePolicy.Policy.Maximum)
-        self.gridLayout.addItem(spacerItem5, 16, 0, 1, 1)
+        spacerItem1 = QtWidgets.QSpacerItem(220, 20, QtWidgets.QSizePolicy.Policy.Fixed,
+                                            QtWidgets.QSizePolicy.Policy.Minimum)
+        self.gridLayout.addItem(spacerItem1, 1, 1, 1, 1)
 
-        spacerItem6 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum,
-                                            QtWidgets.QSizePolicy.Policy.Maximum)
-        self.gridLayout.addItem(spacerItem6, 6, 0, 1, 1)
-
-        self.checkBox = QtWidgets.QCheckBox(parent=self)
-        self.checkBox.setObjectName("checkBox")
-        self.checkBox.stateChanged.connect(self.clear_answers_tab)
-        self.gridLayout.addWidget(self.checkBox, 12, 0, 1, 2)
-
-        self.radioButton_1 = QtWidgets.QRadioButton(parent=self)
-        self.radioButton_1.setObjectName("radioButton_1")
-        self.radioButton_1.toggled.connect(self.clear_answers_tab)
-        self.gridLayout.addWidget(self.radioButton_1, 8, 1, 1, 1)
-
-        self.radioButton_2 = QtWidgets.QRadioButton(parent=self)
-        self.radioButton_2.setChecked(True)
-        self.radioButton_2.setObjectName("radioButton_2")
-        self.radioButton_2.toggled.connect(self.clear_answers_tab)
-        self.gridLayout.addWidget(self.radioButton_2, 8, 0, 1, 1)
-
-        self.label_7 = QtWidgets.QLabel(parent=self)
-        self.label_7.setText("")
-        self.label_7.setWordWrap(True)
-        self.label_7.setObjectName("label_7")
-        self.label_7.setAlignment(
-            QtCore.Qt.AlignmentFlag.AlignLeading | QtCore.Qt.AlignmentFlag.AlignLeft |
-            QtCore.Qt.AlignmentFlag.AlignVCenter)
-        self.gridLayout.addWidget(self.label_7, 17, 1, 1, 1)
-
-        self.gridLayout_8.addLayout(self.gridLayout, 0, 0, 1, 1)
-        spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum,
-                                            QtWidgets.QSizePolicy.Policy.Expanding)
-        self.gridLayout_8.addItem(spacerItem1, 1, 0, 1, 1)
+        spacerItem2 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum,
+                                            QtWidgets.QSizePolicy.Policy.Fixed)
+        self.gridLayout.addItem(spacerItem2, 3, 1, 1, 1)
 
         self.gridLayout_13 = QtWidgets.QGridLayout()
+        self.gridLayout_13.setVerticalSpacing(0)
         self.gridLayout_13.setObjectName("gridLayout_13")
+
         self.label_18 = QtWidgets.QLabel(parent=self)
         self.label_18.setObjectName("label_18")
         self.gridLayout_13.addWidget(self.label_18, 1, 1, 1, 1)
@@ -270,330 +96,390 @@ class InputExperimentPage(QtWidgets.QWidget):
         self.gridLayout_13.addWidget(self.label_19, 1, 2, 1, 1)
         self.label_16 = QtWidgets.QLabel(parent=self)
         self.label_16.setObjectName("label_16")
-        self.label_16.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.gridLayout_13.addWidget(self.label_16, 0, 0, 1, 3)
-        self.gridLayout.addLayout(self.gridLayout_13, 13, 0, 1, 2)
+        self.gridLayout_13.addWidget(self.label_16, 0, 0, 1, 4)
+        self.gridLayout.addLayout(self.gridLayout_13, 8, 0, 1, 2)
+        spacerItem3 = QtWidgets.QSpacerItem(40, 10, QtWidgets.QSizePolicy.Policy.Expanding,
+                                            QtWidgets.QSizePolicy.Policy.Minimum)
+        self.gridLayout_13.addItem(spacerItem3, 1, 3, 1, 1)
+
+        self.gridLayout.addLayout(self.gridLayout_13, 8, 0, 1, 2)
+
+        self.gridLayout_12 = QtWidgets.QGridLayout()
+        self.gridLayout_12.setObjectName("gridLayout_12")
+        self.label_4 = QtWidgets.QLabel(parent=self)
+        font = QtGui.QFont()
+        font.setFamily("Century Gothic")
+        font.setPointSize(-1)
+        font.setBold(True)
+        font.setItalic(False)
+        font.setWeight(75)
+        self.label_4.setFont(font)
+        self.label_4.setAlignment(
+            QtCore.Qt.AlignmentFlag.AlignRight | QtCore.Qt.AlignmentFlag.AlignTrailing | QtCore.Qt.AlignmentFlag.AlignVCenter)
+        self.label_4.setObjectName("label_4")
+        self.gridLayout_12.addWidget(self.label_4, 0, 2, 1, 1)
+        self.label_3 = QtWidgets.QLabel(parent=self)
+        self.label_3.setAlignment(
+            QtCore.Qt.AlignmentFlag.AlignRight | QtCore.Qt.AlignmentFlag.AlignTrailing | QtCore.Qt.AlignmentFlag.AlignVCenter)
+        self.label_3.setObjectName("label_3")
+        self.gridLayout_12.addWidget(self.label_3, 0, 0, 1, 1)
+        self.lineEdit_2 = QtWidgets.QLineEdit(parent=self)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Maximum, QtWidgets.QSizePolicy.Policy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.lineEdit_2.sizePolicy().hasHeightForWidth())
+        self.lineEdit_2.setSizePolicy(sizePolicy)
+        self.lineEdit_2.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.lineEdit_2.setObjectName("lineEdit_2")
+        self.gridLayout_12.addWidget(self.lineEdit_2, 0, 1, 1, 1)
+        self.lineEdit_3 = QtWidgets.QLineEdit(parent=self)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Maximum, QtWidgets.QSizePolicy.Policy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.lineEdit_3.sizePolicy().hasHeightForWidth())
+        self.lineEdit_3.setSizePolicy(sizePolicy)
+        self.lineEdit_3.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.lineEdit_3.setObjectName("lineEdit_3")
+        self.gridLayout_12.addWidget(self.lineEdit_3, 0, 3, 1, 1)
+        self.gridLayout.addLayout(self.gridLayout_12, 5, 0, 1, 2)
+
+        spacerItem4 = QtWidgets.QSpacerItem(220, 20, QtWidgets.QSizePolicy.Policy.Fixed,
+                                            QtWidgets.QSizePolicy.Policy.Minimum)
+        self.gridLayout.addItem(spacerItem4, 3, 0, 1, 1)
+
+        spacerItem5 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Policy.Minimum,
+                                            QtWidgets.QSizePolicy.Policy.Fixed)
+
+        self.gridLayout.addItem(spacerItem5, 6, 0, 1, 1)
+
+        self.label_7 = QtWidgets.QLabel(parent=self)
+        self.label_7.setText("")
+        self.label_7.setAlignment(
+            QtCore.Qt.AlignmentFlag.AlignLeading | QtCore.Qt.AlignmentFlag.AlignLeft | QtCore.Qt.AlignmentFlag.AlignVCenter)
+        self.label_7.setObjectName("label_7")
+        self.gridLayout.addWidget(self.label_7, 12, 1, 1, 1)
+
+        spacerItem6 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Policy.Minimum,
+                                            QtWidgets.QSizePolicy.Policy.Fixed)
+        self.gridLayout.addItem(spacerItem6, 9, 0, 1, 1)
+
+        self.label_2 = QtWidgets.QLabel(parent=self)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Maximum)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.label_2.sizePolicy().hasHeightForWidth())
+        self.label_2.setSizePolicy(sizePolicy)
+        self.label_2.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.label_2.setObjectName("label_2")
+        self.gridLayout.addWidget(self.label_2, 4, 0, 1, 2)
+
+        spacerItem7 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Policy.Minimum,
+                                            QtWidgets.QSizePolicy.Policy.Fixed)
+        self.gridLayout.addItem(spacerItem7, 11, 0, 1, 1)
+
+        self.label = QtWidgets.QLabel(parent=self)
+        self.label.setFocusPolicy(QtCore.Qt.FocusPolicy.NoFocus)
+        self.label.setAlignment(
+            QtCore.Qt.AlignmentFlag.AlignLeading | QtCore.Qt.AlignmentFlag.AlignLeft | QtCore.Qt.AlignmentFlag.AlignTop)
+        self.label.setObjectName("label")
+        self.gridLayout.addWidget(self.label, 0, 0, 1, 1)
+
+        spacerItem8 = QtWidgets.QSpacerItem(20, 100, QtWidgets.QSizePolicy.Policy.Minimum,
+                                            QtWidgets.QSizePolicy.Policy.Expanding)
+        self.gridLayout.addItem(spacerItem8, 13, 1, 1, 1)
+
+        self.stackedWidget = QtWidgets.QStackedWidget(parent=self)
+        self.stackedWidget.setObjectName("stackedWidget")
+        self.page_1 = QtWidgets.QWidget()
+        self.page_1.setObjectName("page_1")
+        self.gridLayout_19 = QtWidgets.QGridLayout(self.page_1)
+        self.gridLayout_19.setObjectName("gridLayout_19")
+        self.pushButton_6 = QtWidgets.QPushButton(parent=self.page_1)
+        self.pushButton_6.setObjectName("pushButton_6")
+        self.pushButton_6.clicked.connect(lambda: self.set_distribution_page(1))
+        self.gridLayout_19.addWidget(self.pushButton_6, 1, 0, 1, 1)
+        self.pushButton_8 = QtWidgets.QPushButton(parent=self.page_1)
+        self.pushButton_8.setObjectName("pushButton_8")
+        self.pushButton_8.clicked.connect(lambda: self.set_distribution_page(2))
+        self.gridLayout_19.addWidget(self.pushButton_8, 2, 0, 1, 1)
+        self.label_23 = QtWidgets.QLabel(parent=self.page_1)
+        self.label_23.setObjectName("label_23")
+        self.gridLayout_19.addWidget(self.label_23, 0, 0, 1, 1)
+        self.stackedWidget.addWidget(self.page_1)
+        self.page_2 = QtWidgets.QWidget()
+        self.page_2.setObjectName("page_2")
+        self.gridLayout_15 = QtWidgets.QGridLayout(self.page_2)
+        self.gridLayout_15.setObjectName("gridLayout_15")
+        self.gridLayout_17 = QtWidgets.QGridLayout()
+        self.gridLayout_17.setObjectName("gridLayout_17")
+        self.label_5 = QtWidgets.QLabel(parent=self.page_2)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Maximum)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.label_5.sizePolicy().hasHeightForWidth())
+        self.label_5.setSizePolicy(sizePolicy)
+        self.label_5.setAlignment(
+            QtCore.Qt.AlignmentFlag.AlignLeading | QtCore.Qt.AlignmentFlag.AlignLeft | QtCore.Qt.AlignmentFlag.AlignVCenter)
+        self.label_5.setObjectName("label_5")
+        self.gridLayout_17.addWidget(self.label_5, 0, 0, 1, 1)
+        self.label_11 = QtWidgets.QLabel(parent=self.page_2)
+        self.label_11.setAlignment(
+            QtCore.Qt.AlignmentFlag.AlignRight | QtCore.Qt.AlignmentFlag.AlignTrailing | QtCore.Qt.AlignmentFlag.AlignVCenter)
+        self.label_11.setObjectName("label_11")
+        self.gridLayout_17.addWidget(self.label_11, 2, 0, 1, 1)
+        self.label_14 = QtWidgets.QLabel(parent=self.page_2)
+        self.label_14.setObjectName("label_14")
+        self.gridLayout_17.addWidget(self.label_14, 1, 0, 1, 1)
+        self.lineEdit_7 = QtWidgets.QLineEdit(parent=self.page_2)
+        self.lineEdit_7.setText("")
+        self.lineEdit_7.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.lineEdit_7.setObjectName("lineEdit_7")
+        self.gridLayout_17.addWidget(self.lineEdit_7, 2, 1, 1, 1)
+        self.label_12 = QtWidgets.QLabel(parent=self.page_2)
+        self.label_12.setAlignment(
+            QtCore.Qt.AlignmentFlag.AlignRight | QtCore.Qt.AlignmentFlag.AlignTrailing | QtCore.Qt.AlignmentFlag.AlignVCenter)
+        self.label_12.setObjectName("label_12")
+        self.gridLayout_17.addWidget(self.label_12, 3, 0, 1, 1)
+        self.lineEdit_8 = QtWidgets.QLineEdit(parent=self.page_2)
+        self.lineEdit_8.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.lineEdit_8.setObjectName("lineEdit_8")
+        self.gridLayout_17.addWidget(self.lineEdit_8, 3, 1, 1, 1)
+
+        self.pushButton_4 = QtWidgets.QPushButton(parent=self.page_2)
+        self.pushButton_4.setObjectName("pushButton_4")
+        self.pushButton_4.clicked.connect(lambda: self.set_distribution_page(0))
+        self.gridLayout_17.addWidget(self.pushButton_4, 0, 1, 1, 1)
+
+        self.gridLayout_15.addLayout(self.gridLayout_17, 0, 0, 1, 1)
+        self.stackedWidget.addWidget(self.page_2)
+        self.page_3 = QtWidgets.QWidget()
+        self.page_3.setObjectName("page_3")
+        self.gridLayout_16 = QtWidgets.QGridLayout(self.page_3)
+        self.gridLayout_16.setObjectName("gridLayout_16")
+        self.gridLayout_21 = QtWidgets.QGridLayout()
+        self.gridLayout_21.setObjectName("gridLayout_21")
+        self.label_21 = QtWidgets.QLabel(parent=self.page_3)
+        self.label_21.setObjectName("label_21")
+        self.gridLayout_21.addWidget(self.label_21, 0, 0, 1, 1)
+        self.label_24 = QtWidgets.QLabel(parent=self.page_3)
+        self.label_24.setObjectName("label_24")
+        self.gridLayout_21.addWidget(self.label_24, 1, 0, 1, 1)
+        self.label_25 = QtWidgets.QLabel(parent=self.page_3)
+        self.label_25.setAlignment(
+            QtCore.Qt.AlignmentFlag.AlignRight | QtCore.Qt.AlignmentFlag.AlignTrailing | QtCore.Qt.AlignmentFlag.AlignVCenter)
+        self.label_25.setObjectName("label_25")
+        self.gridLayout_21.addWidget(self.label_25, 2, 0, 1, 1)
+        self.label_26 = QtWidgets.QLabel(parent=self.page_3)
+        self.label_26.setAlignment(
+            QtCore.Qt.AlignmentFlag.AlignRight | QtCore.Qt.AlignmentFlag.AlignTrailing | QtCore.Qt.AlignmentFlag.AlignVCenter)
+        self.label_26.setObjectName("label_26")
+        self.gridLayout_21.addWidget(self.label_26, 3, 0, 1, 1)
+        self.lineEdit_10 = QtWidgets.QLineEdit(parent=self.page_3)
+        self.lineEdit_10.setObjectName("lineEdit_10")
+        self.lineEdit_10.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.gridLayout_21.addWidget(self.lineEdit_10, 2, 1, 1, 1)
+        self.lineEdit_9 = QtWidgets.QLineEdit(parent=self.page_3)
+        self.lineEdit_9.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.lineEdit_9.setObjectName("lineEdit_9")
+        self.gridLayout_21.addWidget(self.lineEdit_9, 3, 1, 1, 1)
+        self.pushButton_9 = QtWidgets.QPushButton(parent=self.page_3)
+        self.pushButton_9.clicked.connect(lambda: self.set_distribution_page(0))
+        self.pushButton_9.setObjectName("pushButton_9")
+        self.gridLayout_21.addWidget(self.pushButton_9, 0, 1, 1, 1)
+        self.gridLayout_16.addLayout(self.gridLayout_21, 0, 0, 1, 1)
+        self.stackedWidget.addWidget(self.page_3)
+        self.gridLayout.addWidget(self.stackedWidget, 10, 0, 1, 2)
+        self.checkBox = QtWidgets.QCheckBox(parent=self)
+        self.checkBox.setLayoutDirection(QtCore.Qt.LayoutDirection.RightToLeft)
+        self.checkBox.setObjectName("checkBox")
+        self.gridLayout.addWidget(self.checkBox, 7, 0, 1, 2)
 
         self.gridLayout_4 = QtWidgets.QGridLayout()
-        self.gridLayout_4.setContentsMargins(-1, 0, -1, -1)
         self.gridLayout_4.setObjectName("gridLayout_4")
 
-        self.ans_label_1 = QtWidgets.QLabel(parent=self)
-        self.ans_label_1.setText("")
-        self.ans_label_1.setObjectName("ans_label_1")
-        self.gridLayout_4.addWidget(self.ans_label_1, 0, 0, 1, 1)
-        self.ans_label_11 = QtWidgets.QLabel(parent=self)
-        self.ans_label_11.setText("")
-        self.ans_label_11.setObjectName("ans_label_11")
-        self.gridLayout_4.addWidget(self.ans_label_11, 2, 3, 1, 1)
-        self.ans_label_12 = QtWidgets.QLabel(parent=self)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Maximum, QtWidgets.QSizePolicy.Policy.Preferred)
+        self.pushButton = QtWidgets.QPushButton(parent=self)
+
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.ans_label_12.sizePolicy().hasHeightForWidth())
-        self.ans_label_12.setSizePolicy(sizePolicy)
-        self.ans_label_12.setText("")
-        self.ans_label_12.setObjectName("ans_label_12")
-        self.gridLayout_4.addWidget(self.ans_label_12, 2, 4, 1, 1)
+        sizePolicy.setHeightForWidth(self.pushButton.sizePolicy().hasHeightForWidth())
 
-        self.ans_label_2 = QtWidgets.QLabel(parent=self)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Maximum, QtWidgets.QSizePolicy.Policy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.ans_label_2.sizePolicy().hasHeightForWidth())
-        self.ans_label_2.setSizePolicy(sizePolicy)
-        self.ans_label_2.setText("")
-        self.ans_label_2.setObjectName("ans_label_2")
-        self.gridLayout_4.addWidget(self.ans_label_2, 0, 1, 1, 1)
+        self.pushButton.setSizePolicy(sizePolicy)
+        self.pushButton.setLayoutDirection(QtCore.Qt.LayoutDirection.LeftToRight)
+        self.pushButton.setText("")
+        self.pushButton.setDefault(True)
+        self.pushButton.setObjectName("pushButton")
+        self.gridLayout_4.addWidget(self.pushButton, 0, 0, 1, 1)
+        self.pushButton_10 = QtWidgets.QPushButton(parent=self)
+        self.pushButton_10.setText("")
+        self.pushButton_10.setObjectName("pushButton_10")
+        self.gridLayout_4.addWidget(self.pushButton_10, 0, 1, 1, 1)
+        self.gridLayout.addLayout(self.gridLayout_4, 12, 0, 1, 1)
+        self.gridLayout_8.addLayout(self.gridLayout, 0, 0, 1, 1)
 
-        self.ans_label_8 = QtWidgets.QLabel(parent=self)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Maximum, QtWidgets.QSizePolicy.Policy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.ans_label_8.sizePolicy().hasHeightForWidth())
-        self.ans_label_8.setSizePolicy(sizePolicy)
-        self.ans_label_8.setText("")
-        self.ans_label_8.setObjectName("ans_label_8")
-        self.gridLayout_4.addWidget(self.ans_label_8, 1, 4, 1, 1)
-
-        self.ans_label_9 = QtWidgets.QLabel(parent=self)
-        self.ans_label_9.setText("")
-        self.ans_label_9.setObjectName("ans_label_9")
-        self.gridLayout_4.addWidget(self.ans_label_9, 2, 0, 1, 1)
-
-        self.ans_label_4 = QtWidgets.QLabel(parent=self)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Maximum, QtWidgets.QSizePolicy.Policy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.ans_label_4.sizePolicy().hasHeightForWidth())
-        self.ans_label_4.setSizePolicy(sizePolicy)
-        self.ans_label_4.setText("")
-        self.ans_label_4.setObjectName("ans_label_4")
-        self.gridLayout_4.addWidget(self.ans_label_4, 0, 4, 1, 1)
-
-        self.ans_label_6 = QtWidgets.QLabel(parent=self)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Maximum, QtWidgets.QSizePolicy.Policy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.ans_label_6.sizePolicy().hasHeightForWidth())
-        self.ans_label_6.setSizePolicy(sizePolicy)
-        self.ans_label_6.setText("")
-        self.ans_label_6.setObjectName("ans_label_6")
-        self.gridLayout_4.addWidget(self.ans_label_6, 1, 1, 1, 1)
-
-        self.ans_label_7 = QtWidgets.QLabel(parent=self)
-        self.ans_label_7.setText("")
-        self.ans_label_7.setObjectName("ans_label_7")
-        self.gridLayout_4.addWidget(self.ans_label_7, 1, 3, 1, 1)
-
-        self.ans_label_10 = QtWidgets.QLabel(parent=self)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Maximum, QtWidgets.QSizePolicy.Policy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.ans_label_10.sizePolicy().hasHeightForWidth())
-        self.ans_label_10.setSizePolicy(sizePolicy)
-        self.ans_label_10.setText("")
-        self.ans_label_10.setObjectName("ans_label_10")
-        self.gridLayout_4.addWidget(self.ans_label_10, 2, 1, 1, 1)
-
-        self.ans_label_5 = QtWidgets.QLabel(parent=self)
-        self.ans_label_5.setText("")
-        self.ans_label_5.setObjectName("ans_label_5")
-        self.gridLayout_4.addWidget(self.ans_label_5, 1, 0, 1, 1)
-
-        spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Maximum,
-                                            QtWidgets.QSizePolicy.Policy.Minimum)
-        self.gridLayout_4.addItem(spacerItem2, 0, 2, 1, 1)
-
-        self.ans_label_3 = QtWidgets.QLabel(parent=self)
-        self.ans_label_3.setText("")
-        self.ans_label_3.setObjectName("ans_label_3")
-        self.gridLayout_4.addWidget(self.ans_label_3, 0, 3, 1, 1)
-
-        self.pushButton_4 = QtWidgets.QPushButton(parent=self)
-        self.pushButton_4.setDefault(True)
-        self.pushButton_4.setObjectName("pushButton_4")
-        self.pushButton_4.setVisible(False)
-        self.gridLayout_4.addWidget(self.pushButton_4, 3, 0, 1, 2)
-
-        self.ans_label_25 = QtWidgets.QLabel(parent=self)
-        self.ans_label_25.setText("")
-        self.ans_label_25.setObjectName("ans_label_25")
-        self.gridLayout_4.addWidget(self.ans_label_25, 3, 3, 1, 1)
-
-        self.gridLayout_8.addLayout(self.gridLayout_4, 2, 0, 1, 1)
-
-        self.label_back_1 = QtWidgets.QLabel()
-        self.label_back_1.setObjectName('label_back_1')
-        self.gridLayout.addWidget(self.label_back_1, 0, 0, 2, 2)
-        self.label_back_1.lower()
-
-        self.label_back_2 = QtWidgets.QLabel()
-        self.label_back_2.setObjectName('label_back_2')
-        self.gridLayout.addWidget(self.label_back_2, 3, 0, 3, 2)
-        self.label_back_2.lower()
-
-        self.label_back_3 = QtWidgets.QLabel()
-        self.label_back_3.setObjectName('label_back_3')
-        self.gridLayout.addWidget(self.label_back_3, 7, 0, 4, 2)
-        self.label_back_3.lower()
-
-        self.label_back_4 = QtWidgets.QLabel()
-        self.label_back_4.setObjectName('label_back_4')
-        self.gridLayout.addWidget(self.label_back_4, 12, 0, 2, 2)
-        self.label_back_4.lower()
-
-        self.label_back_5 = QtWidgets.QLabel()
-        self.label_back_5.setObjectName('label_back_5')
-        self.gridLayout.addWidget(self.label_back_5, 15, 0, 1, 2)
-        self.label_back_5.lower()
+        self.stackedWidget.setCurrentIndex(0)
 
         self.retranslateUi()
+
+        self.label_back_1 = QtWidgets.QLabel()
+        self.gridLayout.addWidget(self.label_back_1, 0, 0, 4, 1)
+
+        self.label_back_2 = QtWidgets.QLabel()
+        self.gridLayout.addWidget(self.label_back_2, 0, 1, 4, 1)
+
+        self.label_back_3 = QtWidgets.QLabel()
+        self.gridLayout.addWidget(self.label_back_3, 5, 0, 1, 2)
+
+        self.label_back_4 = QtWidgets.QLabel()
+        self.gridLayout.addWidget(self.label_back_4, 7, 0, 3, 2)
+
+        self.label_back_5 = QtWidgets.QLabel()
+        self.gridLayout.addWidget(self.label_back_5, 10, 0, 2, 2)
+
+        self.showEvent = self.show_back_labels
 
         self.setTabOrder(self, self.lineEdit_1)
         self.setTabOrder(self.lineEdit_1, self.lineEdit_2)
         self.setTabOrder(self.lineEdit_2, self.lineEdit_3)
-        self.setTabOrder(self.lineEdit_3, self.radioButton_2)
-        self.setTabOrder(self.radioButton_2, self.lineEdit_7)
         self.setTabOrder(self.lineEdit_7, self.lineEdit_8)
         self.setTabOrder(self.lineEdit_8, self.checkBox)
         self.setTabOrder(self.checkBox, self.lineEdit_4)
         self.setTabOrder(self.lineEdit_4, self.pushButton)
         self.setTabOrder(self.pushButton, self.pushButton_4)
 
-        self.radioButton_2.clicked.connect(self.show_concentrated_params)
-        self.radioButton_1.clicked.connect(self.show_uniform_params)
         self.pushButton.clicked.connect(self.run_experiment)
-        self.pushButton_4.clicked.connect(self.save_to_file)
 
     def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
-        self.pushButton.setText(_translate("InputExperimentPage", "Calculate"))
-        self.pushButton.setProperty("exp_style", _translate("InputExperimentPage", "true"))
-
-        self.label.setText(_translate("InputExperimentPage", "Number of beet varieties"))
-        self.label.setProperty("heading", _translate("InputExperimentPage", "true"))
-        self.label.setProperty("exp_style", _translate("InputExperimentPage", "true"))
-
-        self.label_2.setText(_translate("InputExperimentPage",
-                                        "Sugar content before processing [0.14; 0.2]"))
-        self.label_2.setProperty("heading", _translate("InputExperimentPage", "true"))
-        self.label_2.setProperty("exp_style", _translate("InputExperimentPage", "true"))
-
-        self.label_5.setText(_translate("InputExperimentPage", "Distribution of degradation"))
-        self.label_5.setProperty("heading", _translate("InputExperimentPage", "true"))
-        self.label_5.setProperty("exp_style", _translate("InputExperimentPage", "true"))
-
-        self.label_4.setText(_translate("InputExperimentPage", "Maximum value:"))
-        self.label_4.setProperty("subheading", _translate("InputExperimentPage", "true"))
-        self.label_4.setProperty("exp_style", _translate("InputExperimentPage", "true"))
-
-        self.label_3.setText(_translate("InputExperimentPage", "Minimum value:"))
-        self.label_3.setProperty("subheading", _translate("InputExperimentPage", "true"))
-        self.label_3.setProperty("exp_style", _translate("InputExperimentPage", "true"))
-
-        self.label_18.setText(_translate("InputExperimentPage", "Na: 0.15 - 0.92"))
-        self.label_18.setProperty("exp_style", _translate("InputExperimentPage", "true"))
-
-        self.label_18.setProperty("subheading", _translate("InputExperimentPage", "true"))
-        self.label_17.setText(_translate("InputExperimentPage", "K: 4 - 8.7"))
-
-        self.label_17.setProperty("exp_style", _translate("InputExperimentPage", "true"))
-        self.label_17.setProperty("subheading", _translate("InputExperimentPage", "true"))
-
-        self.label_19.setText(_translate("InputExperimentPage", "N: 1.2 - 3"))
-        self.label_19.setProperty("exp_style", _translate("InputExperimentPage", "true"))
-
-        self.label_19.setProperty("subheading", _translate("InputExperimentPage", "true"))
-        self.label_16.setText(_translate("InputExperimentPage", "Inorganics content, mol/100g"))
-
-        self.label_16.setProperty("exp_style", _translate("InputExperimentPage", "true"))
-        self.label_16.setProperty("subheading", _translate("InputExperimentPage", "true"))
-
-        self.radioButton_1.setText(_translate("InputExperimentPage", "Uniform"))
-        self.radioButton_1.setProperty("exp_style", _translate("InputExperimentPage", "true"))
-        self.radioButton_1.setProperty("subheading", _translate("InputExperimentPage", "true"))
-        self.radioButton_1.setProperty("color_of_back_label", _translate("MainWindow", "white"))
-
-        self.checkBox.setText(_translate("InputExperimentPage", "Consider the effects of inorganics"))
-        self.checkBox.setProperty("exp_style", _translate("InputExperimentPage", "true"))
-        self.checkBox.setProperty("subheading", _translate("InputExperimentPage", "true"))
-        self.checkBox.setProperty("color_of_back_label", _translate("MainWindow", "red"))
-
-        self.label_6.setText(_translate("InputExperimentPage", "Number of experiments"))
-        self.label_6.setProperty("heading", _translate("InputExperimentPage", "true"))
-        self.label_6.setProperty("exp_style", _translate("InputExperimentPage", "true"))
-
-        self.label_7.setProperty("error", _translate("InputExperimentPage", "true"))
-        self.label_7.setProperty("exp_style", _translate("InputExperimentPage", "true"))
-        self.ans_label_7.setProperty("ans_style", _translate("InputExperimentPage", "true"))
-
-        self.radioButton_2.setText(_translate("InputExperimentPage", "Concentrated"))
-        self.radioButton_2.setProperty("exp_style", _translate("InputExperimentPage", "true"))
-        self.radioButton_2.setProperty("subheading", _translate("InputExperimentPage", "true"))
-        self.radioButton_2.setProperty("color_of_back_label", _translate("MainWindow", "white"))
-
-        self.label_11.setText(_translate("InputExperimentPage", "Average value:"))
-        self.label_11.setProperty("exp_style", _translate("InputExperimentPage", "true"))
-        self.label_11.setProperty("subheading", _translate("InputExperimentPage", "true"))
-
-        self.label_12.setText(_translate("InputExperimentPage", "Deviation:"))
-        self.label_12.setProperty("exp_style", _translate("InputExperimentPage", "true"))
-        self.label_12.setProperty("subheading", _translate("InputExperimentPage", "true"))
-
-        self.pushButton_4.setText(_translate("InputExperimentPage", "Save"))
-        self.pushButton_4.setProperty("exp_style", _translate("InputExperimentPage", "true"))
-
-        self.label_20.setText(_translate("InputExperimentPage", "One stage lasts n days"))
+        self.lineEdit_1.setProperty("exp_style", _translate("MainWindow", "true"))
+        self.label_20.setText(_translate("MainWindow", "One stage lasts n days"))
         self.label_20.setProperty("exp_style", _translate("MainWindow", "true"))
         self.label_20.setProperty("subheading", _translate("MainWindow", "true"))
+        self.lineEdit_4.setProperty("exp_style", _translate("MainWindow", "true"))
+        self.label_6.setText(
+            _translate("MainWindow", "<html><head/><body><p>Number of<br>experiments</p></body></html>"))
+        self.label_6.setProperty("heading", _translate("MainWindow", "true"))
+        self.label_6.setProperty("exp_style", _translate("MainWindow", "true"))
+        self.label_18.setText(_translate("MainWindow", "Na: 0.15 - 0.92"))
+        self.label_18.setProperty("exp_style", _translate("MainWindow", "true"))
+        self.label_18.setProperty("subheading", _translate("MainWindow", "true"))
+        self.label_17.setText(_translate("MainWindow", "   K: 4 - 8.7"))
+        self.label_17.setProperty("exp_style", _translate("MainWindow", "true"))
+        self.label_17.setProperty("subheading", _translate("MainWindow", "true"))
+        self.label_19.setText(_translate("MainWindow", "N: 1.2 - 3"))
+        self.label_19.setProperty("exp_style", _translate("MainWindow", "true"))
+        self.label_19.setProperty("subheading", _translate("MainWindow", "true"))
+        self.label_16.setText(_translate("MainWindow", "   Inorganics content, mol/100g"))
+        self.label_16.setProperty("exp_style", _translate("MainWindow", "true"))
+        self.label_16.setProperty("subheading", _translate("MainWindow", "true"))
+        self.label_4.setText(_translate("MainWindow", "max:"))
+        self.label_4.setProperty("subheading", _translate("MainWindow", "true"))
+        self.label_4.setProperty("exp_style", _translate("MainWindow", "true"))
+        self.label_3.setText(_translate("MainWindow", "min:"))
+        self.label_3.setProperty("subheading", _translate("MainWindow", "true"))
+        self.label_3.setProperty("exp_style", _translate("MainWindow", "true"))
+        self.lineEdit_2.setProperty("exp_style", _translate("MainWindow", "true"))
+        self.lineEdit_3.setProperty("exp_style", _translate("MainWindow", "true"))
+        self.label_7.setProperty("error", _translate("MainWindow", "true"))
+        self.label_7.setProperty("exp_style", _translate("MainWindow", "true"))
+        self.label_2.setText(_translate("MainWindow", "Sugar content before processing"))
+        self.label_2.setProperty("heading", _translate("MainWindow", "true"))
+        self.label_2.setProperty("exp_style", _translate("MainWindow", "true"))
+        self.label.setText(
+            _translate("MainWindow", "<html><head/><body><p>Number of<br>beet varieties</p></body></html>"))
+        self.label.setProperty("heading", _translate("MainWindow", "true"))
+        self.label.setProperty("exp_style", _translate("MainWindow", "true"))
+        self.pushButton_6.setText(_translate("MainWindow", "Concentrated distribution"))
+        self.pushButton_8.setText(_translate("MainWindow", "Uniform distribution"))
+        self.label_23.setText(_translate("MainWindow", "Distribution of degradation"))
+        self.label_23.setProperty("heading", _translate("MainWindow", "true"))
+        self.label_23.setProperty("exp_style", _translate("MainWindow", "true"))
+        self.label_5.setText(_translate("MainWindow", "Distribution of degradation"))
+        self.label_5.setProperty("heading", _translate("MainWindow", "true"))
+        self.label_5.setProperty("exp_style", _translate("MainWindow", "true"))
+        self.label_11.setText(_translate("MainWindow", "Minium value:"))
+        self.label_11.setProperty("exp_style", _translate("MainWindow", "true"))
+        self.label_11.setProperty("subheading", _translate("MainWindow", "true"))
+        self.label_14.setText(_translate("MainWindow", "Concentrated"))
+        self.label_14.setProperty("exp_style", _translate("MainWindow", "true"))
+        self.label_14.setProperty("heading", _translate("MainWindow", "true"))
+        self.lineEdit_7.setProperty("exp_style", _translate("MainWindow", "true"))
+        self.label_12.setText(_translate("MainWindow", "Maximum value:"))
+        self.label_12.setProperty("exp_style", _translate("MainWindow", "true"))
+        self.label_12.setProperty("subheading", _translate("MainWindow", "true"))
+        self.lineEdit_8.setProperty("exp_style", _translate("MainWindow", "true"))
+        self.pushButton_4.setText(_translate("MainWindow", "<"))
+        self.label_21.setText(_translate("MainWindow", "Distribution of degradation"))
+        self.label_21.setProperty("exp_style", _translate("MainWindow", "true"))
+        self.label_21.setProperty("heading", _translate("MainWindow", "true"))
+        self.label_24.setText(_translate("MainWindow", "Uniform"))
+        self.label_24.setProperty("exp_style", _translate("MainWindow", "true"))
+        self.label_24.setProperty("heading", _translate("MainWindow", "true"))
+        self.label_25.setText(_translate("MainWindow", "Minium value:"))
+        self.label_25.setProperty("exp_style", _translate("MainWindow", "true"))
+        self.label_25.setProperty("subheading", _translate("MainWindow", "true"))
+        self.label_26.setText(_translate("MainWindow", "Maximum value:"))
+        self.label_26.setProperty("exp_style", _translate("InputExperimentPage", "true"))
+        self.label_26.setProperty("subheading", _translate("InputExperimentPage", "true"))
+        self.lineEdit_10.setProperty("exp_style", _translate("InputExperimentPage", "true"))
+        self.lineEdit_9.setProperty("exp_style", _translate("InputExperimentPage", "true"))
 
-        self.ans_label_25.setProperty("exp_style", _translate("InputExperimentPage", "true"))
-        self.ans_label_25.setProperty("ans_style", _translate("InputExperimentPage", "true"))
+        self.pushButton_9.setText(_translate("MainWindow", "<"))
+        self.checkBox.setText(_translate("InputExperimentPage", "Consider the effects of inorganics"))
+        self.checkBox.setProperty("exp_style", _translate("MainWindow", "true"))
+        self.checkBox.setProperty("color_of_back_label", _translate("MainWindow", "red"))
+        self.checkBox.setProperty("heading", _translate("InputExperimentPage", "true"))
+        self.pushButton.setProperty("exp_style", _translate("InputExperimentPage", "true"))
+        self.pushButton_10.setProperty("exp_style", _translate("InputExperimentPage", "true"))
 
-        self.ans_label_1.setProperty("exp_style", _translate("InputExperimentPage", "true"))
-        self.ans_label_1.setProperty("ans_style", _translate("InputExperimentPage", "true"))
+    def show_back_labels(self, widget):
+        self.label_back_1.setPixmap(QtGui.QPixmap(":/icons/pngs/kolichestvo_sortov.png").scaled(self.label_6.size(),
+                                                                                                QtCore.Qt.AspectRatioMode.KeepAspectRatioByExpanding,
+                                                                                                QtCore.Qt.TransformationMode.SmoothTransformation))
+        self.label_back_1.lower()
 
-        self.ans_label_11.setProperty("exp_style", _translate("InputExperimentPage", "true"))
-        self.ans_label_11.setProperty("ans_style", _translate("InputExperimentPage", "true"))
+        self.label_back_2.setPixmap(
+            QtGui.QPixmap(":/icons/pngs/kolichestvo_experimentov.png").scaled(self.label_6.size(),
+                                                                              QtCore.Qt.AspectRatioMode.KeepAspectRatioByExpanding,
+                                                                              QtCore.Qt.TransformationMode.SmoothTransformation))
+        self.label_back_2.lower()
 
-        self.ans_label_12.setProperty("exp_style", _translate("InputExperimentPage", "true"))
-        self.ans_label_12.setProperty("ans_style", _translate("InputExperimentPage", "true"))
+        self.label_back_3.setPixmap(
+            QtGui.QPixmap(":/icons/pngs/sakharistost.png").scaled(self.label_2.size(),
+                                                                  QtCore.Qt.AspectRatioMode.KeepAspectRatioByExpanding,
+                                                                  QtCore.Qt.TransformationMode.SmoothTransformation))
+        self.label_back_3.lower()
 
-        self.ans_label_2.setProperty("exp_style", _translate("InputExperimentPage", "true"))
-        self.ans_label_2.setProperty("ans_style", _translate("InputExperimentPage", "true"))
+        self.label_back_4.setPixmap(QtGui.QPixmap(Paths.path_to_inorganic_img).scaled(self.label_2.size(),
+                                                                                                QtCore.Qt.AspectRatioMode.KeepAspectRatioByExpanding,
+                                                                                                QtCore.Qt.TransformationMode.SmoothTransformation))
+        self.label_back_4.lower()
 
-        self.ans_label_8.setProperty("exp_style", _translate("InputExperimentPage", "true"))
-        self.ans_label_8.setProperty("ans_style", _translate("InputExperimentPage", "true"))
+        self.label_back_5.setPixmap(
+            QtGui.QPixmap(Paths.path_to_distribution_img).scaled(self.label_2.size(),
+                                                                 QtCore.Qt.AspectRatioMode.KeepAspectRatioByExpanding,
+                                                                 QtCore.Qt.TransformationMode.SmoothTransformation))
+        self.label_back_5.lower()
 
-        self.ans_label_9.setProperty("exp_style", _translate("InputExperimentPage", "true"))
-        self.ans_label_9.setProperty("ans_style", _translate("InputExperimentPage", "true"))
+    def set_distribution_page(self, index: int):
+        self.stackedWidget.setCurrentIndex(index)
 
-        self.ans_label_4.setProperty("exp_style", _translate("InputExperimentPage", "true"))
-        self.ans_label_4.setProperty("ans_style", _translate("InputExperimentPage", "true"))
+        if index == 0:
+            image_path = Paths.path_to_distribution_img
+        elif index == 1:
+            image_path = Paths.path_tu_concentrated_distribution_img
+        else:
+            image_path = Paths.path_to_uniform_distribution_img
 
-        self.ans_label_6.setProperty("exp_style", _translate("InputExperimentPage", "true"))
-        self.ans_label_6.setProperty("ans_style", _translate("InputExperimentPage", "true"))
-
-        self.ans_label_7.setProperty("exp_style", _translate("InputExperimentPage", "true"))
-        self.ans_label_7.setProperty("ans_style", _translate("InputExperimentPage", "true"))
-
-        self.ans_label_10.setProperty("exp_style", _translate("InputExperimentPage", "true"))
-        self.ans_label_10.setProperty("ans_style", _translate("InputExperimentPage", "true"))
-
-        self.ans_label_5.setProperty("exp_style", _translate("InputExperimentPage", "true"))
-        self.ans_label_5.setProperty("ans_style", _translate("InputExperimentPage", "true"))
-
-        self.ans_label_3.setProperty("exp_style", _translate("InputExperimentPage", "true"))
-        self.ans_label_3.setProperty("ans_style", _translate("InputExperimentPage", "true"))
-
-        self.lineEdit_3.setProperty("exp_style", _translate("InputExperimentPage", "true"))
-
-        self.lineEdit_1.setProperty("exp_style", _translate("InputExperimentPage", "true"))
-
-        self.lineEdit_2.setProperty("exp_style", _translate("InputExperimentPage", "true"))
-
-        self.lineEdit_8.setProperty("exp_style", _translate("InputExperimentPage", "true"))
-
-        self.lineEdit_7.setProperty("exp_style", _translate("InputExperimentPage", "true"))
-
-        self.lineEdit_4.setProperty("exp_style", _translate("InputExperimentPage", "true"))
-
-    def write_answers(self, algorithms: Algorithms):
-        self.pushButton_4.setVisible(True)
-        name_labels = [self.ans_label_1, self.ans_label_3, self.ans_label_5,
-                       self.ans_label_7, self.ans_label_9, self.ans_label_11]
-
-        value_labels = [self.ans_label_2, self.ans_label_4, self.ans_label_6,
-                        self.ans_label_8, self.ans_label_10, self.ans_label_12]
-
-        for i in range(len(name_labels)):
-            name_labels[i].setText(algorithms[i].name + ':')
-            value_labels[i].setText(str(round(algorithms[i].ans[-1], 2)))
-
-    def clear_answers_tab(self):
-        self.pushButton_4.setVisible(False)
-        self.plot_page.clear_graph()
-        labels = [self.ans_label_1, self.ans_label_2, self.ans_label_3, self.ans_label_4,
-                  self.ans_label_5, self.ans_label_6, self.ans_label_7, self.ans_label_8,
-                  self.ans_label_9, self.ans_label_10, self.ans_label_11, self.ans_label_12]
-
-        for label in labels:
-            label.setText('')
-
-    def show_concentrated_params(self):
-        self.label_11.setText("Average value:")
-        self.label_12.setText("Deviation:")
-
-    def show_uniform_params(self):
-        self.label_11.setText("Minimum value:")
-        self.label_12.setText("Maximum value:")
+        self.label_back_5.setPixmap(
+            QtGui.QPixmap(image_path).scaled(self.label_2.size(), QtCore.Qt.AspectRatioMode.KeepAspectRatioByExpanding,
+                                             QtCore.Qt.TransformationMode.SmoothTransformation))
 
     def write_err_tab(self, s: str):
         self.label_7.setText(s)
 
     def __check_params(self, n: int, t: int, min_a: float, max_a: float,
-                     min_b: float, max_b: float, is_normal: bool) -> bool:
+                       min_b: float, max_b: float, is_normal: bool) -> bool:
         if min_a > max_a:
             self.write_err_tab('Min sugar content should not exceed max')
             return False
@@ -621,18 +507,25 @@ class InputExperimentPage(QtWidgets.QWidget):
             self.label_20.setText(f"One stage lasts {days} days")
 
     def run_experiment(self):
-        is_normal = False
         try:
             n = int(self.lineEdit_1.text())
             min_a = float(self.lineEdit_2.text())
             max_a = float(self.lineEdit_3.text())
-            min_b = float(self.lineEdit_7.text())
-            max_b = float(self.lineEdit_8.text())
-            t = int(self.lineEdit_4.text())
-            if self.radioButton_1.isChecked():
+
+            cur_distribution = self.stackedWidget.currentIndex()
+            if cur_distribution == 2:
                 is_normal = False
-            if self.radioButton_2.isChecked():
+            elif cur_distribution == 1:
                 is_normal = True
+            else:
+                raise ValueError
+            if is_normal:
+                min_b = float(self.lineEdit_7.text())
+                max_b = float(self.lineEdit_8.text())
+            else:
+                min_b = float(self.lineEdit_10.text())
+                max_b = float(self.lineEdit_9.text())
+            t = int(self.lineEdit_4.text())
 
             if self.checkBox.isChecked():
                 organic = True
@@ -641,16 +534,18 @@ class InputExperimentPage(QtWidgets.QWidget):
             self.write_err_tab("")
         except:
             self.write_err_tab("Fill in all fields with numbers")
-            self.clear_answers_tab()
+            self.plot_page.clear_graph()
+            self.answer_page.clear_answer()
             return
 
         if not self.__check_params(n, t, min_a, max_a, min_b, max_b, is_normal):
-            self.clear_answers_tab()
+            self.plot_page.clear_graph()
+            self.answer_page.clear_answer()
             return
 
         algorithms: Algorithms = experiment(n, t, min_a, max_a, min_b, max_b, organic, is_normal)
-        self.write_answers(algorithms)
         self.plot_page.print_plots(algorithms)
+        self.answer_page.print_answer(algorithms)
         errors = algorithms.calculate_error()
         FileController.tmp_save_experiment(n, t, min_a, max_a, min_b, max_b, organic, is_normal, algorithms, errors)
 

@@ -17,14 +17,16 @@ def generate_uniform_matrix(n: int, min_a: float, max_a: float, min_b: float, ma
     return np.matrix(np.array(matrix))
 
 
-def generate_concentrated_matrix(n: int, min_a: float, max_a: float, avg: float, deviation: float) -> np.matrix:
+def generate_concentrated_matrix(n: int, min_a: float, max_a: float, min_b: float, max_b: float) -> np.matrix:
     matrix = [[0.0] * n for _ in range(n)]
     number_digits = 3  # Количество чисел после запятой
+    avg = round(uniform(min_b, max_b), number_digits)
+    deviation = (max_b - min_b) / 20
 
     for i in range(n):
         matrix[0][i] = round(uniform(min_a, max_a), number_digits)
         normal_row = normal(avg, deviation, n)
-        normal_row = np.clip(normal_row, max(0.0, avg - deviation), min(0.99999, avg + deviation))
+        normal_row = np.clip(normal_row, min_b, max_b)
         for j in range(1, n):
             matrix[j][i] = round(matrix[j-1][i] * float(normal_row[j]), number_digits)
 

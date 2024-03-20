@@ -1,6 +1,16 @@
+QWidget#MainWidget{
+  background-color: #2a2a2a;
+}
+
 QWidget {
-  background-color: #EAEAEA;
-  font: 75 italic 15px "Century Gothic";
+  background-color: rgba(0, 0, 0, 0);
+
+  /*font-size: 14px;
+  font-weight: normal;
+  font-family: Tahoma;*/
+
+
+  font: 75 italic 22px "Century Gothic";
 }
 
 QWidget[exp_style="true"]{
@@ -9,39 +19,39 @@ QWidget[exp_style="true"]{
 }
 QLineEdit[exp_style="true"]{
   background-color: rgba(0, 0, 0, 0);
-  border-radius: 0px;
-  border: none;
-  border-bottom: 2px solid #e0e4e7;
+  border-radius: 15px;
+  /*border: 0px;*/
+  border: 2px solid #e0e4e7;
+  /*padding: 0px 15px;*/
   padding: 0px 0px;
-  margin-right: 20px;
-  margin-left: 20px;
-  margin-bottom: 10px;
-  font: bold 20px "Century Gothic";
+  margin-right: 0px;
+  margin-left: 0px;
+  max-width: 100px;
+  font: 75 32px "Century Gothic";
+  font-weight: bold;
 }
-
 QLineEdit[exp_style="true"]:focus{
-	border: none;
-    border-bottom: 3px solid #d0e3ff;
+	/*border: 0px;*/
+    border: 3px solid #d0e3ff;
 }
 QLabel[exp_style="true"]{
-  background-color: rgba(0, 0, 0, 0);
-  margin: 5px 5px;
+  background-color: rgba(0, 0, 0, 0)
 }
 QLabel[ans_style="true"]{
   padding: 1px 0px;
 }
 QLabel[exp_style="true"][error="true"] {
   color: #A04D73;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: normal;
 }
 
 QLabel[exp_style="true"][heading = "true"]{
-  font-size: 18px;
+  font-size: 24px;
 }
-
 QWidget[exp_style="true"][subheading = "true"]{
-  font: 75 18px "Century Gothic";
+  /*font-size: 18px;*/
+  font: 75 24px "Century Gothic";
   font-weight: bold;
 }
 
@@ -49,80 +59,79 @@ QWidget[exp_style="true"][subheading = "true"]{
 QWidget#lineEdit_1,
 QWidget#label,
 QWidget#label_20{
-  color: #ffffff;
+  color: black;
   background-color: rgba(0, 0, 0, 0);
 }
 QWidget#lineEdit_1{
-  border-bottom: 2px solid #ffffff;
+  border: 2px solid black;
+  margin-top: 10px;
+  margin-left: 100px;
+  max-width: 70px;
+  font-size: 40px;
 }
 QWidget#lineEdit_1:focus{
-  border-bottom: 3px solid #ffffff;
+  border: 3px solid black;
+}
+QWidget#label{
+  margin-top: 10px;
+  margin-left: 10px;
+}
+QWidget#label_20{
+  margin-top: -15px;
+  font-size: 14px;
 }
 
 /*2nd block*/
+QWidget#label_6,
+QWidget#lineEdit_4{
+  color: #ee8a32;
+  background-color: rgba(0, 0, 0, 0);
+}
+QWidget#lineEdit_4{
+  color: #89cede;
+  border: 2px solid #89cede;
+  margin-top: 10px;
+  margin-left: 100px;
+  max-width: 70px;
+  font-size: 40px;
+}
+QWidget#lineEdit_4:focus{
+  border: 3px solid #89cede;
+}
+QWidget#label_6{
+  margin-top: 10px;
+  margin-left: 10px;
+}
+
+/*3rd block*/
 QWidget#lineEdit_2,
 QWidget#lineEdit_3,
 QWidget#label_2,
 QWidget#label_3,
 QWidget#label_4{
-  color: #ffffff;
+  color: #89cede;
   background-color: rgba(0, 0, 0, 0);
 }
 QWidget#lineEdit_2,
+QWidget#lineEdit_3,
+QWidget#label_3,
+QWidget#label_4{
+  margin-bottom: 10px;
+}
+QWidget#lineEdit_2,
 QWidget#lineEdit_3{
-  border-bottom: 2px solid #ffffff;
+  border: 2px solid #89cede;
+  max-width: 80px;
+  margin-right: 60px;
 }
 QWidget#lineEdit_2:focus,
 QWidget#lineEdit_3:focus{
-  border-bottom: 3px solid #ffffff;
+  border: 3px solid #89cede;
 }
 
-/*3rd block*/
-QWidget#lineEdit_7,
-QWidget#lineEdit_8,
-QWidget#label_5,
-QWidget#label_11,
-QWidget#label_12,
-QWidget#radioButton_1,
-QWidget#radioButton_2{
-  color: #1C4570;
-  background-color: rgba(0, 0, 0, 0);
-}
-QWidget#lineEdit_7,
-QWidget#lineEdit_8{
-  border-bottom: 2px solid #1C4570;
-}
-QWidget#lineEdit_7:focus,
-QWidget#lineEdit_8:focus{
-  border-bottom: 3px solid #1C4570;
-}
-QWidget#radioButton_1,
-QWidget#radioButton_2{
-  margin-left: 10px;
-  margin-top: 5px;
-  margin-bottom: 5px;
-}
-
-QWidget#graph_icon {
-    background-color: rgba(0, 0, 0, 0);
-}
-
-QWidget#label_back_1, QWidget#label_back_4, QWidget#label_back_8{
-    background-color: #A04D73;
-    border: 3px solid #A04D73;
-    border-radius: 10px;
-}
-
-QWidget#label_back_2, QWidget#label_back_6{
-    background-color: #1C4570;
-    border: 3px solid #1C4570;
-    border-radius: 10px;
-}
-
-QWidget#label_back_3, QWidget#label_back_5, QWidget#label_back_7{
-    background-color: #EAEAEA;
-    border: 3px solid #EAEAEA;
-    border-radius: 10px;
+QWidget#label_3,
+QWidget#label_4{
+  font-size: 22px;
 }
 
 /*4th block*/
@@ -131,26 +140,172 @@ QWidget#label_16,
 QWidget#label_17,
 QWidget#label_18,
 QWidget#label_19{
-  color: #ffffff;
+  color: black;
   background-color: rgba(0, 0, 0, 0);
 }
 QWidget#checkBox{
-  margin-left: 10px;
-  margin-top: 5px;
-  margin-bottom: 5px;
+  margin-right: 90px;
+  margin-top: 10px;
+  font-weight: bold;
+}
+QWidget#label_16,
+QWidget#label_17,
+QWidget#label_18,
+QWidget#label_19{
+  font-size: 14px;
+}
+QWidget#label_17,
+QWidget#label_18,
+QWidget#label_19{
+/*
+  margin-bottom: 20px;
+  padding-top: -10px;
+*/
 }
 
+/*
+QWidget#checkBox::indicator{
+  height: 24px;
+  width: 24px;
+}
+QWidget#checkBox::indicator:unchecked{\
+  image: url(:/icons/pngs/checkbox_neorganika_ne_vybrano.png);
+}
+QWidget#checkBox::indicator:unchecked:hover,
+QWidget#checkBox::indicator:unchecked:focus{
+  image: url(:/icons/pngs/checkbox_neorganika_ne_vybrano_pri_navedenii.png);
+}
+QWidget#checkBox::indicator:checked{
+  image: url(:/icons/pngs/checkbox_neorganika_vybrano.png);
+}
+QWidget#checkBox::indicator:checked:hover,
+QWidget#checkBox::indicator:checked:focus{
+  image: url(:/icons/pngs/checkbox_neorganika_vybrano_pri_navedenii.png);
+}
+*/
+
 /*5th block*/
-QWidget#label_6,
-QWidget#lineEdit_4{
-  color: #1C4570;
+QWidget#lineEdit_7,
+QWidget#lineEdit_8,
+QWidget#lineEdit_9,
+QWidget#lineEdit_10,
+QWidget#label_5,
+QWidget#label_11,
+QWidget#label_12,
+QWidget#label_14,
+QWidget#label_23,
+QWidget#label_21,
+QWidget#label_24,
+QWidget#label_25,
+QWidget#label_26,
+QWidget#pushButton_4,
+QWidget#pushButton_9{
+  font-weight: bold;
+  color: black;
   background-color: rgba(0, 0, 0, 0);
 }
-QWidget#lineEdit_4{
-  border-bottom: 2px solid #1C4570;
+
+QWidget#lineEdit_7,
+QWidget#lineEdit_8,
+QWidget#lineEdit_9,
+QWidget#lineEdit_10{
+  border: 2px solid black;
+  margin-right: 30px;
+  max-width: 80px;
 }
-QWidget#lineEdit_4:focus{
-  border-bottom: 3px solid #1C4570;
+
+QWidget#lineEdit_7:focus,
+QWidget#lineEdit_8:focus,
+QWidget#lineEdit_9:focus,
+QWidget#lineEdit_10:focus{
+  border: 3px solid black;
+}
+
+QWidget#lineEdit_8,
+QWidget#lineEdit_9,
+QWidget#label_12,
+QWidget#label_26{
+  margin-bottom: 10px;
+}
+QWidget#label_5,
+QWidget#label_21,
+QWidget#label_23{
+  font: 75 bold 24px "Century Gothic";
+  margin-top: 5px;
+  color: black;
+}
+QWidget#label_5,
+QWidget#label_21,
+QWidget#label_24,
+QWidget#label_14{
+  margin-left: 10px;
+}
+
+QWidget#label_11,
+QWidget#label_12,
+QWidget#label_25,
+QWidget#label_26{
+  font-size: 22px;
+}
+
+QWidget#pushButton_6,
+QWidget#pushButton_8{
+  color: #89cede;
+  background-color: #383838;
+  border-color: #383838;
+  font: 75 bold 20px "Century Gothic";
+  min-height: 25px;
+  margin-bottom: 5px;
+  margin-right: 25px;
+}
+
+QWidget#pushButton_6:hover,
+QWidget#pushButton_6:focus,
+QWidget#pushButton_8:hover,
+QWidget#pushButton_8:focus {
+  border: 3px solid black;
+}
+
+QWidget#pushButton_8{
+  margin-bottom: 30px;
+}
+
+QWidget#pushButton_4,
+QWidget#pushButton_9{
+  max-height: 20px;
+  max-width: 20px;
+  margin-left: 60px;
+  border-color: rgba(0, 0, 0, 0);
+}
+
+QWidget#pushButton_4:hover,
+QWidget#pushButton_4:focus,
+QWidget#pushButton_9:hover,
+QWidget#pushButton_9:focus {
+  border: 3px solid black;
+}
+
+QWidget#pushButton,
+QWidget#pushButton_10{
+  min-height: 60px;
+  max-width: 120px;
+  background-color: rgba(0, 0, 0, 0);
+  border-color: rgba(0, 0, 0, 0);
+}
+
+QWidget#pushButton{
+  image: url(:/icons/pngs/done_button.png);
+  margin-left: 40px;
+}
+/*
+QWidget#pushButton::hover{
+  image: url(:/icons/pngs/galka_pri_navedenii.png);
+  margin-left: 40px;
+}
+*/
+QWidget#pushButton_10{
+  image: url(:/icons/pngs/clear_button.png);
+  margin-right: 40px;
 }
 
 /*2nd tab*/
@@ -164,18 +319,6 @@ QWidget#lineEdit_5{
 }
 QWidget#lineEdit_5:focus{
   border-bottom: 3px solid #ffffff;
-}
-
-QWidget#lbl_1, QWidget#lbl_2 {
-    background-color: rgba(0, 0, 0, 0);
-    color: #1C4570;
-}
-QWidget#lbl_1 {
-    margin-bottom: 10px;
-}
-
-QWidget#lbl_2 {
-    margin-left: 36px;
 }
 
 /*3rd block*/
@@ -195,30 +338,27 @@ QWidget#radioButton_5,
 QWidget#radioButton_6,
 QWidget#radioButton_7,
 QWidget#radioButton_8{
-  margin: 5px 10px;
+  margin-left: 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
-QWidget#InputExperimentPage {
-    background-color: #6A8DC1;
-    border: 10px solid #6A8DC1;
-    border-radius: 30px;
-    border-top-left-radius: 0px;
-    border-bottom-left-radius: 0px;
+QWidget#InputExperimentPage{
+  background-color: rgba(0, 0, 0, 0);
+  font: 75 12px "Century Gothic";
+  font-weight: bold;
 }
 
 QLabel[heading="true"] {
   color: #464d55;
   font-weight: bold;
-  font-size: 16px;
 }
 QLabel[subheading="true"] {
   color: #0f1925;
-  font-size: 14px;
   font-weight: normal;
 }
 QLabel[error="true"] {
   color: red;
-  font-size: 12px;
   font-weight: normal;
 }
 
@@ -226,11 +366,14 @@ QLabel[error="true"] {
 QLineEdit {
   background-color: rgba(0, 0, 0, 0);
   border-radius: 8px;
+  /*border: 2px solid #e0e4e7;*/
   border: 2px solid #808080;
+  /*padding: -5px -5px;*/
   margin-bottom: 2px;
   margin-right: 2px;
   color: #1C4570;
-  font: bold 25px "Century Gothic";
+  font: 75 25px "Century Gothic";
+  font-weight: bold;
 }
 
 QLineEdit:focus {
@@ -244,9 +387,10 @@ QLineEdit::placeholder {
 QPushButton {
   background-color: #1C4570;
   color: #fff;
-  font-weight: bold;
+  font-weight: 600;
   border-radius: 8px;
   border: 3px solid #1C4570;
+  /*padding: 5px 15px;*/
   margin-top: 0px;
   outline: 0px;
 }
@@ -308,8 +452,8 @@ QRadioButton[exp_style="true"][color_of_back_label="red"]::indicator:checked:foc
 
 
 QCheckBox[exp_style="true"]::indicator{
-  height: 20px;
-  width: 20px;
+  height: 24px;
+  width: 24px;
 }
 QCheckBox[exp_style="true"][color_of_back_label="red"]::indicator:unchecked{
   image: url(:/icons/pngs/checkbox_unchecked.png);
@@ -326,21 +470,21 @@ QCheckBox[exp_style="true"][color_of_back_label="red"]::indicator:checked:focus{
   image: url(:/icons/pngs/checkbox_checked_hover_blue.png);
 }
 
-QCheckBox[plot_style="true"]::indicator{
-  height: 20px;
-  width: 20px;
+QCheckBox::indicator{
+  height: 24px;
+  width: 24px;
 }
-QCheckBox[plot_style="true"]::indicator:unchecked{
+QCheckBox::indicator:unchecked{
   image: url(:/icons/pngs/checkbox_unchecked_redback.png);
 }
-QCheckBox[plot_style="true"]::indicator:unchecked:hover,
-QCheckBox[plot_style="true"]::indicator:unchecked:focus{
+QCheckBox::indicator:unchecked:hover,
+QCheckBox::indicator:unchecked:focus{
   image: url(:/icons/pngs/checkbox_unchecked_hover_redback.png);
 }
-QCheckBox[plot_style="true"]::indicator:checked{
+QCheckBox::indicator:checked{
   image: url(:/icons/pngs/checkbox_checked_redback.png);
 }
-QCheckBox[plot_style="true"]::indicator:checked:hover,
-QCheckBox[plot_style="true"]::indicator:checked:focus{
+QCheckBox::indicator:checked:hover,
+QCheckBox::indicator:checked:focus{
   image: url(:/icons/pngs/checkbox_checked_hover_redback.png);
 }

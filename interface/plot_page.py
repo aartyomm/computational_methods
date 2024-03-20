@@ -9,52 +9,42 @@ from interface.colored_axis import ColoredAxis
 
 class PlotPage(QtWidgets.QWidget):
     """Страница отображения графика"""
-    pens = [
-        pg.mkPen(color=QtGui.QColor('red'), width=6, style=QtCore.Qt.PenStyle.SolidLine),
-        pg.mkPen(color=QtGui.QColor('blue'), width=6, style=QtCore.Qt.PenStyle.DashLine),
-        pg.mkPen(color=QtGui.QColor('#19ff19'), width=6, style=QtCore.Qt.PenStyle.DotLine),
-        pg.mkPen(color=QtGui.QColor('#ff9900'), width=6, style=QtCore.Qt.PenStyle.DashDotLine),
-        pg.mkPen(color=QtGui.QColor('#black'), width=6, style=QtCore.Qt.PenStyle.DashDotDotLine),
-        pg.mkPen(color=QtGui.QColor('#994d00'), width=6, style=QtCore.Qt.PenStyle.DashDotLine),
-    ]
+
+    bars_color = '#FF781D'
+    grid_color = '#181818'
+    background_color = '#2B2B2B'
+    axis_color = '#BCBCBC'
+    grid_pen = pg.mkPen(color=grid_color, style=QtCore.Qt.PenStyle.DashLine)
 
     def __init__(self, parent: QtWidgets.QMainWindow | None = None):
         super(PlotPage, self).__init__(parent)
-
-        black_pen = pg.mkPen(color='black', width=2)
-        self.axis_x = ColoredAxis(orientation='bottom', axisPen=black_pen, textPen=black_pen)
-        self.axis_y = ColoredAxis(orientation='left', axisPen=black_pen, textPen=black_pen)
+        # self.setAttribute(QtCore.Qt.WidgetAttribute.WA_StyledBackground, True)
+        # self.setStyleSheet('background-color: red')
+        axis_pen = pg.mkPen(color=self.axis_color, width=2)
+        self.axis_x = ColoredAxis(orientation='bottom', axisPen=axis_pen, textPen=axis_pen)
+        self.axis_y = ColoredAxis(orientation='left', axisPen=axis_pen, textPen=axis_pen)
 
         self.setObjectName('PlotPage')
         self.setAttribute(QtCore.Qt.WidgetAttribute.WA_StyledBackground, True)
         self.grid = QtWidgets.QGridLayout(self)
-        self.setMinimumSize(700, 600)
+        self.setMinimumSize(200, 200)
+        self.setMaximumSize(1000, 400)
         self.graph = pg.PlotWidget()
+        self.graph.setMaximumSize(800, 400)
         self.graph.setBackground(None)
         self.graph.setAxisItems({'bottom': self.axis_x, 'left': self.axis_y})
+
         self.graph.setTitle(
-            '<span style="font-family:Century Gothic; font-size: 15pt; color: black">'
-            'Dynamics of the objective function'
+            f'<span style="font-family:Century Gothic; font-size: 15pt; color: {self.axis_color}">'
+            'Comparison of the objective function'
             '</span>'
         )
         self.graph.setLabel('left',
-                            '<font face="Century Gothic" size="5" color="black">'
+                            f'<font face="Century Gothic" size="5" color="{self.axis_color}">'
                             'Value of the objective function S'
                             '</font>')
-        self.graph.setLabel('bottom', '<font face="Century Gothic" size="5" color="black">Stage</font>')
-
-        self.legend = self.graph.addLegend(offset=(-1, -1), labelTextColor='black', labelTextSize='12pt')
-        self.legend.mouseDragEvent = lambda *args, **kwargs: None
-        self.legend.hoverEvent = lambda *args, **kwargs: None
-
-        self.vertical_for_checkboxes = QtWidgets.QVBoxLayout()
-        self.vertical_for_checkboxes.setSpacing(10)
-        self.vertical_for_checkboxes.addStretch()
-        self.vertical_for_checkboxes.setContentsMargins(0, 0, 150, 55)
-
-        self.horizontal_for_checkboxes = QtWidgets.QHBoxLayout(self.graph)
-        self.horizontal_for_checkboxes.addStretch()
-        self.horizontal_for_checkboxes.addLayout(self.vertical_for_checkboxes)
+        self.graph.setLabel('bottom',
+                            f'<font face="Century Gothic" size="5" color="{self.axis_color}">Algorithms</font>')
 
         self.graph_icon = QtWidgets.QLabel()
         self.graph_icon.setObjectName('graph_icon')
@@ -65,46 +55,35 @@ class PlotPage(QtWidgets.QWidget):
         self.grid.addWidget(self.graph, 0, 0)
         self.graph.lower()
 
-        self.lines = []
         self.algorithms: Algorithms | None = None
         self.x = []
-        change_funcs = [
-            lambda: self.change_line(0),
-            lambda: self.change_line(1),
-            lambda: self.change_line(2),
-            lambda: self.change_line(3),
-            lambda: self.change_line(4),
-            lambda: self.change_line(5),
-        ]
-        self.line_checkboxes: list[QtWidgets.QCheckBox] = [QtWidgets.QCheckBox() for _ in range(len(change_funcs))]
-        for i in range(len(self.line_checkboxes)):
-            self.line_checkboxes[i].setChecked(True)
-            self.line_checkboxes[i].setVisible(False)
-            self.line_checkboxes[i].stateChanged.connect(change_funcs[i])
-            self.line_checkboxes[i].setProperty('plot_style', 'true')
-            self.vertical_for_checkboxes.addWidget(self.line_checkboxes[i])
-            self.line_checkboxes.append(self.line_checkboxes[i])
 
     def print_plots(self, algorithms: Algorithms):
         self.graph.clear()
         self.graph_icon.setVisible(False)
-        self.lines.clear()
         self.algorithms = algorithms
-        self.x = [i for i in range(1, len(algorithms[0].ans) + 1)]
-        self.graph.setLayout(self.horizontal_for_checkboxes)
+        for i in range(len(self.algorithms)):
+            self.x.append((i, self.algorithms[i].name))
+        self.graph.getAxis('bottom').setTicks([self.x])
+
+        y = [algorithms[i].ans[-1] for i in range(len(algorithms))]
+        x = [i for i in range(len(algorithms))]
+        self.bar = pg.BarGraphItem(x=x, height=y, width=0.6, brush=self.bars_color)
+        self.graph.setYRange(min(y) * 0.99, max(y) * 1.005)
+        grid = pg.GridItem(textPen=None, pen=self.grid_pen)
+        grid.setTickSpacing(x=[0.5], y=[None, None])
+        self.graph.addItem(grid)
+
+        self.graph.addItem(self.bar)
         for i in range(len(algorithms)):
-            self.line_checkboxes[i].setVisible(True)
-            if self.line_checkboxes[i].isChecked():
-                self.lines.append(self.graph.plot(self.x, algorithms[i].ans, name=algorithms[i].name, pen=self.pens[i]))
-            else:
-                self.lines.append(self.graph.plot([], [], name=algorithms[i].name, pen=self.pens[i]))
+            label = pg.TextItem(text=str(round(algorithms[i].ans[-1], 3)), color=self.grid_color)
+            label.setPos(x[i], y[i])
+            label.setAnchor((0.5, 0))
+            self.graph.addItem(label)
 
     def clear_graph(self):
         self.graph_icon.setVisible(True)
-        self.lines.clear()
         self.graph.clear()
-        for checkbox in self.line_checkboxes:
-            checkbox.setVisible(False)
 
     def change_line(self, ind: int):
         if self.line_checkboxes[ind].isChecked():
